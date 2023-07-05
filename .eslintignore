@@ -1,0 +1,5 @@
+/node_modules/
+dist
+build
+.prettierrc
+package.json

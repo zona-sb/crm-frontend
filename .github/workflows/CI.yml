@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  lint_build:
+    strategy:
+      matrix:
+        node-version: 18
+        os: ubuntu-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run build
+        run: npm run build

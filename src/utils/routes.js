@@ -3,6 +3,7 @@ export const routes = {
   home: () => '/',
 };
 
+const https = 'https://crm-backend-production.up.railway.app';
 export const apiRoutes = {
-  // signUp: '/api/v1/signup',
+  signup: () => `${https}/api/registration`,
 };

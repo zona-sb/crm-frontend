@@ -6,26 +6,42 @@ import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import { routes, apiRoutes } from '../../utils/routes.js';
 import getSchema from '../../utils/validation.js';
+import useAuth from '../../hooks/useAuth.jsx';
 
-const generateOnSubmit = (setStatusSignup, navigate) => async (user) => {
-  setStatusSignup(false);
-  try {
-    // const userJson = JSON.stringify(user);
-    // console.log(userJson);
-    const { data } = await axios.post(apiRoutes.signup(), user);
-    console.log(data);
-    setStatusSignup(false);
-    navigate(routes.home());
-  } catch (error) {
-    console.log(error);
-    // setStatusSignup(true);
-  }
-};
+const generateOnSubmit =
+  (setMessageError, setstatusError, navigate, auth) => async (user) => {
+    setstatusError(false);
+    try {
+      const responseRegistration = await axios.post(apiRoutes.signup(), user);
+      const { email, password } = user;
+      const responseLogin = await axios.post(apiRoutes.login(), {
+        email,
+        password,
+      });
+      setstatusError(false);
+      auth.logIn(JSON.stringify(responseLogin.data));
+      navigate(routes.home());
+    } catch (error) {
+      setstatusError(true);
+      const {
+        request: { status },
+      } = error;
+      if (status === 409) {
+        setMessageError('emailExist');
+      } else {
+        setMessageError('otherErrorRegistration');
+        console.log(status);
+      }
+      console.log(error);
+    }
+  };
 
 const SignUpForm = () => {
   const { t } = useTranslation();
-  const [statusSignup, setStatusSignup] = useState(false);
+  const [statusError, setstatusError] = useState(false);
+  const [messageError, setMessageError] = useState('');
   const navigate = useNavigate();
+  const auth = useAuth();
   const inputName = useRef();
   const inputPhone = useRef();
   const inputEmail = useRef();
@@ -42,7 +58,7 @@ const SignUpForm = () => {
     },
     initialErrors: {},
     initialTouched: {},
-    onSubmit: generateOnSubmit(setStatusSignup, navigate),
+    onSubmit: generateOnSubmit(setMessageError, setstatusError, navigate, auth),
   });
   return (
     <form className='w-50 form-group' onSubmit={formik.handleSubmit}>
@@ -55,9 +71,7 @@ const SignUpForm = () => {
           placeholder={t('signUp.minSize')}
           required
           id='name'
-          isInvalid={
-            (formik.errors.name && formik.touched.name) || statusSignup
-          }
+          isInvalid={formik.errors.name && formik.touched.name}
           onChange={formik.handleChange('name')}
           value={formik.values.name}
           onBlur={formik.handleBlur('name')}
@@ -65,7 +79,7 @@ const SignUpForm = () => {
         <Form.Label className='form-label' htmlFor='name'>
           {t('signUp.fullName')}
         </Form.Label>
-        {(formik.errors.name && formik.touched.name) || statusSignup ? (
+        {formik.errors.name && formik.touched.name ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {formik.errors.name}
           </Form.Control.Feedback>
@@ -80,9 +94,7 @@ const SignUpForm = () => {
           placeholder={t('signUp.phone')}
           required
           id='phone'
-          isInvalid={
-            (formik.errors.phone && formik.touched.phone) || statusSignup
-          }
+          isInvalid={formik.errors.phone && formik.touched.phone}
           onChange={formik.handleChange('phone')}
           value={formik.values.phone}
           onBlur={formik.handleBlur('phone')}
@@ -90,7 +102,7 @@ const SignUpForm = () => {
         <Form.Label className='form-label' htmlFor='phone'>
           {t('signUp.phone')}
         </Form.Label>
-        {(formik.errors.phone && formik.touched.phone) || statusSignup ? (
+        {formik.errors.phone && formik.touched.phone ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {formik.errors.phone}
           </Form.Control.Feedback>
@@ -106,7 +118,7 @@ const SignUpForm = () => {
           required
           id='email'
           isInvalid={
-            (formik.errors.email && formik.touched.email) || statusSignup
+            (formik.errors.email && formik.touched.email) || (messageError === 'emailExist')
           }
           onChange={formik.handleChange('email')}
           value={formik.values.email}
@@ -115,9 +127,9 @@ const SignUpForm = () => {
         <Form.Label className='form-label' htmlFor='email'>
           {t('signUp.email')}
         </Form.Label>
-        {(formik.errors.email && formik.touched.email) || statusSignup ? (
+        {(formik.errors.email && formik.touched.email) || messageError === 'emailExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
-            {formik.errors.email}
+            {messageError === 'emailExist' ? t(`error.${messageError}`) : formik.errors.email}
           </Form.Control.Feedback>
         ) : null}
       </div>
@@ -133,15 +145,13 @@ const SignUpForm = () => {
           type='password'
           id='password'
           className='form-control'
-          isInvalid={
-            (formik.errors.password && formik.touched.password) || statusSignup
-          }
+          isInvalid={formik.errors.password && formik.touched.password}
           onChange={formik.handleChange('password')}
           value={formik.values.password}
           onBlur={formik.handleBlur('password')}
         />
         <Form.Label htmlFor='password'>{t('signUp.password')}</Form.Label>
-        {(formik.errors.password && formik.touched.password) || statusSignup ? (
+        {formik.errors.password && formik.touched.password ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {formik.errors.password}
           </Form.Control.Feedback>
@@ -158,8 +168,7 @@ const SignUpForm = () => {
           type='password'
           id='confirmPassword'
           isInvalid={
-            (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
-            statusSignup
+            (formik.errors.confirmPassword && formik.touched.confirmPassword) || statusError
           }
           onChange={formik.handleChange('confirmPassword')}
           value={formik.values.confirmPassword}
@@ -169,9 +178,9 @@ const SignUpForm = () => {
           {t('signUp.confirmPassword')}
         </Form.Label>
         <div className='invalid-tooltip' />
-        {statusSignup ? (
+        {messageError === 'otherErrorRegistration' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
-            {t('userExists')}
+            {t(`error.${messageError}`)}
           </Form.Control.Feedback>
         ) : null}
         {formik.errors.confirmPassword && formik.touched.confirmPassword ? (

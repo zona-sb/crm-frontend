@@ -14,7 +14,7 @@ const getSchema = (name, t) => {
             .email(t('signUp.emailCorrect'))
             .required(t('signUp.onblur')),
           phone: Yup.string()
-            .phone('RU', t('signUp.phoneCorrect')) //почему то если после 7 идет 12560, то выдает ошибку
+            .phone('RU', t('signUp.phoneCorrect')) // почему то если после 7 идет 12560, то выдает ошибку
             .matches(regexp, t('signUp.phoneCorrect'))
             .required(t('signUp.onblur')),
           password: Yup.string()

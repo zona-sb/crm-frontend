@@ -3,8 +3,8 @@ import { createContext } from 'react';
 const AuthContext = createContext({
   userData: null,
   loggedIn: null,
-  logIn: () => { },
-  logOut: () => { },
+  logIn: () => {},
+  logOut: () => {},
 });
 
 export default AuthContext;

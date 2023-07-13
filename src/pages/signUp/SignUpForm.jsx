@@ -13,6 +13,7 @@ const generateOnSubmit =
     setstatusError(false);
     try {
       const responseRegistration = await axios.post(apiRoutes.signup(), user);
+      console.log(responseRegistration);
       const { email, password } = user;
       const responseLogin = await axios.post(apiRoutes.login(), {
         email,
@@ -118,7 +119,8 @@ const SignUpForm = () => {
           required
           id='email'
           isInvalid={
-            (formik.errors.email && formik.touched.email) || (messageError === 'emailExist')
+            (formik.errors.email && formik.touched.email) ||
+            messageError === 'emailExist'
           }
           onChange={formik.handleChange('email')}
           value={formik.values.email}
@@ -127,9 +129,12 @@ const SignUpForm = () => {
         <Form.Label className='form-label' htmlFor='email'>
           {t('signUp.email')}
         </Form.Label>
-        {(formik.errors.email && formik.touched.email) || messageError === 'emailExist' ? (
+        {(formik.errors.email && formik.touched.email) ||
+          messageError === 'emailExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
-            {messageError === 'emailExist' ? t(`error.${messageError}`) : formik.errors.email}
+            {messageError === 'emailExist'
+              ? t(`error.${messageError}`)
+              : formik.errors.email}
           </Form.Control.Feedback>
         ) : null}
       </div>
@@ -168,7 +173,8 @@ const SignUpForm = () => {
           type='password'
           id='confirmPassword'
           isInvalid={
-            (formik.errors.confirmPassword && formik.touched.confirmPassword) || statusError
+            (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
+            statusError
           }
           onChange={formik.handleChange('confirmPassword')}
           value={formik.values.confirmPassword}

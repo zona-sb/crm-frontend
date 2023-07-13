@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  Navigate,
-} from 'react-router-dom';
-import AuthProvider from './providers/auth.js';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import useAuth from './hooks/useAuth.jsx';
 import Login from './pages/login/loginPage.jsx';
 import Signup from './pages/signUp/SignUpPage.jsx';
@@ -22,23 +15,19 @@ const HomeRoute = ({ children }) => {
 };
 
 const App = () => (
-  <AuthProvider>
-    <BrowserRouter>
-      <div className='d-flex flex-column h-100'>
-        <Routes>
-          <Route path={routes.login()} element={<Login />} />
-          <Route path={routes.signup()} element={<Signup />} />
-          <Route
-            path={routes.home()}
-            element={
-              <HomeRoute>
-                <h1>Zona-SB</h1>
-              </HomeRoute>
-            }
-          />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  </AuthProvider>
+  <div className='d-flex flex-column h-100'>
+    <Routes>
+      <Route path={routes.login()} element={<Login />} />
+      <Route path={routes.signup()} element={<Signup />} />
+      <Route
+        path={routes.home()}
+        element={
+          <HomeRoute>
+            <h1>Zona-SB</h1>
+          </HomeRoute>
+        }
+      />
+    </Routes>
+  </div>
 );
 export default App;

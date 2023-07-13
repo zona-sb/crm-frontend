@@ -17,7 +17,6 @@ plugins:
   - functional
   - prettier
 rules:
-  prettier/prettier: [error, { 'endOfLine': 'auto' }]
   import/extensions: 0
   import/no-unresolved: 0
   react/prop-types: 0
@@ -30,8 +29,11 @@ rules:
   functional/functional-parameters: 0
   functional/no-try-statement: 0
   functional/no-throw-statement: 0
+  treatUndefinedAsUnspecified: 0
+  functional/allowReturningBranches: 0
   no-underscore-dangle: [2, { 'allow': ['__filename', '__dirname'] }]
   react/function-component-definition:
     [2, { 'namedComponents': 'arrow-function' }]
   testing-library/no-debug: 0
   react/jsx-filename-extension: [1, { 'extensions': ['.js', '.jsx'] }]
+  prettier/prettier: [error, { 'endOfLine': 'auto' }]

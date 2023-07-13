@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-conditional-statements */
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useRef, useState } from 'react';
@@ -130,7 +131,7 @@ const SignUpForm = () => {
           {t('signUp.email')}
         </Form.Label>
         {(formik.errors.email && formik.touched.email) ||
-          messageError === 'emailExist' ? (
+        messageError === 'emailExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {messageError === 'emailExist'
               ? t(`error.${messageError}`)

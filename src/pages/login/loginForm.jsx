@@ -87,7 +87,9 @@ const SignUpForm = () => {
         <Form.Label htmlFor='password'>{t('signUp.password')}</Form.Label>
         {(formik.errors.password && formik.touched.password) || statusError ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
-            {statusError ? t('error.wrongEmailPassword') : formik.errors.password}
+            {statusError
+              ? t('error.wrongEmailPassword')
+              : formik.errors.password}
           </Form.Control.Feedback>
         ) : null}
       </div>

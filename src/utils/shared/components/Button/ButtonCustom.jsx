@@ -2,12 +2,8 @@ import React from 'react';
 import cn from 'classnames';
 import './ButtonCustom.css';
 
-const ButtonCustom = ({
-  children,
-  className,
-  type = 'button',
-  color = 'confrim',
-}) => {
+const ButtonCustom = (props) => {
+  const { className, color = 'confrim', type = 'button' } = props;
   const buttonStyle = cn(className, {
     custom__button: true,
     'custom__button-confrim': color === 'confrim',
@@ -15,8 +11,8 @@ const ButtonCustom = ({
   });
 
   return (
-    <button type={type} className={buttonStyle}>
-      {children}
+    <button {...props} type={type} className={buttonStyle}>
+      {props.children}
     </button>
   );
 };

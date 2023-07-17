@@ -4,6 +4,7 @@ import useAuth from './hooks/useAuth.jsx';
 import Login from './pages/login/loginPage.jsx';
 import Signup from './pages/signUp/SignUpPage.jsx';
 import { routes } from './utils/routes';
+import './App.css';
 
 const HomeRoute = ({ children }) => {
   const location = useLocation();

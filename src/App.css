@@ -1,0 +1,14 @@
+:root {
+  --white: #ffffff;
+  --confirm: rgba(40, 145, 242, 1);
+  --reject: rgba(254, 7, 7, 0.75);
+
+  --standartBorderRadius: 20px;
+  --standartBoxShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  --smallFontSize: 16px;
+  --bs-body-font-family: 'Roboto', sans-serif;
+  --lightFontWeight: 300;
+  --regularFontWeight: 400;
+  --boldFontWeight: 700;
+}

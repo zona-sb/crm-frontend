@@ -5,6 +5,7 @@ import Login from './pages/login/loginPage.jsx';
 import Signup from './pages/signUp/SignUpPage.jsx';
 import { routes } from './utils/routes';
 import './App.css';
+import Main from './pages/main/Main.jsx';
 
 const HomeRoute = ({ children }) => {
   const location = useLocation();
@@ -24,7 +25,7 @@ const App = () => (
         path={routes.home()}
         element={
           <HomeRoute>
-            <h1>Zona-SB</h1>
+            <Main />
           </HomeRoute>
         }
       />

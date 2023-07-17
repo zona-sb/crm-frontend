@@ -1,0 +1,8 @@
+.custom-dropdown {
+  z-index: 500;
+}
+
+.dropdown-menu.show {
+  display: block;
+  transform: translate3d(0px, -49.6px, 0px) !important;
+}

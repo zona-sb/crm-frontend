@@ -37,10 +37,12 @@ const getSchema = (name, t) => {
       return () =>
         Yup.object().shape({
           email: Yup.string()
-            .email(t('signUp.emailCorrect'))
+            // .email(t('signUp.emailCorrect'))
+            .matches(regexpEmail, t('signUp.emailCorrect'))
             .required(t('signUp.onblur')),
           password: Yup.string()
             .min(3, t('signUp.minSize'))
+            .max(100, t('signUp.minSize'))
             .required(t('signUp.onblur')),
         });
     default:

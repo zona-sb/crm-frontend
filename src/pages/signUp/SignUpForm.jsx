@@ -9,38 +9,39 @@ import { routes, apiRoutes } from '../../utils/routes.js';
 import getSchema from '../../utils/validation.js';
 import useAuth from '../../hooks/useAuth.jsx';
 
-const generateOnSubmit =
-  (setMessageError, setstatusError, navigate, auth) => async (user) => {
-    setstatusError(false);
-    try {
-      const responseRegistration = await axios.post(apiRoutes.signup(), user);
-      console.log(responseRegistration);
-      const { email, password } = user;
-      const responseLogin = await axios.post(apiRoutes.login(), {
-        email,
-        password,
-      });
-      setstatusError(false);
-      auth.logIn(JSON.stringify(responseLogin.data));
-      navigate(routes.home());
-    } catch (error) {
-      setstatusError(true);
-      const {
-        request: { status },
-      } = error;
-      if (status === 409) {
-        setMessageError('emailExist');
-      } else {
-        setMessageError('otherErrorRegistration');
-        console.log(status);
+const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
+  try {
+    const responseRegistration = await axios.post(apiRoutes.signup(), user);
+    console.log(responseRegistration);
+    const { email, password } = user;
+    const responseLogin = await axios.post(apiRoutes.login(), {
+      email,
+      password,
+    });
+    auth.logIn(JSON.stringify(responseLogin.data));
+    navigate(routes.home());
+  } catch (error) {
+    const {
+      request: { status, response },
+    } = error;
+    if (status === 409) {
+      switch (response) {
+        case 'user with that phone is already exist':
+          setMessageError('phoneExist');
+          break;
+        default:
+          setMessageError('emailExist');
       }
-      console.log(error);
+    } else {
+      setMessageError('otherErrorRegistration');
+      console.log(status);
     }
-  };
+    console.log(error);
+  }
+};
 
 const SignUpForm = () => {
   const { t } = useTranslation();
-  const [statusError, setstatusError] = useState(false);
   const [messageError, setMessageError] = useState('');
   const navigate = useNavigate();
   const auth = useAuth();
@@ -60,7 +61,7 @@ const SignUpForm = () => {
     },
     initialErrors: {},
     initialTouched: {},
-    onSubmit: generateOnSubmit(setMessageError, setstatusError, navigate, auth),
+    onSubmit: generateOnSubmit(setMessageError, navigate, auth),
   });
   return (
     <form className='w-50 form-group' onSubmit={formik.handleSubmit}>
@@ -93,10 +94,13 @@ const SignUpForm = () => {
           ref={inputPhone}
           name='phone'
           autoComplete='phone'
-          placeholder={t('signUp.phone')}
+          // placeholder={t('signUp.phone')}
           required
           id='phone'
-          isInvalid={formik.errors.phone && formik.touched.phone}
+          isInvalid={
+            (formik.errors.phone && formik.touched.phone) ||
+            messageError === 'phoneExist'
+          }
           onChange={formik.handleChange('phone')}
           value={formik.values.phone}
           onBlur={formik.handleBlur('phone')}
@@ -104,9 +108,12 @@ const SignUpForm = () => {
         <Form.Label className='form-label' htmlFor='phone'>
           {t('signUp.phone')}
         </Form.Label>
-        {formik.errors.phone && formik.touched.phone ? (
+        {(formik.errors.phone && formik.touched.phone) ||
+        messageError === 'phoneExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
-            {formik.errors.phone}
+            {messageError === 'phoneExist'
+              ? t(`error.${messageError}`)
+              : formik.errors.phone}
           </Form.Control.Feedback>
         ) : null}
       </div>
@@ -175,7 +182,7 @@ const SignUpForm = () => {
           id='confirmPassword'
           isInvalid={
             (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
-            statusError
+            messageError === 'otherErrorRegistration'
           }
           onChange={formik.handleChange('confirmPassword')}
           value={formik.values.confirmPassword}

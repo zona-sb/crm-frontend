@@ -55,7 +55,6 @@ const Priority = () => {
 
   const handlerDelete = (number) => {
     const newData = data.filter((p) => p.number !== number);
-    // console.log(newData);
     setData(newData);
     setShowModal((prev) => !prev);
   };

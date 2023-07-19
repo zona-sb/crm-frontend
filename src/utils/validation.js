@@ -35,6 +35,15 @@ const getSchema = (name, t) => {
             .min(3, t('signUp.minSize'))
             .required(t('signUp.onblur')),
         });
+    case 'createPriority':
+      return () =>
+        Yup.object().shape({
+          title: Yup.string()
+            .min(3, t('signUp.minSize'))
+            .required(t('signUp.onblur')),
+          weight: Yup.number().required(t('signUp.onblur')),
+          color: Yup.string().required(t('signUp.onblur')),
+        });
     default:
       return Yup.object().shape({});
   }

@@ -5,6 +5,7 @@ const AuthContext = createContext({
   loggedIn: null,
   logIn: () => {},
   logOut: () => {},
+  getAuthHeader: () => {},
 });
 
 export default AuthContext;

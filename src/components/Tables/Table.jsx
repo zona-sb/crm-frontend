@@ -5,7 +5,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { MaterialReactTable } from 'material-react-table';
+import {
+  MaterialReactTable,
+  MRT_ToggleDensePaddingButton,
+  MRT_FullScreenToggleButton,
+} from 'material-react-table';
 import {
   Box,
   Button,
@@ -27,53 +31,53 @@ import {
 } from '@tanstack/react-query';
 import './Table.css';
 import ColorFilter from './CustomFilter/ColorFilter';
+import { ButtonCustom } from '../shared';
 
 // const fetchSize = 25;
 
-const Table = ({ data }) => {
+const Table = ({ data, onShown, onDelete, onEdit }) => {
   // const tableContainerRef = useRef(null);
   // const rowVirtualizerInstanceRef = useRef(null); //we can get access to the underlying Virtualizer instance and call its scrollToIndex method
 
   // const [columnFilters, setColumnFilters] = useState([]);
   // const [globalFilter, setGlobalFilter] = useState();
   // const [sorting, setSorting] = useState([]);
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'name',
-        header: 'Название',
-      },
-      {
-        accessorKey: 'number',
-        header: 'Приоритет',
-      },
-      {
-        accessorKey: 'color',
-        header: 'Цвет',
-        Filter: (props) => <ColorFilter data={data} {...props} />,
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
+  const columns = [
+    {
+      accessorKey: 'name',
+      header: 'Наименование',
+      size: 250,
+    },
+    {
+      accessorKey: 'number',
+      header: 'Номер приоритета',
+    },
+    {
+      accessorKey: 'color',
+      header: 'Цвет',
+      Filter: (props) => <ColorFilter data={data} {...props} />,
+      Cell: ({ cell }) => (
+        <Box
+          sx={{
+            display: 'block',
+            position: 'relative',
+            left: '35px',
+            gap: '1rem',
+          }}
+        >
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              backgroundColor: cell.getValue(),
             }}
-          >
-            <div
-              style={{
-                width: '15px',
-                height: '15px',
-                backgroundColor: renderedCellValue,
-              }}
-            />
-            {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
-            {/* <span>{renderedCellValue}</span> */}
-          </Box>
-        ),
-      },
-    ],
-    []
-  );
+          />
+          {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
+          {/* <span>{renderedCellValue}</span> */}
+        </Box>
+      ),
+    },
+  ];
   // const columns = [
   //   {
   //     accessorKey: 'firstName',
@@ -164,52 +168,85 @@ const Table = ({ data }) => {
     <MaterialReactTable
       columns={columns}
       data={data}
-      positionToolbarAlertBanner='none'
+      positionToolbarAlertBanner='bottom'
       positionActionsColumn='last'
       enablePagination={false}
+      enableStickyHeader
       enableRowActions
       enableRowSelection
+      enableToolbarInternalActions={false}
       localization={MRT_Localization_RU}
-      filterFns={{
-        customFilterFn: (row, id, filterValue) => {
-          console.log(row, id, filterValue);
-          // return row.customField === value;
-        },
+      enableGlobalFilter={false}
+      enableHiding={false}
+      enableFullScreenToggle={false}
+      enableExpanding={false}
+      enableDensityToggle={false}
+      enableColumnFilterModes={false}
+      enableSorting={false}
+      initialState={{
+        showColumnFilters: true,
       }}
+      // muiTableContainerProps={{
+      //   sx: { maxHeight: '500px' },
+      // }}
       muiTableBodyRowProps={{
         sx: (theme) => ({
           border: '1px solid rgba(224,224,224,1)',
           margin: '10px 0',
           borderRadius: '10px',
-          display: 'block',
-          position: 'relative',
-          zIndex: '1',
+          boxShadow: '0px 0px 0px 1px rgba(0, 0, 0, 0.2)',
           color: theme.palette.text.primary,
+          '&:after': {
+            border: '1px solid rgba(224,224,224,1)',
+          },
+          td: {
+            backgroundColor: 'transparent',
+            '&:first-of-type': {
+              borderRadius: '10px 0 0 10px',
+            },
+            '&:last-of-type': {
+              borderRadius: '0 10px 10px 0',
+            },
+          },
           '&:hover': {
+            backgroundColor: 'rgb(232 232 232)',
             td: {
-              position: 'relative',
-              zIndex: '1',
-              '&:first-child': {
+              backgroundColor: 'transparent',
+              '&:first-of-type': {
                 borderRadius: '10px 0 0 10px',
               },
-              '&:last-child': {
+              '&:last-of-type': {
                 borderRadius: '0 10px 10px 0',
-                position: 'relative',
-                zIndex: '1',
               },
             },
-            // backgroundColor: 'transparent',
+          },
+          '&.Mui-selected': {
+            backgroundColor: 'rgb(229, 246, 253)',
+            '&:hover': {
+              backgroundColor: 'rgb(232 232 232)',
+            },
           },
         }),
       }}
       muiTableHeadRowProps={{
         sx: (theme) => ({
-          // background: 'rgba(52, 210, 235, 0.1)',
+          boxShadow: '0px 0px 0px 1px rgba(0, 0, 0, 0.2)',
           border: '1px solid rgba(224,224,224,1)',
           borderRadius: '10px',
-          display: 'block',
-          boxShadow: 'none',
+          // display: 'block',
           color: theme.palette.text.primary,
+        }),
+      }}
+      muiTopToolbarProps={{
+        sx: (theme) => ({
+          background: 'transparent',
+        }),
+      }}
+      muiBottomToolbarProps={{
+        sx: (theme) => ({
+          background: 'transparent',
+          boxShadow: 'none',
+          minHeight: 'none',
         }),
       }}
       muiTableBodyCellProps={{
@@ -222,18 +259,24 @@ const Table = ({ data }) => {
       muiTableHeadCellProps={{
         sx: (theme) => ({
           // background: 'rgba(52, 210, 235, 0.1)',
+          '&:first-of-type': {
+            borderRadius: '10px 0 0 10px',
+          },
+          '&:last-of-type': {
+            borderRadius: '0 10px 10px 0',
+          },
           border: '0',
-          borderRadius: '10px',
+          backgroundColor: 'white',
           color: theme.palette.text.primary,
         }),
       }}
       muiTableHeadCellFilterTextFieldProps={{
         sx: {
-          m: '0.5rem 0',
+          m: '0.5rem 0 0 0',
           width: '100%',
-          borderRadius: '10px 0 0 10px',
           '> .MuiInputBase-formControl': {
             borderRadius: '10px',
+            height: '30px',
             fontSize: '14px',
           },
         },
@@ -243,8 +286,19 @@ const Table = ({ data }) => {
       muiTablePaperProps={{
         elevation: 0,
         sx: {
+          table: {
+            borderSpacing: '0 10px',
+            padding: '0 1px',
+          },
           maxWidth: '1500px',
+          backgroundColor: 'transparent',
+
           m: 'auto',
+        },
+      }}
+      muiToolbarAlertBannerProps={{
+        sx: {
+          borderRadius: '10px',
         },
       }}
       renderRowActions={({ row, table }) => (
@@ -252,6 +306,7 @@ const Table = ({ data }) => {
           <IconButton
             color='info'
             onClick={() => {
+              onEdit(row.original);
               console.log(row.original);
               // table.setEditingRow(row);
             }}
@@ -261,6 +316,7 @@ const Table = ({ data }) => {
           <IconButton
             color='error'
             onClick={() => {
+              onDelete(row.original.number);
               console.log(row.original); //assuming simple data table
             }}
           >
@@ -306,17 +362,21 @@ const Table = ({ data }) => {
 
         return (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <Button color='info' onClick={handleDeactivate} variant='contained'>
-              Добавить клиента
-            </Button>
-            <Button
-              color='error'
+            <ButtonCustom
+              color='confrim'
+              className='custom__button-tables'
+              onClick={onShown}
+            >
+              Добавить приоритет
+            </ButtonCustom>
+            <ButtonCustom
+              color='reject'
+              className='custom__button-tables'
               disabled={table.getSelectedRowModel().flatRows.length === 0}
               onClick={handleDeactivate}
-              variant='contained'
             >
-              Удалить
-            </Button>
+              Удалить выбранные
+            </ButtonCustom>
           </div>
         );
       }}

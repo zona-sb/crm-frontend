@@ -8,6 +8,15 @@
   box-shadow: var(--standartBoxShadow);
 }
 
+.custom__button:disabled,
+.custom__button[disabled],
+.custom__button:disabled:hover,
+.custom__button[disabled]:hover {
+  border: 0;
+  background-color: rgba(254, 7, 7, 0.3);
+  color: #fff;
+}
+
 .custom__button-confrim {
   background-color: var(--confirm);
 }

@@ -1,9 +1,9 @@
-.modal-dialog {
-  max-width: 540px;
-}
-
-.modal-content {
+.custom__modal .modal-content {
   border-radius: var(--standartBorderRadius);
   box-shadow: var(--standartBoxShadow);
   padding: 20px;
+}
+
+.modal {
+  --bs-modal-width: 540px;
 }

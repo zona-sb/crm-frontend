@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import './ColorFilter.css';
 
 const ColorFilter = (props) => {
-  const [allPriority, setAllPriority] = useState(
-    props.data.map(({ color }) => color)
-  );
+  const data = props.data.map(({ color }) => color);
+  const [allPriority, setAllPriority] = useState(data);
+
+  useEffect(() => {
+    setAllPriority(data);
+  }, [props.data]);
   const [activePriority, setActivePriority] = useState(allPriority[0]);
-  console.log(allPriority);
+  console.log(props);
   console.log(props.column.getFilterIndex());
   return (
-    <div className='btn-group dropup'>
+    <div className='btn-group'>
       <button
         type='button'
-        className='btn btn-secondary dropdown-toggle'
+        className='btn btn-danger dropdown-toggle custom-button'
         data-bs-toggle='dropdown'
         aria-expanded='false'
       >
@@ -26,18 +29,24 @@ const ColorFilter = (props) => {
           }}
         />
       </button>
-      <div className='dropdown-menu'>
+      <ul className='dropdown-menu custom-dropdown'>
         {allPriority.map((color, index) => (
-          <div
-            key={index}
-            style={{
-              width: '15px',
-              height: '15px',
-              backgroundColor: color,
-            }}
-          />
+          <li key={index}>
+            <button
+              onClick={() => {
+                setActivePriority(color);
+                props.column.setFilterValue(color);
+              }}
+              className='btn custom-dropdown-button'
+              style={{
+                width: '15px',
+                height: '15px',
+                backgroundColor: color,
+              }}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

@@ -9,7 +9,6 @@ const AuthProvider = ({ children }) => {
   );
 
   const logIn = useCallback((data) => {
-    console.log(data);
     window.localStorage.setItem('userData', data);
     setUserData(data);
     setLoggedIn(true);

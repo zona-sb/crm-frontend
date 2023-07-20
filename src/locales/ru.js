@@ -1,15 +1,25 @@
 export default {
   translation: {
-    signUp: {
+    forms: {
+      login: 'Вход',
+      or: 'ИЛИ',
+      alt_googleLogin: 'Вход через Google',
+      alt_yandexLogin: 'Вход через Yandex',
+      alt_hidePassword: 'Скрыть пароль',
+      alt_showPassword: 'Показать пароль',
+      noAccount: 'Нет учетной записи?',
+      haveAccount: 'Уже есть учетная запись?',
+      signUp: 'Зарегистрироваться',
+      registration: 'Регистрация',
       fullName: 'ФИО',
-      phone: 'телефон',
-      email: 'email',
-      password: 'пароль',
-      confirmPassword: 'подтвердите пароль',
+      phone: 'Телефон',
+      email: 'Email',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердите пароль',
       entry: 'Войти',
       signupButton: 'Зарегистрироваться',
       minSize: 'От 3х до 100 символов',
-      spase: 'Не более одного пробела между словами',
+      space: 'Не более одного пробела между словами',
       onblur: 'Обязательное поле',
       phoneCorrect: 'Пожалуйста, введите корректный телефонный номер',
       emailCorrect: 'Пожалуйста, введите корректный email адрес',
@@ -18,7 +28,7 @@ export default {
     error: {
       emailExist: 'Пользователь с таким email уже существует',
       phoneExist: 'Пользователь с таким телефоном уже существует',
-      otherErrorRegistration: 'другая ошибка регистрации', // пока сделала так, непонятно будут ли другие коды
+      otherErrorRegistration: 'Другая ошибка регистрации', // пока сделала так, непонятно будут ли другие коды
       wrongEmailPassword: 'Неверный email или пароль',
     },
   },

@@ -60,9 +60,8 @@
 }
 
 .custom__registrationOffer {
-  display: flex;
-  justify-content: center;
-  gap: 1%;
+  font-size: 100%;
+  text-align: center;
 }
 
 .custom__link {
@@ -72,4 +71,8 @@
 
 .custom__link:hover {
   color: #1f73c1;
+}
+
+::-ms-reveal {
+  display: none;
 }

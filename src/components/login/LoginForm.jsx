@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Form onSubmit={formik.handleSubmit} col-12 col-md-6>
+    <Form onSubmit={formik.handleSubmit}>
       <h1 className='text-center custom__login-h1'>{t('forms.login')}</h1>
       <Form.Floating className='custom__login-placeholder'>
         <Form.Control
@@ -83,7 +83,7 @@ const LoginForm = () => {
           style={{ backgroundImage: 'none' }}
           ref={inputPassword}
           name='password'
-          autoComplete='new-password'
+          autoComplete='current-password'
           placeholder={t('forms.password')}
           required
           aria-describedby='passwordHelpBlock'

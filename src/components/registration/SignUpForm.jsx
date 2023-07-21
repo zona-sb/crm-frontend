@@ -80,7 +80,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <Form onSubmit={formik.handleSubmit} col-12 col-md-6>
+    <Form onSubmit={formik.handleSubmit}>
       <h1 className='text-center custom__h1'>{t('forms.registration')}</h1>
       <Form.Floating className='custom__placeholder'>
         <Form.Control

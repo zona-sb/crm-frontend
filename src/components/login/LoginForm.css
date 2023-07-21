@@ -60,9 +60,8 @@
 }
 
 .custom__login-loginOffer {
-  display: flex;
-  justify-content: center;
-  gap: 1%;
+  font-size: 100%;
+  text-align: center;
 }
 
 .custom__login-link {
@@ -72,4 +71,8 @@
 
 .custom__login-link:hover {
   color: #1f73c1;
+}
+
+::-ms-reveal {
+  display: none;
 }

@@ -5,6 +5,7 @@ import prioritiesReducer from './Priorities/prioritiesSlice';
 import modalReducer from './Modal/ModalSlice';
 
 const sagaMiddleware = createSagaMiddleware();
+
 const store = configureStore({
   reducer: {
     priorities: prioritiesReducer,

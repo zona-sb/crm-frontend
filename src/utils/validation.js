@@ -49,25 +49,25 @@ const getSchema = (name, t, exception) => {
       return () =>
         Yup.object().shape({
           title: Yup.string()
-            .min(3, t('signUp.minSize'))
+            .min(3, t('forms.minSize'))
             .notOneOf(
               exception.map(({ title }) => title),
-              'Должно быть уникальным'
+              t('error.isUnique')
             )
-            .required(t('signUp.onblur')),
+            .required(t('forms.onblur')),
           weight: Yup.number()
             .integer(t('error.isFractionalNumbers'))
             .notOneOf(
               exception.map(({ weight }) => weight),
-              'Должно быть уникальным'
+              t('error.isUnique')
             )
-            .required(t('signUp.onblur')),
+            .required(t('forms.onblur')),
           color: Yup.string()
             .notOneOf(
               exception.map(({ color }) => color),
-              'Должно быть уникальным'
+              t('error.isUnique')
             )
-            .required(t('signUp.onblur')),
+            .required(t('forms.onblur')),
         });
     default:
       return Yup.object().shape({});

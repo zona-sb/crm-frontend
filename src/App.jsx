@@ -1,11 +1,18 @@
 import React from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  NavLink,
+} from 'react-router-dom';
 import useAuth from './hooks/useAuth.jsx';
 import Login from './pages/login/LoginPage.jsx';
 import SignUp from './pages/registration/SignUpPage.jsx';
 import { routes } from './utils/routes';
 import './App.css';
-import Main from './pages/main/Main.jsx';
+import HomePage from './pages/home/HomePage.jsx';
+import PrioritiesPage from './pages/priorities/PrioritiesPage.jsx';
 
 const HomeRoute = ({ children }) => {
   const location = useLocation();
@@ -18,14 +25,22 @@ const HomeRoute = ({ children }) => {
 
 const App = () => (
   <div className='d-flex flex-column h-100'>
+    <div className='d-flex px-2'>
+      <NavLink to={routes.home()}>Главная</NavLink>
+      <NavLink to={routes.login()}>Вход</NavLink>
+      <NavLink to={routes.signup()}>Регистрация</NavLink>
+      <NavLink to={routes.priorities()}>Приоритеты</NavLink>
+    </div>
+
     <Routes>
+      <Route path={routes.priorities()} element={<PrioritiesPage />} />
       <Route path={routes.login()} element={<Login />} />
       <Route path={routes.signup()} element={<SignUp />} />
       <Route
         path={routes.home()}
         element={
           <HomeRoute>
-            <Main />
+            <HomePage />
           </HomeRoute>
         }
       />

@@ -5,7 +5,7 @@
   border-radius: 10px;
   border-color: rgba(0, 0, 0, 0.2);
   padding: 10px 80px;
-  box-shadow: var(--standartBoxShadow);
+  box-shadow: var(--standardBoxShadow);
 }
 
 .custom__button-reject:disabled,

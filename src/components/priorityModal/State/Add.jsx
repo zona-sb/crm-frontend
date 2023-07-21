@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
-import { useSelector, useDispatch } from 'react-redux';
-import { ButtonCustom } from '../../shared';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { addPriority } from '../../../store/Priorities/prioritiesSaga';
 
@@ -26,12 +26,12 @@ const Add = ({ onHide, data, status, isLoading }) => {
   });
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <p className='priority__title'>Создание приоритета</p>
+      <p className='priority__title'>{t('prioritiesModal.addTitle')}</p>
       {status === 'idle' && (
         <>
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='title' className='priority__lables'>
-              Наименование
+              {t('prioritiesModal.inputTitle')}
             </Form.Label>
             <Form.Control
               type='text'
@@ -40,7 +40,6 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onChange={formik.handleChange('title')}
               value={formik.values.title}
               onBlur={formik.handleBlur('title')}
-              placeholder='Введите наименование'
               className='priority__input'
             />
             <Form.Control.Feedback type='invalid'>
@@ -50,7 +49,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
 
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='weight' className='priority__lables'>
-              Номер приоритета
+              {t('prioritiesModal.inputWeight')}
             </Form.Label>
             <Form.Control
               type='number'
@@ -61,7 +60,6 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onChange={formik.handleChange('weight')}
               value={formik.values.weight}
               onBlur={formik.handleBlur('weight')}
-              placeholder='Выбрать приоритет'
               className='priority__input'
             />
             <Form.Control.Feedback type='invalid'>
@@ -71,7 +69,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
 
           <Form.Group className='d-flex flex-column mb-3'>
             <Form.Label htmlFor='color' className='priority__lables'>
-              Цвет
+              {t('prioritiesModal.inputColor')}
             </Form.Label>
             <Form.Control
               type='color'
@@ -80,7 +78,6 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onChange={formik.handleChange('color')}
               value={formik.values.color}
               onBlur={formik.handleBlur('color')}
-              placeholder='Выбрать приоритет'
               className='priority__input form-control w-100'
             />
             <Form.Control.Feedback type='invalid'>
@@ -90,27 +87,31 @@ const Add = ({ onHide, data, status, isLoading }) => {
 
           <div className='d-flex justify-content-between'>
             <ButtonCustom type='submit' disabled={isLoading}>
-              Создать
+              {t('prioritiesModal.buttonCreate')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>
-              Отмена
+              {t('prioritiesModal.buttonCancel')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'success' && (
         <>
-          <p>Приоритет был создан!</p>
+          <p>{t('prioritiesModal.successCreateText')}</p>
           <div className='d-flex justify-content-center'>
-            <ButtonCustom onClick={onHide}>Закрыть</ButtonCustom>
+            <ButtonCustom onClick={onHide}>
+              {t('prioritiesModal.buttonClose')}
+            </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>Произошла ошибка!</p>
+          <p>{t('prioritiesModal.failedText')}</p>
           <div className='d-flex justify-content-center'>
-            <ButtonCustom onClick={onHide}>Закрыть</ButtonCustom>
+            <ButtonCustom onClick={onHide}>
+              {t('prioritiesModal.buttonClose')}
+            </ButtonCustom>
           </div>
         </>
       )}

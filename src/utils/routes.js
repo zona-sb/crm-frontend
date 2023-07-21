@@ -1,6 +1,7 @@
 export const routes = {
   login: () => '/login',
   signup: () => '/signup',
+  priorities: () => '/priorities',
   home: () => '/',
 };
 

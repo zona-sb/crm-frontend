@@ -2,12 +2,17 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { routes, apiRoutes } from '../../utils/routes.js';
 import getSchema from '../../utils/validation.js';
 import useAuth from '../../hooks/useAuth.jsx';
+import './SignUpForm.css';
+import google from '../../assets/icons/google.svg';
+import yandex from '../../assets/icons/yandex.svg';
+import showPassword from '../../assets/icons/showPassword.svg';
+import hidePassword from '../../assets/icons/hidePassword.svg';
 
 const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
   try {
@@ -34,15 +39,16 @@ const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
       }
     } else {
       setMessageError('otherErrorRegistration');
-      console.log(status);
     }
-    console.log(error);
   }
 };
 
 const SignUpForm = () => {
-  const { t } = useTranslation();
   const [messageError, setMessageError] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const auth = useAuth();
   const inputName = useRef();
@@ -50,6 +56,7 @@ const SignUpForm = () => {
   const inputEmail = useRef();
   const inputPassword = useRef();
   const inputConfirmPassword = useRef();
+
   const formik = useFormik({
     validationSchema: getSchema('singUp', t)(),
     initialValues: {
@@ -63,15 +70,26 @@ const SignUpForm = () => {
     initialTouched: {},
     onSubmit: generateOnSubmit(setMessageError, navigate, auth),
   });
+
+  const handleTogglePassword = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const handleToggleConfirmPassword = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
+
   return (
-    <form className='w-50 form-group' onSubmit={formik.handleSubmit}>
-      {/* фио */}
-      <div className='form-floating mb-3'>
+    <Form onSubmit={formik.handleSubmit}>
+      <h1 className='text-center custom__h1'>{t('forms.registration')}</h1>
+      <Form.Floating className='custom__placeholder'>
         <Form.Control
+          className='custom__input'
+          style={{ backgroundImage: 'none' }}
           ref={inputName}
           name='name'
           autoComplete='name'
-          placeholder={t('signUp.minSize')}
+          placeholder={t('forms.minSize')}
           required
           id='name'
           isInvalid={formik.errors.name && formik.touched.name}
@@ -80,21 +98,22 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur('name')}
         />
         <Form.Label className='form-label' htmlFor='name'>
-          {t('signUp.fullName')}
+          {t('forms.fullName')}
         </Form.Label>
         {formik.errors.name && formik.touched.name ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {formik.errors.name}
           </Form.Control.Feedback>
         ) : null}
-      </div>
-      {/* телефон */}
-      <div className='form-floating mb-3'>
+      </Form.Floating>
+      <Form.Floating className='custom__placeholder'>
         <Form.Control
+          className='custom__input'
+          style={{ backgroundImage: 'none' }}
           ref={inputPhone}
           name='phone'
           autoComplete='phone'
-          // placeholder={t('signUp.phone')}
+          placeholder={t('forms.phone')}
           required
           id='phone'
           isInvalid={
@@ -106,7 +125,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur('phone')}
         />
         <Form.Label className='form-label' htmlFor='phone'>
-          {t('signUp.phone')}
+          {t('forms.phone')}
         </Form.Label>
         {(formik.errors.phone && formik.touched.phone) ||
         messageError === 'phoneExist' ? (
@@ -116,14 +135,15 @@ const SignUpForm = () => {
               : formik.errors.phone}
           </Form.Control.Feedback>
         ) : null}
-      </div>
-      {/* емаил */}
-      <div className='form-floating mb-3'>
+      </Form.Floating>
+      <Form.Floating className='custom__placeholder'>
         <Form.Control
+          className='custom__input'
+          style={{ backgroundImage: 'none' }}
           ref={inputEmail}
           name='email'
           autoComplete='email'
-          placeholder={t('signUp.email')}
+          placeholder={t('forms.email')}
           required
           id='email'
           isInvalid={
@@ -135,7 +155,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur('email')}
         />
         <Form.Label className='form-label' htmlFor='email'>
-          {t('signUp.email')}
+          {t('forms.email')}
         </Form.Label>
         {(formik.errors.email && formik.touched.email) ||
         messageError === 'emailExist' ? (
@@ -145,40 +165,52 @@ const SignUpForm = () => {
               : formik.errors.email}
           </Form.Control.Feedback>
         ) : null}
-      </div>
-      {/* пароль */}
-      <div className='form-floating mb-3'>
+      </Form.Floating>
+      <Form.Floating className='custom__placeholder'>
         <Form.Control
+          className='custom__input'
+          style={{ backgroundImage: 'none' }}
           ref={inputPassword}
-          placeholder={t('minPass')}
+          placeholder={t('forms.password')}
           name='password'
           required
           autoComplete='new-password'
           aria-describedby='passwordHelpBlock'
-          type='password'
+          type={passwordVisible ? 'text' : 'password'}
           id='password'
-          className='form-control'
           isInvalid={formik.errors.password && formik.touched.password}
           onChange={formik.handleChange('password')}
           value={formik.values.password}
           onBlur={formik.handleBlur('password')}
         />
-        <Form.Label htmlFor='password'>{t('signUp.password')}</Form.Label>
+        <button
+          className='custom__hiddenButton custom__eye'
+          onClick={handleTogglePassword}
+          type='button'
+        >
+          {passwordVisible ? (
+            <img src={hidePassword} alt={t('forms.alt_hidePassword')} />
+          ) : (
+            <img src={showPassword} alt={t('forms.alt_showPassword')} />
+          )}
+        </button>
+        <Form.Label htmlFor='password'>{t('forms.password')}</Form.Label>
         {formik.errors.password && formik.touched.password ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {formik.errors.password}
           </Form.Control.Feedback>
         ) : null}
-      </div>
-      {/* повтор пароля */}
-      <div className='form-floating mb-3'>
+      </Form.Floating>
+      <Form.Floating className='custom__placeholder'>
         <Form.Control
+          className='custom__input'
+          style={{ backgroundImage: 'none' }}
           ref={inputConfirmPassword}
           placeholder={t('passwordsMustMatch')}
           required
           name='confirmPassword'
           autoComplete='new-password'
-          type='password'
+          type={confirmPasswordVisible ? 'text' : 'password'}
           id='confirmPassword'
           isInvalid={
             (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
@@ -188,10 +220,20 @@ const SignUpForm = () => {
           value={formik.values.confirmPassword}
           onBlur={formik.handleBlur('confirmPassword')}
         />
+        <button
+          className='custom__hiddenButton custom__eye'
+          onClick={handleToggleConfirmPassword}
+          type='button'
+        >
+          {confirmPasswordVisible ? (
+            <img src={hidePassword} alt={t('forms.alt_hidePassword')} />
+          ) : (
+            <img src={showPassword} alt={t('forms.alt_showPassword')} />
+          )}
+        </button>
         <Form.Label htmlFor='confirmPassword'>
-          {t('signUp.confirmPassword')}
+          {t('forms.confirmPassword')}
         </Form.Label>
-        <div className='invalid-tooltip' />
         {messageError === 'otherErrorRegistration' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {t(`error.${messageError}`)}
@@ -202,11 +244,33 @@ const SignUpForm = () => {
             {formik.errors.confirmPassword}
           </Form.Control.Feedback>
         ) : null}
+      </Form.Floating>
+      <Button
+        type='submit'
+        className='w-100 btn-primary custom__button shadow-sm'
+      >
+        {t('forms.signupButton')}
+      </Button>
+      <div className='custom__divider'>
+        <span className='custom__line' />
+        <span className='custom__text'>{t('forms.or')}</span>
+        <span className='custom__line' />
       </div>
-      <button type='submit' className='w-100 btn btn-outline-primary'>
-        {t('signUp.signupButton')}
-      </button>
-    </form>
+      <div className='custom__alternativeRegistration'>
+        <button className='custom__hiddenButton' type='button'>
+          <img src={google} alt={t('forms.alt_googleLogin')} />
+        </button>
+        <button className='custom__hiddenButton' type='button'>
+          <img src={yandex} alt={t('forms.alt_yandexLogin')} />
+        </button>
+      </div>
+      <div className='custom__registrationOffer'>
+        {t('forms.haveAccount')}
+        <Link className='custom__link' to={routes.login()}>
+          {t('forms.entry')}
+        </Link>
+      </div>
+    </Form>
   );
 };
 export default SignUpForm;

@@ -8,12 +8,21 @@
   box-shadow: var(--standartBoxShadow);
 }
 
-.custom__button:disabled,
-.custom__button[disabled],
-.custom__button:disabled:hover,
-.custom__button[disabled]:hover {
+.custom__button-reject:disabled,
+.custom__button-reject[disabled],
+.custom__button-reject:disabled:hover,
+.custom__button-reject[disabled]:hover {
   border: 0;
   background-color: rgba(254, 7, 7, 0.3);
+  color: #fff;
+}
+
+.custom__button-confrim:disabled,
+.custom__button-confrim[disabled],
+.custom__button-confrim:disabled:hover,
+.custom__button-confrim[disabled]:hover {
+  border: 0;
+  background-color: rgba(87, 115, 190, 0.521);
   color: #fff;
 }
 

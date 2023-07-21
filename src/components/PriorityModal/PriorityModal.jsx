@@ -1,49 +1,26 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './PriorityModal.css';
 import Table from '../Tables/Table';
-import { ButtonCustom, ModalCustom } from '../shared/index';
+import { ModalCustom } from '../shared/index';
+
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
+import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
+import { getPriorities } from '../../store/Priorities/prioritiesSaga';
+import { close, setCurrentType } from '../../store/Modal/ModalSlice';
 
 const Priority = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [content, setContent] = useState({});
-  const [data, setData] = useState([
-    { name: 'Test', number: '5', color: '#000000' },
-    { name: 'Test 2', number: '1', color: '#cc0000' },
-    { name: 'Test 3', number: '2', color: '#ccf000' },
-    { name: 'Test 3', number: '3', color: '#ccf000' },
-  ]);
+  const prioities = useSelector(prioritiesSelector.selectAll);
+  const { data, isModalShow, status, isLoading } = useSelector(
+    (state) => state.modal
+  );
+  const dispatch = useDispatch();
 
-  const handlerSubmit = (e) => {
-    e.preventDefault();
-    const { name, number, color } = e.target;
-    const userData = {
-      name: name.value,
-      number: number.value,
-      color: color.value,
-    };
-
-    setData([userData, ...data]);
-    setShowModal(false);
-  };
-
-  const handlerEdit = (e) => {
-    e.preventDefault();
-    const { name, number, color } = e.target;
-    const userData = {
-      name: name.value,
-      number: number.value,
-      color: color.value,
-    };
-    const newData = [...data];
-    const indexP = newData.findIndex((p) => p.number === number.value);
-    newData[indexP] = userData;
-    setData(newData);
-    setShowModal(false);
-  };
+  useEffect(() => {
+    dispatch(getPriorities());
+  }, []);
 
   const modals = {
     add: Add,
@@ -51,45 +28,31 @@ const Priority = () => {
     edit: Edit,
   };
 
-  const CurrentModal = modals[content.type];
-
-  const handlerDelete = (number) => {
-    const newData = data.filter((p) => p.number !== number);
-    setData(newData);
-    setShowModal((prev) => !prev);
-  };
+  const CurrentModal = modals[data.type];
 
   return (
     <div className='d-flex justify-content-center align-items-center flex-column bg-warning'>
       <Table
-        data={data}
+        data={prioities}
         onShown={() => {
-          setShowModal((prev) => !prev);
-          setContent({ type: 'add' });
+          dispatch(setCurrentType({ type: 'add' }));
         }}
-        onDelete={(number) => {
-          setShowModal((prev) => !prev);
-          setContent({ type: 'delete', data: number });
+        onDelete={(id) => {
+          dispatch(setCurrentType({ type: 'delete', id }));
         }}
-        onEdit={(prioity) => {
-          setShowModal((prev) => !prev);
-          setContent({ type: 'edit', data: prioity });
+        onEdit={(id) => {
+          dispatch(setCurrentType({ type: 'edit', id }));
         }}
       />
-      {/* <ButtonCustom onClick={() => setShowModal((prev) => !prev)}>
-        Добавить приоритет
-      </ButtonCustom> */}
-      <ModalCustom
-        show={showModal}
-        onHide={() => setShowModal((prev) => !prev)}
-      >
-        {showModal && (
+      <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
+        {isModalShow && (
           <CurrentModal
-            data={content.data}
-            onHide={() => setShowModal((prev) => !prev)}
-            handlerSubmit={handlerSubmit}
-            handlerEdit={handlerEdit}
-            handlerDelete={handlerDelete}
+            data={prioities}
+            id={data.id}
+            isLoading={isLoading}
+            status={status}
+            onHide={() => dispatch(close())}
+            // handlerDelete={handlerDelete}
           />
         )}
       </ModalCustom>

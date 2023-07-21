@@ -20,6 +20,8 @@ export default {
       phoneExist: 'Пользователь с таким телефоном уже существует',
       otherErrorRegistration: 'другая ошибка регистрации', // пока сделала так, непонятно будут ли другие коды
       wrongEmailPassword: 'Неверный email или пароль',
+      isUnique: 'Значение должно быть уникальным',
+      isFractionalNumbers: 'Число должно быть целым',
     },
   },
 };

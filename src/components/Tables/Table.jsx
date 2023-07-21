@@ -44,12 +44,12 @@ const Table = ({ data, onShown, onDelete, onEdit }) => {
   // const [sorting, setSorting] = useState([]);
   const columns = [
     {
-      accessorKey: 'name',
+      accessorKey: 'title',
       header: 'Наименование',
-      size: 250,
+      size: 150,
     },
     {
-      accessorKey: 'number',
+      accessorKey: 'weight',
       header: 'Номер приоритета',
     },
     {
@@ -306,8 +306,8 @@ const Table = ({ data, onShown, onDelete, onEdit }) => {
           <IconButton
             color='info'
             onClick={() => {
-              onEdit(row.original);
-              console.log(row.original);
+              onEdit(row.original.id);
+              // console.log(row.original);
               // table.setEditingRow(row);
             }}
           >
@@ -316,8 +316,8 @@ const Table = ({ data, onShown, onDelete, onEdit }) => {
           <IconButton
             color='error'
             onClick={() => {
-              onDelete(row.original.number);
-              console.log(row.original); //assuming simple data table
+              onDelete(row.original.id);
+              // console.log(row.original); //assuming simple data table
             }}
           >
             <DeleteIcon />

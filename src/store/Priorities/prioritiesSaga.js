@@ -11,7 +11,6 @@ import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getPrioritiesSaga() {
-  yield put(setLoading(true));
   try {
     const payload = yield apiRequests.get(apiRoutes.getPriorities());
     yield put(getAllPriorities(payload.data));

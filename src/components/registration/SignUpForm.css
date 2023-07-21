@@ -1,0 +1,78 @@
+.custom__h1 {
+  margin-bottom: 7%;
+}
+
+.custom__placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.custom__input {
+  margin-bottom: 3%;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.custom__hiddenButton {
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.custom__eye {
+  position: absolute;
+  top: 25%;
+  right: 4%;
+}
+
+.custom__button {
+  margin-top: 4%;
+  margin-bottom: 6%;
+  background-color: #2891f2;
+  border: none;
+}
+
+.custom__button:hover {
+  background-color: #1f73c1;
+}
+
+.custom__divider {
+  display: flex;
+  align-items: center;
+}
+
+.custom__line {
+  content: '';
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.custom__text {
+  margin: 0 9%;
+}
+
+.custom__alternativeRegistration {
+  display: flex;
+  justify-content: center;
+  gap: 50%;
+  margin-top: 6%;
+  margin-bottom: 12%;
+}
+
+.custom__registrationOffer {
+  font-size: 100%;
+  text-align: center;
+}
+
+.custom__link {
+  text-decoration: none;
+  color: #2891f2;
+}
+
+.custom__link:hover {
+  color: #1f73c1;
+}
+
+::-ms-reveal {
+  display: none;
+}

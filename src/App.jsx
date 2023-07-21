@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import useAuth from './hooks/useAuth.jsx';
-import Login from './pages/login/loginPage.jsx';
-import Signup from './pages/signUp/SignUpPage.jsx';
+import Login from './pages/login/LoginPage.jsx';
+import SignUp from './pages/registration/SignUpPage.jsx';
 import { routes } from './utils/routes';
 import './App.css';
 
@@ -19,7 +19,7 @@ const App = () => (
   <div className='d-flex flex-column h-100'>
     <Routes>
       <Route path={routes.login()} element={<Login />} />
-      <Route path={routes.signup()} element={<Signup />} />
+      <Route path={routes.signup()} element={<SignUp />} />
       <Route
         path={routes.home()}
         element={

@@ -15,7 +15,9 @@ export function* getPrioritiesSaga() {
   try {
     const payload = yield apiRequests.get(apiRoutes.getPriorities());
     yield put(getAllPriorities(payload.data));
-  } catch (e) {}
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 export function* addPrioritySaga(action) {
@@ -27,7 +29,7 @@ export function* addPrioritySaga(action) {
     );
     yield put(setStatus('success'));
     yield put(addNewPriority(payload.data));
-  } catch (e) {
+  } catch (_) {
     yield put(setStatus('failed'));
   }
 }
@@ -44,7 +46,7 @@ export function* updatePrioritySaga(action) {
     yield put(
       updateCurrentPriority({ id: payload.data.id, changes: payload.data })
     );
-  } catch (e) {
+  } catch (_) {
     yield put(setStatus('failed'));
   }
 }
@@ -56,7 +58,7 @@ export function* deletePrioritySaga(action) {
     yield apiRequests.delete(apiRoutes.modifyPriority(id));
     yield put(setStatus('success'));
     yield put(removeCurrentPriority(id));
-  } catch (e) {
+  } catch (_) {
     yield put(setStatus('failed'));
   }
 }

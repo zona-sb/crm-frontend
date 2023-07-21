@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { takeEvery } from 'redux-saga/effects';
 import {
   ADD_PRIORITY,

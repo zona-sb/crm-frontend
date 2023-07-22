@@ -15,7 +15,6 @@ const PrioritiesPage = () => {
       <PriorityModal />
       <div className='d-flex align-items-center flex-column'>
         <ButtonCustom
-          color='confrim'
           className='custom__button-tables'
           onClick={() => dispatch(setCurrentType({ type: 'add' }))}
         >

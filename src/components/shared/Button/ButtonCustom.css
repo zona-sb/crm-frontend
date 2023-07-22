@@ -17,20 +17,20 @@
   color: #fff;
 }
 
-.custom__button-confrim:disabled,
-.custom__button-confrim[disabled],
-.custom__button-confrim:disabled:hover,
-.custom__button-confrim[disabled]:hover {
+.custom__button-confirm:disabled,
+.custom__button-confirm[disabled],
+.custom__button-confirm:disabled:hover,
+.custom__button-confirm[disabled]:hover {
   border: 0;
   background-color: rgba(87, 115, 190, 0.521);
   color: #fff;
 }
 
-.custom__button-confrim {
+.custom__button-confirm {
   background-color: var(--confirm);
 }
 
-.custom__button-confrim:hover {
+.custom__button-confirm:hover {
   color: var(--white);
   background-color: rgb(32, 89, 247);
 }

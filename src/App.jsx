@@ -1,16 +1,10 @@
 import React from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import useAuth from './hooks/useAuth.jsx';
-<<<<<<< HEAD
-import Login from './pages/login/loginPage.jsx';
-import Signup from './pages/signUp/SignUpPage.jsx';
-import { routes } from './utils/routes';
-=======
 import Login from './pages/login/LoginPage.jsx';
 import SignUp from './pages/registration/SignUpPage.jsx';
 import { routes } from './utils/routes';
 import './App.css';
->>>>>>> dev
 
 const HomeRoute = ({ children }) => {
   const location = useLocation();

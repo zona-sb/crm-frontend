@@ -1,57 +1,57 @@
-.custom__h1 {
+.custom__signup-h1 {
   margin-bottom: 7%;
 }
 
-.custom__placeholder {
+.custom__signup-placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.custom__input {
+.custom__signup-input {
   margin-bottom: 3%;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
-.custom__hiddenButton {
+.custom__signup-hiddenButton {
   padding: 0;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.custom__eye {
+.custom__signup-eye {
   position: absolute;
   top: 25%;
   right: 4%;
 }
 
-.custom__button {
+.custom__signup-button {
   margin-top: 4%;
   margin-bottom: 6%;
   background-color: #2891f2;
   border: none;
 }
 
-.custom__button:hover {
+.custom__signup-button:hover {
   background-color: #1f73c1;
 }
 
-.custom__divider {
+.custom__signup-divider {
   display: flex;
   align-items: center;
 }
 
-.custom__line {
+.custom__signup-line {
   content: '';
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.6);
 }
 
-.custom__text {
+.custom__signup-text {
   margin: 0 9%;
 }
 
-.custom__alternativeRegistration {
+.custom__signup-alternativeRegistration {
   display: flex;
   justify-content: center;
   gap: 50%;
@@ -59,17 +59,17 @@
   margin-bottom: 12%;
 }
 
-.custom__registrationOffer {
+.custom__signup-registrationOffer {
   font-size: 100%;
   text-align: center;
 }
 
-.custom__link {
+.custom__signup-link {
   text-decoration: none;
   color: #2891f2;
 }
 
-.custom__link:hover {
+.custom__signup-link:hover {
   color: #1f73c1;
 }
 

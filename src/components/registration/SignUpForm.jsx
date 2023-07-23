@@ -81,10 +81,12 @@ const SignUpForm = () => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <h1 className='text-center custom__h1'>{t('forms.registration')}</h1>
-      <Form.Floating className='custom__placeholder'>
+      <h1 className='text-center custom__signup-h1'>
+        {t('forms.registration')}
+      </h1>
+      <Form.Floating className='custom__signup-placeholder'>
         <Form.Control
-          className='custom__input'
+          className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputName}
           name='name'
@@ -106,9 +108,9 @@ const SignUpForm = () => {
           </Form.Control.Feedback>
         ) : null}
       </Form.Floating>
-      <Form.Floating className='custom__placeholder'>
+      <Form.Floating className='custom__signup-placeholder'>
         <Form.Control
-          className='custom__input'
+          className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputPhone}
           name='phone'
@@ -136,9 +138,9 @@ const SignUpForm = () => {
           </Form.Control.Feedback>
         ) : null}
       </Form.Floating>
-      <Form.Floating className='custom__placeholder'>
+      <Form.Floating className='custom__signup-placeholder'>
         <Form.Control
-          className='custom__input'
+          className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputEmail}
           name='email'
@@ -166,9 +168,9 @@ const SignUpForm = () => {
           </Form.Control.Feedback>
         ) : null}
       </Form.Floating>
-      <Form.Floating className='custom__placeholder'>
+      <Form.Floating className='custom__signup-placeholder'>
         <Form.Control
-          className='custom__input'
+          className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputPassword}
           placeholder={t('forms.password')}
@@ -184,7 +186,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur('password')}
         />
         <button
-          className='custom__hiddenButton custom__eye'
+          className='custom__signup-hiddenButton custom__signup-eye'
           onClick={handleTogglePassword}
           type='button'
         >
@@ -201,9 +203,9 @@ const SignUpForm = () => {
           </Form.Control.Feedback>
         ) : null}
       </Form.Floating>
-      <Form.Floating className='custom__placeholder'>
+      <Form.Floating className='custom__signup-placeholder'>
         <Form.Control
-          className='custom__input'
+          className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputConfirmPassword}
           placeholder={t('passwordsMustMatch')}
@@ -221,7 +223,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur('confirmPassword')}
         />
         <button
-          className='custom__hiddenButton custom__eye'
+          className='custom__signup-hiddenButton custom__signup-eye'
           onClick={handleToggleConfirmPassword}
           type='button'
         >
@@ -247,26 +249,26 @@ const SignUpForm = () => {
       </Form.Floating>
       <Button
         type='submit'
-        className='w-100 btn-primary custom__button shadow-sm'
+        className='w-100 btn-primary custom__signup-button shadow-sm'
       >
         {t('forms.signupButton')}
       </Button>
-      <div className='custom__divider'>
-        <span className='custom__line' />
-        <span className='custom__text'>{t('forms.or')}</span>
-        <span className='custom__line' />
+      <div className='custom__signup-divider'>
+        <span className='custom__signup-line' />
+        <span className='custom__signup-text'>{t('forms.or')}</span>
+        <span className='custom__signup-line' />
       </div>
-      <div className='custom__alternativeRegistration'>
-        <button className='custom__hiddenButton' type='button'>
+      <div className='custom__signup-alternativeRegistration'>
+        <button className='custom__signup-hiddenButton' type='button'>
           <img src={google} alt={t('forms.alt_googleLogin')} />
         </button>
-        <button className='custom__hiddenButton' type='button'>
+        <button className='custom__signup-hiddenButton' type='button'>
           <img src={yandex} alt={t('forms.alt_yandexLogin')} />
         </button>
       </div>
-      <div className='custom__registrationOffer'>
+      <div className='custom__signup-registrationOffer'>
         {t('forms.haveAccount')}
-        <Link className='custom__link' to={routes.login()}>
+        <Link className='custom__signup-link' to={routes.login()}>
           {t('forms.entry')}
         </Link>
       </div>

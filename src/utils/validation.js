@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import 'yup-phone-lite';
 
-const getSchema = (name, t) => {
+const getSchema = (name, t, exception) => {
   const regexpNum = '^\\+7\\d{10}$';
   const regexpName = '^[а-яёА-ЯЁ\\w-]+(?:[\\s.-][а-яёА-ЯЁ\\w-]+)*$';
   const regexpEmail =
@@ -43,6 +43,30 @@ const getSchema = (name, t) => {
           password: Yup.string()
             .min(3, t('forms.minSize'))
             .max(100, t('forms.minSize'))
+            .required(t('forms.onblur')),
+        });
+    case 'modifyPriority':
+      return () =>
+        Yup.object().shape({
+          title: Yup.string()
+            .min(3, t('forms.minSize'))
+            .notOneOf(
+              exception.map(({ title }) => title),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+          weight: Yup.number()
+            .integer(t('error.isFractionalNumbers'))
+            .notOneOf(
+              exception.map(({ weight }) => weight),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+          color: Yup.string()
+            .notOneOf(
+              exception.map(({ color }) => color),
+              t('error.isUnique')
+            )
             .required(t('forms.onblur')),
         });
     default:

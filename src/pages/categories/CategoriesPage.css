@@ -1,6 +1,6 @@
-.custom__loginCard {
-    padding: 6% 25% 3% 25%;
-    border-radius: 30px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-  }
-  
+.test__style {
+  background-color: #ffc107;
+  margin: 10px 0;
+  padding: 10px;
+  width: 600px;
+}

@@ -69,6 +69,17 @@ const getSchema = (name, t, exception) => {
             )
             .required(t('forms.onblur')),
         });
+    case 'modifyCategory':
+      return () =>
+        Yup.object().shape({
+          categoryTitle: Yup.string()
+            .min(3, t('forms.minSize'))
+            .notOneOf(
+              exception.map(({ title }) => title),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+        });
     default:
       return Yup.object().shape({});
   }

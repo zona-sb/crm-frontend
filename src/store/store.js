@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { prioritiesSaga } from './saga';
+import { prioritiesSaga, categoriesSaga } from './saga';
 import prioritiesReducer from './Priorities/prioritiesSlice';
+import categoriesReducer from './Categories/categoriesSlice';
 import modalReducer from './Modal/ModalSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -9,6 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
     priorities: prioritiesReducer,
+    categories: categoriesReducer,
     modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -16,5 +18,6 @@ const store = configureStore({
 });
 
 sagaMiddleware.run(prioritiesSaga);
+sagaMiddleware.run(categoriesSaga);
 
 export default store;

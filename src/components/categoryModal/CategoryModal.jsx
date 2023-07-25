@@ -3,21 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
-import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
-import { getPriorities } from '../../store/Priorities/prioritiesSaga';
+import { categoriesSelector } from '../../store/Categories/categoriesSlice';
+import { getCategories } from '../../store/Categories/categoriesSaga';
 import { close } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
-import './PriorityModal.css';
+import './CategoryModal.css';
 
-const PriorityModal = () => {
-  const prioities = useSelector(prioritiesSelector.selectAll);
+const CategoryModal = () => {
+  const categories = useSelector(categoriesSelector.selectAll);
   const { data, isModalShow, status, isLoading } = useSelector(
     (state) => state.modal
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPriorities());
+    dispatch(getCategories());
   }, [dispatch]);
 
   const modals = {
@@ -33,7 +33,7 @@ const PriorityModal = () => {
       {isModalShow ? (
         <CurrentModal
           id={data.id}
-          data={prioities}
+          data={categories}
           isLoading={isLoading}
           status={status}
           onHide={() => dispatch(close())}
@@ -45,4 +45,4 @@ const PriorityModal = () => {
   );
 };
 
-export default PriorityModal;
+export default CategoryModal;

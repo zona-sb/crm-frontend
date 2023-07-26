@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './Table.scss';
+import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
 import cn from 'classnames';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
-import { useDispatch } from 'react-redux';
 import { ButtonCustom } from '../shared';
+import './Table.scss';
 
 const Table = (props) => {
-  const { data, categories, width = '1000px', height = '350px' } = props;
+  const {
+    data,
+    categories,
+    actions,
+    width = '1000px',
+    height = '350px',
+  } = props;
   const elementRef = useRef(null);
   const dispatch = useDispatch();
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -23,7 +29,7 @@ const Table = (props) => {
     }
   };
 
-  const handleSelectAll = (e) => {
+  const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setCheckedRow(data.map((li) => li.id));
     if (isCheckAll) {
@@ -103,17 +109,15 @@ const Table = (props) => {
                   checked={isCheckAll}
                 />
               </div>
-              {categories.map((cat, index) => {
-                return (
-                  <div
-                    key={index}
-                    className='head-item'
-                    style={cat.customStyle}
-                  >
-                    {cat.name}
-                  </div>
-                );
-              })}
+              {categories.map((cat) => (
+                <div
+                  key={`head-${cat.key}`}
+                  className='head-item'
+                  style={cat.customStyle}
+                >
+                  {cat.name}
+                </div>
+              ))}
               <div className='head-item'>Действие</div>
             </div>
             <div className={scrollbaHeadingStyle('filtering')}>
@@ -123,18 +127,16 @@ const Table = (props) => {
                   type='checkbox'
                 />
               </div>
-              {categories.map((cat, index) => {
-                return (
-                  <div
-                    key={index}
-                    className='filter-item'
-                    style={cat.customStyle}
-                  >
-                    {cat.filter}
-                  </div>
-                );
-              })}
-              <div className='filter-item'></div>
+              {categories.map((cat) => (
+                <div
+                  key={`filter-${cat.key}`}
+                  className='filter-item'
+                  style={cat.customStyle}
+                >
+                  {cat.filter}
+                </div>
+              ))}
+              <div className='filter-item' />
             </div>
           </div>
           <div
@@ -142,69 +144,67 @@ const Table = (props) => {
             className={scrollbarRowStyle}
             ref={elementRef}
           >
-            {data.map((value) => {
-              return (
-                <div className='table-row' key={value.id}>
-                  <div className='row-item checkbox-item'>
-                    {renderToggle(value.id)}
-                  </div>
-                  <div className='custom__table-row'>
-                    {categories.map((cat) => (
-                      <React.Fragment key={cat.key}>
-                        <div className='mobile__table-row-info-each'>
-                          <div className='d-flex'>
-                            <span className='fw-bold pe-2'>{cat.name}:</span>
-                            {cat.customTag ? (
-                              <cat.customTag
-                                style={cat.customCell(value[cat.key])}
-                              />
-                            ) : (
-                              <p>{value[cat.key]}</p>
-                            )}
-                          </div>
-                        </div>
-                        <div className='row-item' style={cat.customStyle}>
+            {data.map((value) => (
+              <div className='table-row' key={value.id}>
+                <div className='row-item checkbox-item'>
+                  {renderToggle(value.id)}
+                </div>
+                <div className='custom__table-row'>
+                  {categories.map((cat) => (
+                    <React.Fragment key={cat.key}>
+                      <div className='mobile__table-row-info-each'>
+                        <div className='d-flex'>
+                          <span className='fw-bold pe-2'>{cat.name}:</span>
                           {cat.customTag ? (
                             <cat.customTag
                               style={cat.customCell(value[cat.key])}
                             />
                           ) : (
-                            value[cat.key]
+                            <p>{value[cat.key]}</p>
                           )}
                         </div>
-                      </React.Fragment>
-                    ))}
-                  </div>
-
-                  <div className='row-item justify-content-around rows-buttons'>
-                    <BsPencilFill
-                      style={{
-                        cursor: 'pointer',
-                        width: '20px',
-                        height: '20px',
-                      }}
-                      onClick={() => {
-                        dispatch(
-                          setCurrentType({ type: 'edit', id: value.id })
-                        );
-                      }}
-                    />
-                    <BsTrashFill
-                      style={{
-                        cursor: 'pointer',
-                        width: '20px',
-                        height: '20px',
-                      }}
-                      onClick={() => {
-                        dispatch(
-                          setCurrentType({ type: 'delete', id: value.id })
-                        );
-                      }}
-                    />
-                  </div>
+                      </div>
+                      <div className='row-item' style={cat.customStyle}>
+                        {cat.customTag ? (
+                          <cat.customTag
+                            style={cat.customCell(value[cat.key])}
+                          />
+                        ) : (
+                          value[cat.key]
+                        )}
+                      </div>
+                    </React.Fragment>
+                  ))}
                 </div>
-              );
-            })}
+
+                <div className='row-item justify-content-around rows-buttons'>
+                  <BsPencilFill
+                    style={{
+                      cursor: 'pointer',
+                      width: '20px',
+                      height: '20px',
+                    }}
+                    onClick={() => {
+                      dispatch(
+                        setCurrentType({ type: actions.edit, id: value.id })
+                      );
+                    }}
+                  />
+                  <BsTrashFill
+                    style={{
+                      cursor: 'pointer',
+                      width: '20px',
+                      height: '20px',
+                    }}
+                    onClick={() => {
+                      dispatch(
+                        setCurrentType({ type: actions.delete, id: value.id })
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

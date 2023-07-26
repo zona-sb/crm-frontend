@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
 import './PrioritiesPage.css';
-import { ButtonCustom } from '../../components/shared';
 import Table from '../../components/Table/Table';
 import ColorFilter from '../../components/Table/ColorFilter';
 
@@ -29,7 +28,7 @@ const FilterInputWeight = () => (
 
 const PrioritiesPage = () => {
   const prioities = useSelector(prioritiesSelector.selectAll);
-  // const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   const data = [
     {
@@ -56,12 +55,16 @@ const PrioritiesPage = () => {
     },
   ];
 
-  const dispatch = useDispatch();
+  const actions = {
+    delete: 'delete',
+    edit: 'edit',
+  };
+
   return (
     <>
       <PriorityModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={prioities} />
+        <Table categories={data} data={prioities} actions={actions} />
         <div className='d-flex justify-content-center'>
           <button
             className='pt-4 custom__priority-button'

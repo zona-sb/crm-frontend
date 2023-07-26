@@ -1,54 +1,78 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
+import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
 import './PrioritiesPage.css';
-import { ButtonCustom } from '../../components/shared';
+import Table from '../../components/Table/Table';
+import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
+
+const FilterInputName = () => (
+  <Form.Control
+    className='custom__table-input'
+    type='text'
+    size='sm'
+    placeholder='Введите наименование'
+  />
+);
+
+const FilterInputWeight = () => (
+  <Form.Control
+    className='custom__table-input'
+    type='text'
+    size='sm'
+    placeholder='Введите номер'
+  />
+);
 
 const PrioritiesPage = () => {
   const prioities = useSelector(prioritiesSelector.selectAll);
   const dispatch = useDispatch();
+
+  const data = [
+    {
+      key: 'title',
+      name: 'Наименование',
+      filter: <FilterInputName />,
+    },
+    {
+      key: 'weight',
+      name: 'Номер приоритета',
+      filter: <FilterInputWeight />,
+    },
+    {
+      key: 'color',
+      name: 'Цвет',
+      customStyle: { flex: 0, minWidth: '70px' },
+      filter: <ColorFilter data={prioities} />,
+      customTag: 'div',
+      customCell: (color) => ({
+        width: '20px',
+        height: '20px',
+        backgroundColor: color,
+      }),
+    },
+  ];
+
+  const actions = {
+    delete: 'delete',
+    edit: 'edit',
+  };
+
   return (
     <>
       <PriorityModal />
-      <div className='d-flex align-items-center flex-column'>
-        <ButtonCustom
-          className='custom__button-tables'
-          onClick={() => dispatch(setCurrentType({ type: 'add' }))}
-        >
-          + Добавить приоритет
-        </ButtonCustom>
-        {prioities.map(({ title, weight, color, id }) => (
-          <div
-            className='d-flex align-items-center justify-content-around test__style rounded'
-            key={id}
+      <div className='d-flex flex-column'>
+        <Table categories={data} data={prioities} actions={actions} />
+        <div className='d-flex justify-content-center'>
+          <button
+            className='pt-4 custom__priority-button'
+            onClick={() => dispatch(setCurrentType({ type: 'add' }))}
           >
-            <div>Наименование: {title}</div>
-            <div>Вес приоритета: {weight}</div>
-            <div
-              style={{
-                backgroundColor: color,
-                width: '15px',
-                height: '15px',
-                borderRadius: '50%',
-              }}
-            />
-            <BsPencilFill
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                dispatch(setCurrentType({ type: 'edit', id }));
-              }}
-            />
-            <BsTrashFill
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                dispatch(setCurrentType({ type: 'delete', id }));
-              }}
-            />
-          </div>
-        ))}
+            + Добавить приоритет
+          </button>
+        </div>
       </div>
     </>
   );

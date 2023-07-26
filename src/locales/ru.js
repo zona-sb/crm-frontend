@@ -43,6 +43,23 @@ export default {
       buttonDelete: 'Удалить',
       buttonClose: 'Закрыть',
     },
+    categoriesModal: {
+      addTitle: 'Создание категории',
+      deleteTitle: 'Удаление категории',
+      editTitle: 'Изменение категории',
+      inputTitle: 'Наименование',
+      deleteText: 'Вы действительно хотите удалить категорию?',
+      successCreateText: 'Категория была создана!',
+      successDeleteText:
+        'Категория и все связанные с ней статусы и задачи удалены!',
+      successEditText: 'Изменения сохранены!',
+      failedText: 'Произошла ошибка!',
+      buttonCreate: 'Создать',
+      buttonSave: 'Сохранить',
+      buttonCancel: 'Отмена',
+      buttonDelete: 'Удалить',
+      buttonClose: 'Закрыть',
+    },
     error: {
       emailExist: 'Пользователь с таким email уже существует',
       phoneExist: 'Пользователь с таким телефоном уже существует',

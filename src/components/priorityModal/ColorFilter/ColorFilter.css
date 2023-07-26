@@ -3,12 +3,10 @@
   flex-direction: column;
   align-items: center;
 }
-
 .dropdown-menu {
   min-width: 0;
   width: 50px;
 }
-
 .custom__color-filter-button {
   display: flex;
   align-items: center;
@@ -20,16 +18,14 @@
   border-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   justify-content: space-between;
-
-  &:hover,
-  &:active,
-  &.show {
-    background-color: #e2e2e2 !important;
-    color: black !important;
-    border-color: rgba(0, 0, 0, 0.2) !important;
-  }
 }
-
+.custom__color-filter-button:hover,
+.custom__color-filter-button:active,
+.custom__color-filter-button.show {
+  background-color: #e2e2e2 !important;
+  color: black !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
 .custom-dropdown-button {
   padding: 0;
   border-radius: 0;

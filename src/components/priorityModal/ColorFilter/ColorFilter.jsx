@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import './ColorFilter.scss';
+import React, { useState } from 'react';
+import './ColorFilter.css';
 
 const ColorFilter = (props) => {
   const data = props.data.map(({ color }) => color);
-  const [allPriority, setAllPriority] = useState(data);
   const [activePriority, setActivePriority] = useState(null);
-
-  useEffect(() => {
-    setAllPriority(data);
-  }, [props.data]);
 
   return (
     <div className='dropdown'>
@@ -27,10 +22,11 @@ const ColorFilter = (props) => {
         />
       </button>
       <ul className='dropdown-menu custom-dropdown'>
-        {allPriority.map((color, index) => (
-          <li key={index}>
+        {data.map((color) => (
+          <li key={`color-${color}`}>
             <button
               type='button'
+              aria-label='color'
               onClick={() => {
                 setActivePriority(color);
               }}

@@ -5,17 +5,11 @@ import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
 import cn from 'classnames';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
 import { ButtonCustom } from '../shared';
-import './Table.scss';
+import './Table.css';
 
 const Table = (props) => {
-  const {
-    data,
-    categories,
-    actions,
-    width = '1000px',
-    height = '350px',
-  } = props;
-  const elementRef = useRef(null);
+  const { data, categories, actions, width = 1000, height = 350 } = props;
+  const bodyRef = useRef(null);
   const dispatch = useDispatch();
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [checkedRow, setCheckedRow] = useState([]);
@@ -47,26 +41,10 @@ const Table = (props) => {
     });
 
   useEffect(() => {
-    setIsShowScrollbar(
-      elementRef.current.clientWidth < elementRef.current.offsetWidth
-    );
-  }, [data]);
+    setIsShowScrollbar(bodyRef.current.offsetHeight >= height);
+  }, [data, height]);
 
-  useEffect(() => {
-    const trackResize = () => {
-      setIsShowScrollbar(
-        elementRef.current.clientWidth < elementRef.current.offsetWidth
-      );
-    };
-
-    window.addEventListener('resize', trackResize);
-
-    return () => {
-      window.removeEventListener('resize', trackResize);
-    };
-  });
-
-  const renderRows = () => (
+  const renderRowsCounter = () => (
     <div className='d-flex align-items-center mb-2'>
       <div className='custom__table-select-rows me-3'>
         Выбрано: {checkedRow.length} из {props.data.length}
@@ -83,21 +61,11 @@ const Table = (props) => {
     </div>
   );
 
-  const renderToggle = (id) => (
-    <Form.Check
-      className='custom__table-checkbox'
-      type='checkbox'
-      id={id}
-      onChange={handleCheckbox}
-      checked={checkedRow.includes(id)}
-    />
-  );
-
   return (
     <div className='wrapper-table-container'>
-      <div style={{ maxWidth: width }} className='main-container pt-3'>
+      <div style={{ maxWidth: `${width}px` }} className='main-container pt-3'>
         <div className='table-container'>
-          {renderRows()}
+          {renderRowsCounter()}
           <div className='main-header'>
             <div className={scrollbaHeadingStyle('heading')}>
               <div className='head-item checkbox-item'>
@@ -140,27 +108,33 @@ const Table = (props) => {
             </div>
           </div>
           <div
-            style={{ maxHeight: height }}
+            style={{ maxHeight: `${height}px` }}
             className={scrollbarRowStyle}
-            ref={elementRef}
+            ref={bodyRef}
           >
             {data.map((value) => (
               <div className='table-row' key={value.id}>
                 <div className='row-item checkbox-item'>
-                  {renderToggle(value.id)}
+                  <Form.Check
+                    className='custom__table-checkbox'
+                    type='checkbox'
+                    id={value.id}
+                    onChange={handleCheckbox}
+                    checked={checkedRow.includes(value.id)}
+                  />
                 </div>
                 <div className='custom__table-row'>
                   {categories.map((cat) => (
                     <React.Fragment key={cat.key}>
                       <div className='mobile__table-row-info-each'>
-                        <div className='d-flex'>
+                        <div className='d-flex align-item-center'>
                           <span className='fw-bold pe-2'>{cat.name}:</span>
                           {cat.customTag ? (
                             <cat.customTag
                               style={cat.customCell(value[cat.key])}
                             />
                           ) : (
-                            <p>{value[cat.key]}</p>
+                            <span>{value[cat.key]}</span>
                           )}
                         </div>
                       </div>
@@ -178,30 +152,26 @@ const Table = (props) => {
                 </div>
 
                 <div className='row-item justify-content-around rows-buttons'>
-                  <BsPencilFill
-                    style={{
-                      cursor: 'pointer',
-                      width: '20px',
-                      height: '20px',
-                    }}
-                    onClick={() => {
-                      dispatch(
-                        setCurrentType({ type: actions.edit, id: value.id })
-                      );
-                    }}
-                  />
-                  <BsTrashFill
-                    style={{
-                      cursor: 'pointer',
-                      width: '20px',
-                      height: '20px',
-                    }}
-                    onClick={() => {
-                      dispatch(
-                        setCurrentType({ type: actions.delete, id: value.id })
-                      );
-                    }}
-                  />
+                  <div className='custom__table-wrapper-actions-button'>
+                    <BsPencilFill
+                      className='custom__table-actions-button'
+                      onClick={() => {
+                        dispatch(
+                          setCurrentType({ type: actions.edit, id: value.id })
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className='custom__table-wrapper-actions-button'>
+                    <BsTrashFill
+                      className='custom__table-actions-button'
+                      onClick={() => {
+                        dispatch(
+                          setCurrentType({ type: actions.delete, id: value.id })
+                        );
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             ))}

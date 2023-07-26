@@ -6,7 +6,7 @@ import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
 import './PrioritiesPage.css';
 import Table from '../../components/Table/Table';
-import ColorFilter from '../../components/Table/ColorFilter';
+import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
 
 const FilterInputName = () => (
   <Form.Control

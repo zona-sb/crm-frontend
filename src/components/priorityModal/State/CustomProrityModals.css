@@ -1,0 +1,17 @@
+.custom__Priority-many-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom__Priority-button {
+  display: flex;
+  justify-content: center;
+}
+
+@media all and (max-width: 500px) {
+  .custom__Priority-button,
+  .custom__Priority-many-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

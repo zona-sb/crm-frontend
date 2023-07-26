@@ -30,13 +30,15 @@ const PriorityModal = () => {
 
   return (
     <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
-      <CurrentModal
-        id={data.id}
-        data={prioities}
-        isLoading={isLoading}
-        status={status}
-        onHide={() => dispatch(close())}
-      />
+      {isModalShow && (
+        <CurrentModal
+          id={data.id}
+          data={prioities}
+          isLoading={isLoading}
+          status={status}
+          onHide={() => dispatch(close())}
+        />
+      )}
     </ModalCustom>
   );
 };

@@ -12,7 +12,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
     dispatch(deletePriority(id));
   };
   return (
-    <div>
+    <>
       <p className='priority__title'>{t('prioritiesModal.deleteTitle')}</p>
       {status === 'idle' && (
         <>
@@ -47,7 +47,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 

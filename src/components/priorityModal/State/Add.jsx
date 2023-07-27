@@ -26,10 +26,10 @@ const Add = ({ onHide, data, status, isLoading }) => {
     },
   });
   return (
-    <Form onSubmit={formik.handleSubmit}>
+    <>
       <p className='priority__title'>{t('prioritiesModal.addTitle')}</p>
       {status === 'idle' && (
-        <>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='title' className='priority__lables'>
               {t('prioritiesModal.inputTitle')}
@@ -94,7 +94,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
               {t('prioritiesModal.buttonCancel')}
             </ButtonCustom>
           </div>
-        </>
+        </Form>
       )}
       {status === 'success' && (
         <>
@@ -116,7 +116,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
           </div>
         </>
       )}
-    </Form>
+    </>
   );
 };
 

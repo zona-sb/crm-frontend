@@ -32,10 +32,10 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
   });
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
+    <>
       <p className='priority__title'>{t('prioritiesModal.editTitle')}</p>
       {status === 'idle' && (
-        <>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='title' className='priority__lables'>
               {t('prioritiesModal.inputTitle')}
@@ -98,7 +98,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
               {t('prioritiesModal.buttonCancel')}
             </ButtonCustom>
           </div>
-        </>
+        </Form>
       )}
       {status === 'success' && (
         <>
@@ -120,7 +120,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
           </div>
         </>
       )}
-    </Form>
+    </>
   );
 };
 

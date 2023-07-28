@@ -30,7 +30,7 @@ const CategoryModal = () => {
 
   return (
     <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
-      {isModalShow ? (
+      {isModalShow && (
         <CurrentModal
           id={data.id}
           data={categories}
@@ -38,8 +38,6 @@ const CategoryModal = () => {
           status={status}
           onHide={() => dispatch(close())}
         />
-      ) : (
-        '<></>'
       )}
     </ModalCustom>
   );

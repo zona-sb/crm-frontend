@@ -2,47 +2,47 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
-import { deletePriority } from '../../../store/Priorities/prioritiesSaga';
-import './CustomPriorityModals.css';
+import { deleteStatus } from '../../../store/Statuses/statusesSaga';
 
 const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const handleDelete = () => {
-    dispatch(deletePriority(id));
+    dispatch(deleteStatus(id));
   };
   return (
     <>
-      <p className='priority__title'>{t('prioritiesModal.deleteTitle')}</p>
+      <p className='status__title'>{t('statusesModal.deleteTitle')}</p>
       {status === 'idle' && (
         <>
-          <p>{t('prioritiesModal.deleteText')}</p>
-          <div className='custom__Priority-many-buttons'>
+          <p>{t('statusesModal.deleteText')}</p>
+          <div className='d-flex justify-content-between'>
             <ButtonCustom onClick={handleDelete} disabled={isLoading}>
-              {t('prioritiesModal.buttonDelete')}
+              {t('statusesModal.buttonDelete')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>
-              {t('prioritiesModal.buttonCancel')}
+              {t('statusesModal.buttonCancel')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'success' && (
         <>
-          <p>{t('prioritiesModal.successDeleteText')}</p>
-          <div className='custom__Priority-button'>
+          <p>{t('statusesModal.successDeleteText')}</p>
+          <div className='d-flex justify-content-center'>
             <ButtonCustom onClick={onHide}>
-              {t('prioritiesModal.buttonClose')}
+              {t('statusesModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>{t('prioritiesModal.failedText')}</p>
-          <div className='custom__Priority-button'>
+          <p>{t('statusesModal.failedText')}</p>
+          <div className='d-flex justify-content-center'>
             <ButtonCustom onClick={onHide}>
-              {t('prioritiesModal.buttonClose')}
+              {t('statusesModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>

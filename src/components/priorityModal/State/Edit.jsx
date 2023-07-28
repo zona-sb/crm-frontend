@@ -7,7 +7,7 @@ import { ButtonCustom } from '../../shared';
 import { updatePriority } from '../../../store/Priorities/prioritiesSaga';
 import getSchema from '../../../utils/validation';
 import { prioritiesSelector } from '../../../store/Priorities/prioritiesSlice';
-import './CustomProrityModals.css';
+import './CustomPriorityModals.css';
 
 const Edit = ({ onHide, id, data, status, isLoading }) => {
   const currentPriority = useSelector((state) =>

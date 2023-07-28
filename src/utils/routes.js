@@ -3,6 +3,7 @@ export const routes = {
   signup: () => '/signup',
   priorities: () => '/priorities',
   categories: () => '/categories',
+  statuses: () => '/statuses',
   home: () => '/',
 };
 
@@ -16,4 +17,7 @@ export const apiRoutes = {
   addCategory: () => `${domain}/api/categories`,
   modifyCategory: (id) => `${domain}/api/categories/${id}`,
   getCategories: () => `${domain}/api/categories`,
+  addStatus: () => `${domain}/api/statuses`,
+  modifyStatus: (id) => `${domain}/api/statuses/${id}`,
+  getStatuses: () => `${domain}/api/statuses`,
 };

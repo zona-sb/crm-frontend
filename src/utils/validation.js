@@ -80,6 +80,17 @@ const getSchema = (name, t, exception) => {
             )
             .required(t('forms.onblur')),
         });
+    case 'modifyStatus':
+      return () =>
+        Yup.object().shape({
+          statusTitle: Yup.string()
+            .min(3, t('forms.minSize'))
+            .notOneOf(
+              exception.map(({ statusTitle }) => statusTitle),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+        });
     default:
       return Yup.object().shape({});
   }

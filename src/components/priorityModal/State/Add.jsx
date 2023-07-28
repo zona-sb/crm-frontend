@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { addPriority } from '../../../store/Priorities/prioritiesSaga';
-import './CustomProrityModals.css';
+import './CustomPriorityModals.css';
 
 const Add = ({ onHide, data, status, isLoading }) => {
   const { t } = useTranslation();

@@ -1,0 +1,21 @@
+.status__title {
+  font-size: var(--h4FontSize);
+  font-weight: var(--boldFontWeight);
+}
+
+.status__labels {
+  font-size: 14px;
+}
+
+.status__input {
+  height: 50px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.status__arrow {
+  position: absolute;
+  height: 15%;
+  top: 60%;
+  left: 87%;
+}

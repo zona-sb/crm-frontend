@@ -124,31 +124,34 @@ const Table = (props) => {
                   />
                 </div>
                 <div className='custom__table-row'>
-                  {categories.map((cat) => (
-                    <React.Fragment key={cat.key}>
-                      <div className='mobile__table-row-info-each'>
-                        <div className='d-flex align-item-center'>
-                          <span className='fw-bold pe-2'>{cat.name}:</span>
+                  {categories.map((cat) => {
+                    const accessKey = cat.key
+                      .split('.')
+                      .reduce((acc, key) => acc[key], value);
+                    return (
+                      <React.Fragment key={cat.key}>
+                        <div className='mobile__table-row-info-each'>
+                          <div className='d-flex align-item-center'>
+                            <span className='fw-bold pe-2'>{cat.name}:</span>
+                            {cat.customTag ? (
+                              <cat.customTag
+                                style={cat.customCell(accessKey)}
+                              />
+                            ) : (
+                              <span>{accessKey}</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className='row-item' style={cat.customStyle}>
                           {cat.customTag ? (
-                            <cat.customTag
-                              style={cat.customCell(value[cat.key])}
-                            />
+                            <cat.customTag style={cat.customCell(accessKey)} />
                           ) : (
-                            <span>{value[cat.key]}</span>
+                            accessKey
                           )}
                         </div>
-                      </div>
-                      <div className='row-item' style={cat.customStyle}>
-                        {cat.customTag ? (
-                          <cat.customTag
-                            style={cat.customCell(value[cat.key])}
-                          />
-                        ) : (
-                          value[cat.key]
-                        )}
-                      </div>
-                    </React.Fragment>
-                  ))}
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
 
                 <div className='row-item justify-content-around rows-buttons'>

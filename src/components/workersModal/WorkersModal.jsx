@@ -30,7 +30,7 @@ const WorkersModal = () => {
 
   return (
     <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
-      {isModalShow ? (
+      {isModalShow && (
         <CurrentModal
           id={data.id}
           data={workers}
@@ -38,8 +38,6 @@ const WorkersModal = () => {
           status={status}
           onHide={() => dispatch(close())}
         />
-      ) : (
-        '<></>'
       )}
     </ModalCustom>
   );

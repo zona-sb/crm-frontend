@@ -119,18 +119,17 @@
   cursor: pointer;
   background-color: #f0f0f0;
 }
-.table-row .row-item:first-child {
+.table-row > .row-item:first-child {
   border-radius: 10px 0 0 10px;
 }
-.table-row .row-item:last-child {
+.table-row > .row-item:last-child {
+  min-width: 90px;
   border-radius: 0 10px 10px 0;
 }
+.table-row > .row-item:last-child,
 .filter-item:last-child,
 .head-item:last-child {
   flex: 0;
-}
-.row-item:last-child {
-  min-width: 90px;
 }
 .filter-item:last-child {
   min-width: 105px;

@@ -3,6 +3,7 @@ export const routes = {
   signup: () => '/signup',
   priorities: () => '/priorities',
   categories: () => '/categories',
+  workers: () => '/workers',
   home: () => '/',
 };
 
@@ -16,4 +17,7 @@ export const apiRoutes = {
   addCategory: () => `${domain}/api/categories`,
   modifyCategory: (id) => `${domain}/api/categories/${id}`,
   getCategories: () => `${domain}/api/categories`,
+  addWorker: () => `${domain}/api/workers`,
+  modifyWorker: (id) => `${domain}/api/workers/${id}`,
+  getWorkers: () => `${domain}/api/workers`,
 };

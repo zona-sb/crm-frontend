@@ -2,46 +2,46 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
-import { deleteCategory } from '../../../store/Categories/categoriesSaga';
+import { deleteWorker } from '../../../store/Workers/workersSaga';
 
 const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(deleteCategory(id));
+    dispatch(deleteWorker(id));
   };
   return (
     <div>
-      <p className='category__title'>{t('categoriesModal.deleteTitle')}</p>
+      <p className='worker__title'>{t('workersModal.deleteTitle')}</p>
       {status === 'idle' && (
         <>
-          <p>{t('categoriesModal.deleteText')}</p>
+          <p>{t('workersModal.deleteText')}</p>
           <div className='d-flex justify-content-between'>
             <ButtonCustom onClick={handleDelete} disabled={isLoading}>
-              {t('categoriesModal.buttonDelete')}
+              {t('workersModal.buttonDelete')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>
-              {t('categoriesModal.buttonCancel')}
+              {t('workersModal.buttonCancel')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'success' && (
         <>
-          <p>{t('categoriesModal.successDeleteText')}</p>
+          <p>{t('workersModal.successDeleteText')}</p>
           <div className='d-flex justify-content-center'>
             <ButtonCustom onClick={onHide}>
-              {t('categoriesModal.buttonClose')}
+              {t('workersModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>{t('categoriesModal.failedText')}</p>
+          <p>{t('workersModal.failedText')}</p>
           <div className='d-flex justify-content-center'>
             <ButtonCustom onClick={onHide}>
-              {t('categoriesModal.buttonClose')}
+              {t('workersModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>

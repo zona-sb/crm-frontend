@@ -21,6 +21,16 @@ import {
   getCategoriesSaga,
   updateCategorySaga,
 } from './Categories/categoriesSaga';
+import {
+  ADD_WORKER,
+  DELETE_WORKER,
+  GET_WORKERS,
+  UPDATE_WORKER,
+  addWorkerSaga,
+  deleteWorkerSaga,
+  getWorkersSaga,
+  updateWorkerSaga,
+} from './Workers/workersSaga';
 
 export function* prioritiesSaga() {
   yield takeEvery(ADD_PRIORITY, addPrioritySaga);
@@ -33,4 +43,10 @@ export function* categoriesSaga() {
   yield takeEvery(GET_CATEGORIES, getCategoriesSaga);
   yield takeEvery(UPDATE_CATEGORY, updateCategorySaga);
   yield takeEvery(DELETE_CATEGORY, deleteCategorySaga);
+}
+export function* workersSaga() {
+  yield takeEvery(ADD_WORKER, addWorkerSaga);
+  yield takeEvery(GET_WORKERS, getWorkersSaga);
+  yield takeEvery(UPDATE_WORKER, updateWorkerSaga);
+  yield takeEvery(DELETE_WORKER, deleteWorkerSaga);
 }

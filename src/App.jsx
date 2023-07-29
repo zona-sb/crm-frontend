@@ -14,6 +14,7 @@ import './App.css';
 import HomePage from './pages/home/HomePage.jsx';
 import PrioritiesPage from './pages/priorities/PrioritiesPage.jsx';
 import CategoriesPage from './pages/categories/CategoriesPage.jsx';
+import WorkersPage from './pages/workers/WorkersPage.jsx';
 
 const HomeRoute = ({ children }) => {
   const location = useLocation();
@@ -32,11 +33,13 @@ const App = () => (
       <NavLink to={routes.signup()}>Регистрация</NavLink>
       <NavLink to={routes.priorities()}>Приоритеты</NavLink>
       <NavLink to={routes.categories()}>Категории</NavLink>
+      <NavLink to={routes.workers()}>Монтажники</NavLink>
     </div>
 
     <Routes>
       <Route path={routes.priorities()} element={<PrioritiesPage />} />
       <Route path={routes.categories()} element={<CategoriesPage />} />
+      <Route path={routes.workers()} element={<WorkersPage />} />
       <Route path={routes.login()} element={<Login />} />
       <Route path={routes.signup()} element={<SignUp />} />
       <Route

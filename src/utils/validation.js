@@ -91,6 +91,23 @@ const getSchema = (name, t, exception) => {
             )
             .required(t('forms.onblur')),
         });
+    case 'modifyWorkers':
+      return () =>
+        Yup.object().shape({
+          name: Yup.string()
+            .min(3, t('forms.minSize'))
+            .notOneOf(
+              exception.map(({ title }) => title),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+          phone: Yup.string()
+            .phone('RU', t('forms.phoneCorrect'))
+            .matches(regexpNum, t('forms.phoneCorrect')),
+          email: Yup.string()
+            .matches(regexpEmail, t('forms.emailCorrect'))
+            .required(t('forms.onblur')),
+        });
     default:
       return Yup.object().shape({});
   }

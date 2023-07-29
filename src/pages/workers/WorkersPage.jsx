@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import PriorityModal from '../../components/priorityModal/PriorityModal';
-import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
+import { useTranslation } from 'react-i18next';
+import WorkerModal from '../../components/workersModal/WorkersModal';
+import { workersSelector } from '../../store/Workers/workersSlice';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
-import './PrioritiesPage.css';
+import './WorkersPage.css';
 import Table from '../../components/Table/Table';
-import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
 
 const FilterInputName = () => (
   <Form.Control
@@ -25,33 +25,35 @@ const FilterInputWeight = () => (
     placeholder='Введите номер'
   />
 );
+const FilterInputEmail = () => (
+  <Form.Control
+    className='custom__table-input'
+    type='text'
+    size='sm'
+    placeholder='Введите email'
+  />
+);
 
-const PrioritiesPage = () => {
-  const priorities = useSelector(prioritiesSelector.selectAll);
+const WorkersPage = () => {
+  const workers = useSelector(workersSelector.selectAll);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const data = [
     {
-      key: 'title',
-      name: 'Наименование',
+      key: 'person.name',
+      name: t('workersModal.inputName'),
       filter: <FilterInputName />,
     },
     {
-      key: 'weight',
-      name: 'Номер приоритета',
+      key: 'person.phone',
+      name: t('workersModal.inputPhone'),
       filter: <FilterInputWeight />,
     },
     {
-      key: 'color',
-      name: 'Цвет',
-      customStyle: { flex: 0, minWidth: '70px' },
-      filter: <ColorFilter data={priorities} />,
-      customTag: 'div',
-      customCell: (color) => ({
-        width: '20px',
-        height: '20px',
-        backgroundColor: color,
-      }),
+      key: 'person.email',
+      name: t('workersModal.inputEmail'),
+      filter: <FilterInputEmail />,
     },
   ];
 
@@ -62,15 +64,15 @@ const PrioritiesPage = () => {
 
   return (
     <>
-      <PriorityModal />
+      <WorkerModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={priorities} actions={actions} />
+        <Table categories={data} data={workers} actions={actions} />
         <div className='d-flex justify-content-center'>
           <button
-            className='pt-4 custom__priority-button'
+            className='pt-4 custom__worker-button'
             onClick={() => dispatch(setCurrentType({ type: 'add' }))}
           >
-            + Добавить приоритет
+            {t('workersModal.addWorker')}
           </button>
         </div>
       </div>
@@ -78,4 +80,4 @@ const PrioritiesPage = () => {
   );
 };
 
-export default PrioritiesPage;
+export default WorkersPage;

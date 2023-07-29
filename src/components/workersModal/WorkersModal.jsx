@@ -3,21 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
-import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
-import { getPriorities } from '../../store/Priorities/prioritiesSaga';
+import { workersSelector } from '../../store/Workers/workersSlice';
+import { getWorkers } from '../../store/Workers/workersSaga';
 import { close } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
-import './PriorityModal.css';
+import './WorkerModal.css';
 
-const PriorityModal = () => {
-  const priorities = useSelector(prioritiesSelector.selectAll);
+const WorkersModal = () => {
+  const workers = useSelector(workersSelector.selectAll);
   const { data, isModalShow, status, isLoading } = useSelector(
     (state) => state.modal
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPriorities());
+    dispatch(getWorkers());
   }, [dispatch]);
 
   const modals = {
@@ -33,7 +33,7 @@ const PriorityModal = () => {
       {isModalShow && (
         <CurrentModal
           id={data.id}
-          data={priorities}
+          data={workers}
           isLoading={isLoading}
           status={status}
           onHide={() => dispatch(close())}
@@ -43,4 +43,4 @@ const PriorityModal = () => {
   );
 };
 
-export default PriorityModal;
+export default WorkersModal;

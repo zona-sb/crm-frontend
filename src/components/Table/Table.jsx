@@ -35,7 +35,7 @@ const Table = (props) => {
     'custom__table-scrollbar-show': isShowScrollbar,
   });
 
-  const scrollbaHeadingStyle = (currentClass) =>
+  const scrollbarHeadingStyle = (currentClass) =>
     cn(currentClass, {
       'custom__table-scrollbar-heading': isShowScrollbar,
     });
@@ -67,7 +67,7 @@ const Table = (props) => {
         <div className='table-container'>
           {renderRowsCounter()}
           <div className='main-header'>
-            <div className={scrollbaHeadingStyle('heading')}>
+            <div className={scrollbarHeadingStyle('heading')}>
               <div className='head-item checkbox-item'>
                 <Form.Check
                   className='custom__table-checkbox'
@@ -88,7 +88,7 @@ const Table = (props) => {
               ))}
               <div className='head-item'>Действие</div>
             </div>
-            <div className={scrollbaHeadingStyle('filtering')}>
+            <div className={scrollbarHeadingStyle('filtering')}>
               <div className='filter-item checkbox-item invisible'>
                 <Form.Check
                   className='custom__table-checkbox'

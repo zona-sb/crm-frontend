@@ -125,7 +125,6 @@
 .table-row .row-item:last-child {
   border-radius: 0 10px 10px 0;
 }
-.row-item:last-child,
 .filter-item:last-child,
 .head-item:last-child {
   flex: 0;

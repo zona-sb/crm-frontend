@@ -1,9 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { statusesSaga, prioritiesSaga, categoriesSaga } from './saga';
+import {
+  statusesSaga,
+  prioritiesSaga,
+  categoriesSaga,
+  workersSaga,
+} from './saga';
 import prioritiesReducer from './Priorities/prioritiesSlice';
 import categoriesReducer from './Categories/categoriesSlice';
 import statusesReducer from './Statuses/statusesSlice';
+import workersReducer from './Workers/workersSlice';
 import modalReducer from './Modal/ModalSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -13,6 +19,7 @@ const store = configureStore({
     statuses: statusesReducer,
     priorities: prioritiesReducer,
     categories: categoriesReducer,
+    workers: workersReducer,
     modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -22,5 +29,6 @@ const store = configureStore({
 sagaMiddleware.run(statusesSaga);
 sagaMiddleware.run(prioritiesSaga);
 sagaMiddleware.run(categoriesSaga);
+sagaMiddleware.run(workersSaga);
 
 export default store;

@@ -34,7 +34,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
             <Form.Control
               type='text'
               id='categoryTitle'
-              isInvalid={formik.errors.title && formik.touched.title}
+              isInvalid={
+                formik.errors.categoryTitle && formik.touched.categoryTitle
+              }
               onChange={formik.handleChange('categoryTitle')}
               value={formik.values.categoryTitle}
               onBlur={formik.handleBlur('categoryTitle')}

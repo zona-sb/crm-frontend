@@ -30,11 +30,11 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <p className='priority__title'>{t('categoriesModal.editTitle')}</p>
+      <p className='category__title'>{t('categoriesModal.editTitle')}</p>
       {status === 'idle' && (
         <>
           <Form.Group className='mb-2'>
-            <Form.Label htmlFor='categoryTitle' className='priority__lables'>
+            <Form.Label htmlFor='categoryTitle' className='category__lables'>
               {t('categoriesModal.inputTitle')}
             </Form.Label>
             <Form.Control
@@ -44,7 +44,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
               onChange={formik.handleChange('categoryTitle')}
               value={formik.values.categoryTitle}
               onBlur={formik.handleBlur('categoryTitle')}
-              className='priority__input'
+              className='category__input'
             />
             <Form.Control.Feedback type='invalid'>
               {formik.errors.categoryTitle}

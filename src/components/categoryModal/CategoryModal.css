@@ -1,14 +1,13 @@
-.caregory__title {
-    font-size: var(--h4FontSize);
-    font-weight: var(--boldFontWeight);
-  }
-  
-  .caregory__lables {
-    font-size: 14px;
-  }
-  
-  .caregory_input {
-    height: 50px;
-    border-radius: 10px;
-  }
-  
+.category__title {
+  font-size: var(--h4FontSize);
+  font-weight: var(--boldFontWeight);
+}
+
+.category__lables {
+  font-size: 14px;
+}
+
+.category_input {
+  height: 50px;
+  border-radius: 10px;
+}

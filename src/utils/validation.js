@@ -108,6 +108,24 @@ const getSchema = (name, t, exception) => {
             .matches(regexpEmail, t('forms.emailCorrect'))
             .required(t('forms.onblur')),
         });
+    case 'modifyClient':
+      return () =>
+        Yup.object().shape({
+          name: Yup.string()
+            .notOneOf(
+              exception.map((client) => client.name),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
+          company: Yup.string().required('forms.onblur'),
+          phone: Yup.string()
+            .phone('RU', t('forms.phoneCorrect'))
+            .matches(regexpNum, t('forms.phoneCorrect')),
+          email: Yup.string()
+            .matches(regexpEmail, t('forms.emailCorrect'))
+            .required(t('forms.onblur')),
+          comment: Yup.string().required('forms.onblur'),
+        });
     default:
       return Yup.object().shape({});
   }

@@ -5,6 +5,7 @@ export const routes = {
   categories: () => '/categories',
   statuses: () => '/statuses',
   workers: () => '/workers',
+  clients: () => '/clients',
   home: () => '/',
 };
 
@@ -24,4 +25,7 @@ export const apiRoutes = {
   addWorker: () => `${domain}/api/workers`,
   modifyWorker: (id) => `${domain}/api/workers/${id}`,
   getWorkers: () => `${domain}/api/workers`,
+  addClient: () => `${domain}/api/clients`,
+  modifyClient: (id) => `${domain}/api/clients/${id}`,
+  getClients: () => `${domain}/api/clients`,
 };

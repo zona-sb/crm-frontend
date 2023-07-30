@@ -5,11 +5,13 @@ import {
   prioritiesSaga,
   categoriesSaga,
   workersSaga,
+  clientsSaga,
 } from './saga';
 import prioritiesReducer from './Priorities/prioritiesSlice';
 import categoriesReducer from './Categories/categoriesSlice';
 import statusesReducer from './Statuses/statusesSlice';
 import workersReducer from './Workers/workersSlice';
+import clientsReducer from './Clients/clientsSlice';
 import modalReducer from './Modal/ModalSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -20,6 +22,7 @@ const store = configureStore({
     priorities: prioritiesReducer,
     categories: categoriesReducer,
     workers: workersReducer,
+    clients: clientsReducer,
     modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -30,5 +33,6 @@ sagaMiddleware.run(statusesSaga);
 sagaMiddleware.run(prioritiesSaga);
 sagaMiddleware.run(categoriesSaga);
 sagaMiddleware.run(workersSaga);
+sagaMiddleware.run(clientsSaga);
 
 export default store;

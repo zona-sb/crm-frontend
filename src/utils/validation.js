@@ -117,14 +117,15 @@ const getSchema = (name, t, exception) => {
               t('error.isUnique')
             )
             .required(t('forms.onblur')),
-          company: Yup.string().required('forms.onblur'),
+          company: Yup.string().required(t('forms.onblur')),
           phone: Yup.string()
             .phone('RU', t('forms.phoneCorrect'))
-            .matches(regexpNum, t('forms.phoneCorrect')),
+            .matches(regexpNum, t('forms.phoneCorrect'))
+            .required(t('forms.onblur')),
           email: Yup.string()
             .matches(regexpEmail, t('forms.emailCorrect'))
             .required(t('forms.onblur')),
-          comment: Yup.string().required('forms.onblur'),
+          comment: Yup.string().required(t('forms.onblur')),
         });
     default:
       return Yup.object().shape({});

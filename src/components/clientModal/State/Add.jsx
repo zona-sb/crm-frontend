@@ -80,6 +80,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onBlur={formik.handleBlur('phone')}
               className='client__input'
             />
+            <Form.Control.Feedback type='invalid'>
+              {formik.errors.phone}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className='mb-2'>
@@ -95,6 +98,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onBlur={formik.handleBlur('email')}
               className='client__input'
             />
+            <Form.Control.Feedback type='invalid'>
+              {formik.errors.email}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className='mb-2'>
@@ -110,6 +116,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
               onBlur={formik.handleBlur('comment')}
               className='client__input'
             />
+            <Form.Control.Feedback type='invalid'>
+              {formik.errors.comment}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <div className='d-flex justify-content-between'>

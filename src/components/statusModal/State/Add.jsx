@@ -19,7 +19,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
     validationSchema: getSchema('modifyStatus', t, data)(),
     initialValues: {
       statusTitle: '',
-      categoryId: categories[0].id,
+      categoryId: categories[0] ? categories[0].id : '',
     },
     initialErrors: {},
     initialTouched: {},

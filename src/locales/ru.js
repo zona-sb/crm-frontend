@@ -62,6 +62,7 @@ export default {
       buttonClose: 'Закрыть',
     },
     statusesModal: {
+      addStatus: '+ Добавить статус',
       addTitle: 'Создание статуса',
       inputTitle: 'Наименование',
       category: 'Категория',
@@ -98,6 +99,7 @@ export default {
       buttonClose: 'Закрыть',
     },
     clientsModal: {
+      addClient: '+ Добавить клиента',
       addTitle: 'Создание клиента',
       deleteTitle: 'Удаление клиента',
       editTitle: 'Изменение клиента',

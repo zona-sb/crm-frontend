@@ -110,7 +110,7 @@
   padding: 13px;
   justify-content: flex-start;
   align-items: center;
-  word-break: break-all;
+  word-break: break-word;
 }
 .checkbox-item {
   flex: 0;

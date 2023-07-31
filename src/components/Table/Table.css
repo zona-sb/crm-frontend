@@ -137,7 +137,6 @@
 .custom__table-input {
   display: flex;
   flex-grow: 1;
-  max-width: 220px;
   height: 30px;
   border-radius: 10px;
   font-size: 14px;
@@ -172,7 +171,7 @@
     display: none;
   }
 }
-@media all and (max-width: 500px) {
+@media all and (max-width: 770px) {
   .main-header,
   .rows-buttons {
     display: none;

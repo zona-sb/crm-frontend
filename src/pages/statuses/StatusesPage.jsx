@@ -37,11 +37,13 @@ const StatusesPage = () => {
     {
       key: 'statusTitle',
       name: 'Наименование',
+      customStyle: { minWidth: '200px' },
       filter: <FilterInputName />,
     },
     {
       key: 'category.categoryTitle',
       name: 'Категория',
+      customStyle: { minWidth: '280px' },
       filter: <FilterInputCategory />,
     },
   ];

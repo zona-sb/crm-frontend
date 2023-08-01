@@ -9,7 +9,7 @@ export const routes = {
   home: () => '/',
 };
 
-const domain = 'https://crm-backend-production.up.railway.app';
+const domain = 'https://zona-crm-dev.onrender.com';
 export const apiRoutes = {
   login: () => `${domain}/api/login`,
   signup: () => `${domain}/api/registration`,

@@ -15,6 +15,7 @@ import PrioritiesPage from './pages/priorities/PrioritiesPage.jsx';
 import CategoriesPage from './pages/categories/CategoriesPage.jsx';
 import StatusesPage from './pages/statuses/StatusesPage.jsx';
 import WorkersPage from './pages/workers/WorkersPage.jsx';
+import ClientsPage from './pages/clients/ClientsPage.jsx';
 import './App.css';
 
 const HomeRoute = ({ children }) => {
@@ -36,6 +37,7 @@ const App = () => (
       <NavLink to={routes.categories()}>Категории</NavLink>
       <NavLink to={routes.statuses()}>Статусы</NavLink>
       <NavLink to={routes.workers()}>Монтажники</NavLink>
+      <NavLink to={routes.clients()}>Клиенты</NavLink>
     </div>
 
     <Routes>
@@ -43,6 +45,7 @@ const App = () => (
       <Route path={routes.categories()} element={<CategoriesPage />} />
       <Route path={routes.statuses()} element={<StatusesPage />} />
       <Route path={routes.workers()} element={<WorkersPage />} />
+      <Route path={routes.clients()} element={<ClientsPage />} />
       <Route path={routes.login()} element={<Login />} />
       <Route path={routes.signup()} element={<SignUp />} />
       <Route

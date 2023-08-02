@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-// import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
 import { statusesSelector } from '../../store/Statuses/statusesSlice';
 import { setCurrentType } from '../../store/Modal/ModalSlice';
 import { getCategories } from '../../store/Categories/categoriesSaga';
-// import { ButtonCustom } from '../../components/shared';
 import StatusModal from '../../components/statusModal/StatusModal';
 import Table from '../../components/Table/Table';
 import './StatusesPage.css';
@@ -30,17 +29,21 @@ const FilterInputCategory = () => (
 
 const StatusesPage = () => {
   const statuses = useSelector(statusesSelector.selectAll);
+
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const data = [
     {
       key: 'statusTitle',
       name: 'Наименование',
+      customStyle: { minWidth: '200px' },
       filter: <FilterInputName />,
     },
     {
       key: 'category.categoryTitle',
       name: 'Категория',
+      customStyle: { minWidth: '280px' },
       filter: <FilterInputCategory />,
     },
   ];
@@ -64,44 +67,11 @@ const StatusesPage = () => {
             className='pt-4 custom__priority-button'
             onClick={() => dispatch(setCurrentType({ type: 'add' }))}
           >
-            + Добавить статус
+            {t('statusesModal.addStatus')}
           </button>
         </div>
       </div>
     </>
-
-    // <>
-    //   <StatusModal />
-    //   <div className='d-flex flex-column'>
-    //     <ButtonCustom
-    //       className='custom__button-tables'
-    //       onClick={() => dispatch(setCurrentType({ type: 'add' }))}
-    //     >
-    //       + Добавить статус
-    //     </ButtonCustom>
-    //     {statuses.map((status) => (
-    //       <div
-    //         className='d-flex align-items-center justify-content-around test__style rounded'
-    //         key={status.id}
-    //       >
-    //         <div>Наименование: {status.statusTitle}</div>
-    //         <div>Категория: {status.category.categoryTitle}</div>
-    //         <BsPencilFill
-    //           style={{ cursor: 'pointer' }}
-    //           onClick={() => {
-    //             dispatch(setCurrentType({ type: 'edit', id: status.id }));
-    //           }}
-    //         />
-    //         <BsTrashFill
-    //           style={{ cursor: 'pointer' }}
-    //           onClick={() => {
-    //             dispatch(setCurrentType({ type: 'delete', id: status.id }));
-    //           }}
-    //         />
-    //       </div>
-    //     ))}
-    //   </div>
-    // </>
   );
 };
 

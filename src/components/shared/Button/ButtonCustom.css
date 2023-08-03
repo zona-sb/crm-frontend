@@ -5,14 +5,32 @@
   border-radius: 10px;
   border-color: rgba(0, 0, 0, 0.2);
   padding: 10px 80px;
-  box-shadow: var(--standartBoxShadow);
+  box-shadow: var(--standardBoxShadow);
 }
 
-.custom__button-confrim {
+.custom__button-reject:disabled,
+.custom__button-reject[disabled],
+.custom__button-reject:disabled:hover,
+.custom__button-reject[disabled]:hover {
+  border: 0;
+  background-color: rgba(254, 7, 7, 0.3);
+  color: #fff;
+}
+
+.custom__button-confirm:disabled,
+.custom__button-confirm[disabled],
+.custom__button-confirm:disabled:hover,
+.custom__button-confirm[disabled]:hover {
+  border: 0;
+  background-color: rgba(87, 115, 190, 0.521);
+  color: #fff;
+}
+
+.custom__button-confirm {
   background-color: var(--confirm);
 }
 
-.custom__button-confrim:hover {
+.custom__button-confirm:hover {
   color: var(--white);
   background-color: rgb(32, 89, 247);
 }

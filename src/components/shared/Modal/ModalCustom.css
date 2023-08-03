@@ -1,5 +1,9 @@
 .custom__modal .modal-content {
-  border-radius: var(--standartBorderRadius);
-  box-shadow: var(--standartBoxShadow);
+  border-radius: var(--standardBorderRadius);
+  box-shadow: var(--standardBoxShadow);
   padding: 20px;
+}
+
+.modal {
+  --bs-modal-width: 540px;
 }

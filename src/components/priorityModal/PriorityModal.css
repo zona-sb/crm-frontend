@@ -1,0 +1,13 @@
+.priority__title {
+  font-size: var(--h4FontSize);
+  font-weight: var(--boldFontWeight);
+}
+
+.priority__lables {
+  font-size: 14px;
+}
+
+.priority__input {
+  height: 50px;
+  border-radius: 10px;
+}

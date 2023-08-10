@@ -28,12 +28,8 @@ export default {
     modalBulkDelete: {
       deleteTitle: 'Удаление выбранных элементов',
       deleteText: 'Вы действительно хотите удалить выбранные элементы?',
-      successCreateText: 'Приоритет был создан!',
-      successDeleteText: 'Приоритет удален!',
-      successEditText: 'Изменения сохранены!',
+      successDeleteText: 'Элементы были удалены!',
       failedText: 'Произошла ошибка!',
-      buttonCreate: 'Создать',
-      buttonSave: 'Сохранить',
       buttonCancel: 'Отмена',
       buttonDelete: 'Удалить',
       buttonClose: 'Закрыть',

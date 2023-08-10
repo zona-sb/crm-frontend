@@ -75,9 +75,9 @@ const PrioritiesPage = () => {
           actions={actions}
           bulkDelete={handlerBulkDelete}
         />
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center mt-4'>
           <button
-            className='pt-4 custom__priority-button'
+            className='custom__add-table-button'
             onClick={() => {
               dispatch(openModal());
               dispatch(setCurrentType({ type: 'add' }));

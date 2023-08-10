@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { statusesSelector } from '../../store/Statuses/statusesSlice';
-import { setCurrentType } from '../../store/Modal/ModalSlice';
+import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import { getCategories } from '../../store/Categories/categoriesSaga';
 import StatusModal from '../../components/statusModal/StatusModal';
 import Table from '../../components/Table/Table';
@@ -62,10 +62,13 @@ const StatusesPage = () => {
       <StatusModal />
       <div className='d-flex flex-column'>
         <Table categories={data} data={statuses} actions={actions} />
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center mt-4'>
           <button
-            className='pt-4 custom__priority-button'
-            onClick={() => dispatch(setCurrentType({ type: 'add' }))}
+            className='custom__add-table-button'
+            onClick={() => {
+              dispatch(openModal());
+              dispatch(setCurrentType({ type: 'add' }));
+            }}
           >
             {t('statusesModal.addStatus')}
           </button>

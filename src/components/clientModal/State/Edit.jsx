@@ -127,7 +127,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('clientsModal.buttonSave')}
             </ButtonCustom>
@@ -140,7 +140,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('clientsModal.successEditText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>
@@ -150,7 +150,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('clientsModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>

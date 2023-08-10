@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { addPriority } from '../../../store/Priorities/prioritiesSaga';
-import './CustomPriorityModals.css';
 
 const Add = ({ onHide, data, status, isLoading }) => {
   const { t } = useTranslation();
@@ -86,7 +85,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <div className='custom__Priority-many-buttons'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('prioritiesModal.buttonCreate')}
             </ButtonCustom>
@@ -99,7 +98,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('prioritiesModal.successCreateText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('prioritiesModal.buttonClose')}
             </ButtonCustom>
@@ -109,7 +108,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('prioritiesModal.failedText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('prioritiesModal.buttonClose')}
             </ButtonCustom>

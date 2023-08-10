@@ -7,7 +7,6 @@ import { ButtonCustom } from '../../shared';
 import { updatePriority } from '../../../store/Priorities/prioritiesSaga';
 import getSchema from '../../../utils/validation';
 import { prioritiesSelector } from '../../../store/Priorities/prioritiesSlice';
-import './CustomPriorityModals.css';
 
 const Edit = ({ onHide, id, data, status, isLoading }) => {
   const currentPriority = useSelector((state) =>
@@ -90,7 +89,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <div className='custom__Priority-many-buttons'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('prioritiesModal.buttonSave')}
             </ButtonCustom>
@@ -103,7 +102,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('prioritiesModal.successEditText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('prioritiesModal.buttonClose')}
             </ButtonCustom>
@@ -113,7 +112,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('prioritiesModal.failedText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('prioritiesModal.buttonClose')}
             </ButtonCustom>

@@ -4,8 +4,9 @@
   font-weight: var(--lightFontWeight);
   border-radius: 10px;
   border-color: rgba(0, 0, 0, 0.2);
-  padding: 10px 80px;
+  padding: 10px;
   box-shadow: var(--standardBoxShadow);
+  width: 100%;
 }
 
 .custom__button-reject:disabled,

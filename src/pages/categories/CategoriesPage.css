@@ -1,14 +1,1 @@
-.custom__category-button {
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-  font-size: 14px;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.5);
-  transition: color 0.3s ease-in-out;
-}
 
-.custom__category-button:hover {
-  cursor: pointer;
-  color: rgba(0, 0, 0);
-}

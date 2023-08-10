@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { statusesSelector } from '../../store/Statuses/statusesSlice';
 import { getStatuses } from '../../store/Statuses/statusesSaga';
-import { close } from '../../store/Modal/ModalSlice';
+import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import Add from './State/Add';
 import Delete from './State/Delete';
@@ -29,14 +29,14 @@ const StatusModal = () => {
   const CurrentModal = modals[data.type];
 
   return (
-    <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
+    <ModalCustom show={isModalShow} onHide={() => dispatch(closeModal())}>
       {isModalShow && (
         <CurrentModal
           id={data.id}
           data={statuses}
           isLoading={isLoading}
           status={status}
-          onHide={() => dispatch(close())}
+          onHide={() => dispatch(closeModal())}
         />
       )}
     </ModalCustom>

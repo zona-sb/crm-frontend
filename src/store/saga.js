@@ -3,10 +3,12 @@
 import { takeEvery } from 'redux-saga/effects';
 import {
   ADD_PRIORITY,
+  DELETE_BULK_PRIORITIES,
   DELETE_PRIORITY,
   GET_PRIORITIES,
   UPDATE_PRIORITY,
   addPrioritySaga,
+  deleteBulkPrioritiesSaga,
   deletePrioritySaga,
   getPrioritiesSaga,
   updatePrioritySaga,
@@ -57,6 +59,7 @@ export function* prioritiesSaga() {
   yield takeEvery(GET_PRIORITIES, getPrioritiesSaga);
   yield takeEvery(UPDATE_PRIORITY, updatePrioritySaga);
   yield takeEvery(DELETE_PRIORITY, deletePrioritySaga);
+  yield takeEvery(DELETE_BULK_PRIORITIES, deleteBulkPrioritiesSaga);
 }
 export function* categoriesSaga() {
   yield takeEvery(ADD_CATEGORY, addCategorySaga);

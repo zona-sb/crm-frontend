@@ -16,6 +16,7 @@ export const apiRoutes = {
   addPriority: () => `${domain}/api/priorities`,
   modifyPriority: (id) => `${domain}/api/priorities/${id}`,
   getPriorities: () => `${domain}/api/priorities`,
+  deleteBulkPriorities: () => `${domain}/api/priorities/bulk`,
   addCategory: () => `${domain}/api/categories`,
   modifyCategory: (id) => `${domain}/api/categories/${id}`,
   getCategories: () => `${domain}/api/categories`,

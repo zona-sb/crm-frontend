@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
-import { setCurrentType } from '../../store/Modal/ModalSlice';
+import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import './PrioritiesPage.css';
 import Table from '../../components/Table/Table';
 import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
+import { deleteBulkPriorities } from '../../store/Priorities/prioritiesSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -60,15 +61,27 @@ const PrioritiesPage = () => {
     edit: 'edit',
   };
 
+  const handlerBulkDelete = (ids) => {
+    dispatch(deleteBulkPriorities(ids));
+  };
+
   return (
     <>
       <PriorityModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={priorities} actions={actions} />
+        <Table
+          categories={data}
+          data={priorities}
+          actions={actions}
+          bulkDelete={handlerBulkDelete}
+        />
         <div className='d-flex justify-content-center'>
           <button
             className='pt-4 custom__priority-button'
-            onClick={() => dispatch(setCurrentType({ type: 'add' }))}
+            onClick={() => {
+              dispatch(openModal());
+              dispatch(setCurrentType({ type: 'add' }));
+            }}
           >
             + Добавить приоритет
           </button>

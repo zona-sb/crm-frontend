@@ -4,6 +4,7 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewPriority,
   getAllPriorities,
+  removeBulkPriorities,
   removeCurrentPriority,
   updateCurrentPriority,
 } from './prioritiesSlice';
@@ -62,6 +63,18 @@ export function* deletePrioritySaga(action) {
   }
 }
 
+export function* deleteBulkPrioritiesSaga(action) {
+  yield put(setLoading(true));
+  const ids = action.payload;
+  try {
+    yield apiRequests.deleteBulk(apiRoutes.deleteBulkPriorities(), ids);
+    yield put(setStatus('success'));
+    yield put(removeBulkPriorities(ids));
+  } catch (_) {
+    yield put(setStatus('failed'));
+  }
+}
+
 export const GET_PRIORITIES = 'getPriorities';
 export const getPriorities = createAction(GET_PRIORITIES);
 export const ADD_PRIORITY = 'addPriority';
@@ -70,3 +83,5 @@ export const UPDATE_PRIORITY = 'updatePriority';
 export const updatePriority = createAction(UPDATE_PRIORITY);
 export const DELETE_PRIORITY = 'deletePriority';
 export const deletePriority = createAction(DELETE_PRIORITY);
+export const DELETE_BULK_PRIORITIES = 'deleteBulkPriorities';
+export const deleteBulkPriorities = createAction(DELETE_BULK_PRIORITIES);

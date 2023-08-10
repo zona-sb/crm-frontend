@@ -50,6 +50,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           title: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ title }) => title),
               t('error.isUnique')
@@ -74,6 +75,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           categoryTitle: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ title }) => title),
               t('error.isUnique')
@@ -85,6 +87,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           statusTitle: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ statusTitle }) => statusTitle),
               t('error.isUnique')
@@ -96,6 +99,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           name: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ title }) => title),
               t('error.isUnique')

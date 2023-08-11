@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { statusesSelector } from '../../store/Statuses/statusesSlice';
-import { getStatuses } from '../../store/Statuses/statusesSaga';
 import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import Add from './State/Add';
@@ -15,10 +14,6 @@ const StatusModal = () => {
     (state) => state.modal
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getStatuses());
-  }, [dispatch]);
 
   const modals = {
     add: Add,

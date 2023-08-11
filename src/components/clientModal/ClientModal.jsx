@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
 import { clientsSelector } from '../../store/Clients/clientsSlice';
-import { getClients } from '../../store/Clients/clientsSaga';
 import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import './ClientModal.css';
@@ -15,10 +14,6 @@ const ClientsModal = () => {
     (state) => state.modal
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getClients());
-  }, [dispatch]);
 
   const modals = {
     add: Add,

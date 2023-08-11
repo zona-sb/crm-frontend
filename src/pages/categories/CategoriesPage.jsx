@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,10 @@ import CategoryModal from '../../components/categoryModal/CategoryModal';
 import { categoriesSelector } from '../../store/Categories/categoriesSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import './CategoriesPage.css';
+import {
+  deleteBulkCategories,
+  getCategories,
+} from '../../store/Categories/categoriesSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -22,6 +26,10 @@ const CategoriesPage = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
   const data = [
     {
       key: 'categoryTitle',
@@ -35,11 +43,20 @@ const CategoriesPage = () => {
     edit: 'edit',
   };
 
+  const handlerBulkDelete = (ids) => {
+    dispatch(deleteBulkCategories(ids));
+  };
+
   return (
     <>
       <CategoryModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={categories} actions={actions} />
+        <Table
+          categories={data}
+          data={categories}
+          actions={actions}
+          bulkDelete={handlerBulkDelete}
+        />
         <div className='d-flex justify-content-center mt-4'>
           <button
             className='custom__add-table-button'

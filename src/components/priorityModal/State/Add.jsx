@@ -47,43 +47,45 @@ const Add = ({ onHide, data, status, isLoading }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group className='mb-2'>
-            <Form.Label htmlFor='weight' className='priority__lables'>
-              {t('prioritiesModal.inputWeight')}
-            </Form.Label>
-            <Form.Control
-              type='number'
-              id='weight'
-              min='1'
-              step='1'
-              isInvalid={formik.errors.weight && formik.touched.weight}
-              onChange={formik.handleChange('weight')}
-              value={formik.values.weight}
-              onBlur={formik.handleBlur('weight')}
-              className='priority__input'
-            />
-            <Form.Control.Feedback type='invalid'>
-              {formik.errors.weight}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <div className='priority__custom_inputs'>
+            <Form.Group className='d-flex flex-column'>
+              <Form.Label htmlFor='weight' className='priority__lables'>
+                {t('prioritiesModal.inputWeight')}
+              </Form.Label>
+              <Form.Control
+                type='number'
+                id='weight'
+                min='1'
+                step='1'
+                isInvalid={formik.errors.weight && formik.touched.weight}
+                onChange={formik.handleChange('weight')}
+                value={formik.values.weight}
+                onBlur={formik.handleBlur('weight')}
+                className='priority__input'
+              />
+              <Form.Control.Feedback type='invalid'>
+                {formik.errors.weight}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-          <Form.Group className='d-flex flex-column mb-3'>
-            <Form.Label htmlFor='color' className='priority__lables'>
-              {t('prioritiesModal.inputColor')}
-            </Form.Label>
-            <Form.Control
-              type='color'
-              id='color'
-              isInvalid={formik.errors.color && formik.touched.color}
-              onChange={formik.handleChange('color')}
-              value={formik.values.color}
-              onBlur={formik.handleBlur('color')}
-              className='priority__input form-control w-100'
-            />
-            <Form.Control.Feedback type='invalid'>
-              {formik.errors.color}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <Form.Group className='d-flex flex-column'>
+              <Form.Label htmlFor='color' className='priority__lables'>
+                {t('prioritiesModal.inputColor')}
+              </Form.Label>
+              <Form.Control
+                type='color'
+                id='color'
+                isInvalid={formik.errors.color && formik.touched.color}
+                onChange={formik.handleChange('color')}
+                value={formik.values.color}
+                onBlur={formik.handleBlur('color')}
+                className='priority__input form-control w-100'
+              />
+              <Form.Control.Feedback type='invalid'>
+                {formik.errors.color}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </div>
 
           <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>

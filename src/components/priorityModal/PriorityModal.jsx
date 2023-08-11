@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
-import { getPriorities } from '../../store/Priorities/prioritiesSaga';
 import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import './PriorityModal.css';
@@ -15,10 +14,6 @@ const PriorityModal = () => {
     (state) => state.modal
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPriorities());
-  }, [dispatch]);
 
   const modals = {
     add: Add,

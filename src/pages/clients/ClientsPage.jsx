@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import ClientModal from '../../components/clientModal/ClientModal';
 import Table from '../../components/Table/Table';
 import './ClientsPage.css';
+import { getClients } from '../../store/Clients/clientsSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -58,6 +59,10 @@ const ClientsPage = () => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getClients());
+  }, [dispatch]);
 
   const data = [
     {

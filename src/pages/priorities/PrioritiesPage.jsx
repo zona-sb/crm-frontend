@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
@@ -7,7 +7,10 @@ import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import './PrioritiesPage.css';
 import Table from '../../components/Table/Table';
 import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
-import { deleteBulkPriorities } from '../../store/Priorities/prioritiesSaga';
+import {
+  deleteBulkPriorities,
+  getPriorities,
+} from '../../store/Priorities/prioritiesSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -30,6 +33,10 @@ const FilterInputWeight = () => (
 const PrioritiesPage = () => {
   const priorities = useSelector(prioritiesSelector.selectAll);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPriorities());
+  }, [dispatch]);
 
   const data = [
     {

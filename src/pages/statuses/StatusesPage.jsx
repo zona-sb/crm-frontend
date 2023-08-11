@@ -8,6 +8,10 @@ import { getCategories } from '../../store/Categories/categoriesSaga';
 import StatusModal from '../../components/statusModal/StatusModal';
 import Table from '../../components/Table/Table';
 import './StatusesPage.css';
+import {
+  deleteBulkStatuses,
+  getStatuses,
+} from '../../store/Statuses/statusesSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -33,6 +37,11 @@ const StatusesPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getStatuses());
+    dispatch(getCategories());
+  }, [dispatch]);
+
   const data = [
     {
       key: 'statusTitle',
@@ -53,15 +62,20 @@ const StatusesPage = () => {
     edit: 'edit',
   };
 
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+  const handlerBulkDelete = (ids) => {
+    dispatch(deleteBulkStatuses(ids));
+  };
 
   return (
     <>
       <StatusModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={statuses} actions={actions} />
+        <Table
+          categories={data}
+          data={statuses}
+          actions={actions}
+          bulkDelete={handlerBulkDelete}
+        />
         <div className='d-flex justify-content-center mt-4'>
           <button
             className='custom__add-table-button'

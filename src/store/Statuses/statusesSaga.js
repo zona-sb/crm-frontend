@@ -6,6 +6,7 @@ import {
   addNewStatus,
   updateCurrentStatus,
   removeCurrentStatus,
+  removeBulkStatuses,
 } from './statusesSlice';
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
@@ -62,6 +63,18 @@ export function* deleteStatusSaga(action) {
   }
 }
 
+export function* deleteBulkStatusesSaga(action) {
+  yield put(setLoading(true));
+  const ids = action.payload;
+  try {
+    yield apiRequests.deleteBulk(apiRoutes.deleteBulkStatuses(), ids);
+    yield put(setStatus('success'));
+    yield put(removeBulkStatuses(ids));
+  } catch (_) {
+    yield put(setStatus('failed'));
+  }
+}
+
 export const GET_STATUSES = 'getStatuses';
 export const getStatuses = createAction(GET_STATUSES);
 export const ADD_STATUS = 'addStatus';
@@ -70,3 +83,5 @@ export const UPDATE_STATUS = 'updateStatus';
 export const updateStatus = createAction(UPDATE_STATUS);
 export const DELETE_STATUS = 'deleteStatus';
 export const deleteStatus = createAction(DELETE_STATUS);
+export const DELETE_BULK_STATUSES = 'deleteBulkStatuses';
+export const deleteBulkStatuses = createAction(DELETE_BULK_STATUSES);

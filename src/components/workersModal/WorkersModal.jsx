@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
 import { workersSelector } from '../../store/Workers/workersSlice';
-import { getWorkers } from '../../store/Workers/workersSaga';
 import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import './WorkerModal.css';
@@ -15,10 +14,6 @@ const WorkersModal = () => {
     (state) => state.modal
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getWorkers());
-  }, [dispatch]);
 
   const modals = {
     add: Add,

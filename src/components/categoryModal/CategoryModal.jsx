@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
 import { categoriesSelector } from '../../store/Categories/categoriesSlice';
-import { getCategories } from '../../store/Categories/categoriesSaga';
 import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import './CategoryModal.css';
@@ -15,10 +14,6 @@ const CategoryModal = () => {
     (state) => state.modal
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
 
   const modals = {
     add: Add,

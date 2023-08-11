@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import { workersSelector } from '../../store/Workers/workersSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import './WorkersPage.css';
 import Table from '../../components/Table/Table';
+import { getWorkers } from '../../store/Workers/workersSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -38,6 +39,10 @@ const WorkersPage = () => {
   const workers = useSelector(workersSelector.selectAll);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    dispatch(getWorkers());
+  }, [dispatch]);
 
   const data = [
     {

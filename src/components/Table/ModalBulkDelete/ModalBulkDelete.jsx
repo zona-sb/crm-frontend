@@ -10,7 +10,7 @@ const ModalBulkDelete = ({ onHide, bulkDelete, status, isLoading }) => {
       {status === 'idle' && (
         <>
           <p>{t('modalBulkDelete.deleteText')}</p>
-          <div className='custom__Priority-many-buttons'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom onClick={bulkDelete} disabled={isLoading}>
               {t('modalBulkDelete.buttonDelete')}
             </ButtonCustom>
@@ -23,7 +23,7 @@ const ModalBulkDelete = ({ onHide, bulkDelete, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('modalBulkDelete.successDeleteText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('modalBulkDelete.buttonClose')}
             </ButtonCustom>
@@ -33,7 +33,7 @@ const ModalBulkDelete = ({ onHide, bulkDelete, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('modalBulkDelete.failedText')}</p>
-          <div className='custom__Priority-button'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('modalBulkDelete.buttonClose')}
             </ButtonCustom>

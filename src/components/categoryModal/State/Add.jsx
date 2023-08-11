@@ -24,7 +24,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
   });
   return (
     <>
-      <p className='caregory__title'>{t('categoriesModal.addTitle')}</p>
+      <p className='category__title'>{t('categoriesModal.addTitle')}</p>
       {status === 'idle' && (
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>

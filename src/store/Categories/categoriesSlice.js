@@ -12,6 +12,7 @@ const categoriesSlice = createSlice({
     addNewCategory: categoriesAdapter.addOne,
     updateCurrentCategory: categoriesAdapter.updateOne,
     removeCurrentCategory: categoriesAdapter.removeOne,
+    removeBulkCategories: categoriesAdapter.removeMany,
   },
 });
 
@@ -24,6 +25,7 @@ export const {
   updateCurrentCategory,
   removeCurrentCategory,
   getAllCategories,
+  removeBulkCategories,
 } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

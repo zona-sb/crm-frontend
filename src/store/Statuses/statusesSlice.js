@@ -12,6 +12,7 @@ const statusesSlice = createSlice({
     addNewStatus: statusesAdapter.addOne,
     updateCurrentStatus: statusesAdapter.updateOne,
     removeCurrentStatus: statusesAdapter.removeOne,
+    removeBulkStatuses: statusesAdapter.removeMany,
   },
 });
 
@@ -24,6 +25,7 @@ export const {
   addNewStatus,
   updateCurrentStatus,
   removeCurrentStatus,
+  removeBulkStatuses,
 } = statusesSlice.actions;
 
 export default statusesSlice.reducer;

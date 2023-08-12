@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Add from './State/Add';
 import Delete from './State/Delete';
 import Edit from './State/Edit';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
-import { getPriorities } from '../../store/Priorities/prioritiesSaga';
-import { close } from '../../store/Modal/ModalSlice';
+import { closeModal } from '../../store/Modal/ModalSlice';
 import { ModalCustom } from '../shared';
 import './PriorityModal.css';
 
@@ -16,10 +15,6 @@ const PriorityModal = () => {
   );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getPriorities());
-  }, [dispatch]);
-
   const modals = {
     add: Add,
     delete: Delete,
@@ -29,14 +24,14 @@ const PriorityModal = () => {
   const CurrentModal = modals[data.type];
 
   return (
-    <ModalCustom show={isModalShow} onHide={() => dispatch(close())}>
+    <ModalCustom show={isModalShow} onHide={() => dispatch(closeModal())}>
       {isModalShow && (
         <CurrentModal
           id={data.id}
           data={priorities}
           isLoading={isLoading}
           status={status}
-          onHide={() => dispatch(close())}
+          onHide={() => dispatch(closeModal())}
         />
       )}
     </ModalCustom>

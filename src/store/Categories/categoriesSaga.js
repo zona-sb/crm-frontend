@@ -4,6 +4,7 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewCategory,
   getAllCategories,
+  removeBulkCategories,
   removeCurrentCategory,
   updateCurrentCategory,
 } from './categoriesSlice';
@@ -62,6 +63,18 @@ export function* deleteCategorySaga(action) {
   }
 }
 
+export function* deleteBulkCategoriesSaga(action) {
+  yield put(setLoading(true));
+  const ids = action.payload;
+  try {
+    yield apiRequests.deleteBulk(apiRoutes.deleteBulkCategories(), ids);
+    yield put(setStatus('success'));
+    yield put(removeBulkCategories(ids));
+  } catch (_) {
+    yield put(setStatus('failed'));
+  }
+}
+
 export const GET_CATEGORIES = 'getCategories';
 export const getCategories = createAction(GET_CATEGORIES);
 export const ADD_CATEGORY = 'addCategory';
@@ -70,3 +83,5 @@ export const UPDATE_CATEGORY = 'updateCategory';
 export const updateCategory = createAction(UPDATE_CATEGORY);
 export const DELETE_CATEGORY = 'deleteCategory';
 export const deleteCategory = createAction(DELETE_CATEGORY);
+export const DELETE_BULK_CATEGORIES = 'deleteBulkCategories';
+export const deleteBulkCategories = createAction(DELETE_BULK_CATEGORIES);

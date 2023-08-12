@@ -50,6 +50,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           title: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ title }) => title),
               t('error.isUnique')
@@ -74,8 +75,9 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           categoryTitle: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
-              exception.map(({ title }) => title),
+              exception.map(({ categoryTitle }) => categoryTitle),
               t('error.isUnique')
             )
             .required(t('forms.onblur')),
@@ -85,6 +87,7 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           statusTitle: Yup.string()
             .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map(({ statusTitle }) => statusTitle),
               t('error.isUnique')
@@ -96,28 +99,39 @@ const getSchema = (name, t, exception) => {
         Yup.object().shape({
           name: Yup.string()
             .min(3, t('forms.minSize'))
-            .notOneOf(
-              exception.map(({ title }) => title),
-              t('error.isUnique')
-            )
+            .max(100, t('forms.minSize'))
             .required(t('forms.onblur')),
           phone: Yup.string()
             .phone('RU', t('forms.phoneCorrect'))
-            .matches(regexpNum, t('forms.phoneCorrect')),
+            .matches(regexpNum, t('forms.phoneCorrect'))
+            .notOneOf(
+              exception.map((worker) => worker.person.phone),
+              t('error.isUnique')
+            )
+            .required(t('forms.onblur')),
           email: Yup.string()
             .matches(regexpEmail, t('forms.emailCorrect'))
+            .notOneOf(
+              exception.map((worker) => worker.person.email),
+              t('error.isUnique')
+            )
             .required(t('forms.onblur')),
         });
     case 'modifyClient':
       return () =>
         Yup.object().shape({
           name: Yup.string()
+            .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
             .notOneOf(
               exception.map((client) => client.name),
               t('error.isUnique')
             )
             .required(t('forms.onblur')),
-          company: Yup.string().required(t('forms.onblur')),
+          company: Yup.string()
+            .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
+            .required(t('forms.onblur')),
           phone: Yup.string()
             .phone('RU', t('forms.phoneCorrect'))
             .matches(regexpNum, t('forms.phoneCorrect'))

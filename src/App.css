@@ -20,3 +20,44 @@
 body {
   background-color: var(--page-background);
 }
+
+.custom__add-table-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 15px 10px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.custom__add-table-button:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.custom__modals-two-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.custom__modals-button {
+  display: flex;
+  justify-content: center;
+}
+
+@media all and (min-width: 500px) {
+  .custom__modals-button button {
+    width: 255px;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .custom__modals-button,
+  .custom__modals-two-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

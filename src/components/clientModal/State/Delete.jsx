@@ -17,7 +17,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
       {status === 'idle' && (
         <>
           <p>{t('clientsModal.deleteText')}</p>
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom onClick={handleDelete} disabled={isLoading}>
               {t('clientsModal.buttonDelete')}
             </ButtonCustom>
@@ -30,7 +30,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('clientsModal.successDeleteText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>
@@ -40,7 +40,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('clientsModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>

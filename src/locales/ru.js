@@ -25,6 +25,15 @@ export default {
       emailCorrect: 'Пожалуйста, введите корректный email адрес',
       passwordsMustMatch: 'Пароли должны совпадать',
     },
+    modalBulkDelete: {
+      deleteTitle: 'Удаление выбранных элементов',
+      deleteText: 'Вы действительно хотите удалить выбранные элементы?',
+      successDeleteText: 'Элементы были удалены!',
+      failedText: 'Произошла ошибка!',
+      buttonCancel: 'Отмена',
+      buttonDelete: 'Удалить',
+      buttonClose: 'Закрыть',
+    },
     prioritiesModal: {
       addTitle: 'Создание приоритета',
       deleteTitle: 'Удаление приоритета',
@@ -49,7 +58,8 @@ export default {
       deleteTitle: 'Удаление категории',
       editTitle: 'Изменение категории',
       inputTitle: 'Наименование',
-      deleteText: 'Вы действительно хотите удалить категорию?',
+      deleteText:
+        'Удаление категории приведет к удалению связанных с ней статусов и задач.',
       successCreateText: 'Категория была создана!',
       successDeleteText:
         'Категория и все связанные с ней статусы и задачи удалены!',

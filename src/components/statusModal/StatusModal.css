@@ -13,9 +13,9 @@
   margin-bottom: 20px;
 }
 
-.status__arrow {
-  position: absolute;
-  height: 15%;
-  top: 60%;
-  left: 87%;
+.status__input-select {
+  --bs-form-select-bg-img: url('../../assets/icons/arrowDropdown.svg');
+  background-image: var(--bs-form-select-bg-img);
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
 }

@@ -128,10 +128,7 @@ const getSchema = (name, t, exception) => {
               t('error.isUnique')
             )
             .required(t('forms.onblur')),
-          company: Yup.string()
-            .min(3, t('forms.minSize'))
-            .max(100, t('forms.minSize'))
-            .required(t('forms.onblur')),
+          company: Yup.string(),
           phone: Yup.string()
             .phone('RU', t('forms.phoneCorrect'))
             .matches(regexpNum, t('forms.phoneCorrect'))
@@ -139,7 +136,7 @@ const getSchema = (name, t, exception) => {
           email: Yup.string()
             .matches(regexpEmail, t('forms.emailCorrect'))
             .required(t('forms.onblur')),
-          comment: Yup.string().required(t('forms.onblur')),
+          comment: Yup.string(),
         });
     default:
       return Yup.object().shape({});

@@ -1,5 +1,17 @@
 export default {
   translation: {
+    navigation: {
+      orders: 'Заказы',
+      archive: 'Архив',
+      clients: 'Клиенты',
+      workers: 'Монтажники',
+      tasks: 'Описание задач',
+      search: 'Поиск...',
+      alt_account: 'Аккаунт',
+      categories: 'Категории',
+      statuses: 'Статусы',
+      priorities: 'Приоритеты',
+    },
     forms: {
       login: 'Вход',
       or: 'ИЛИ',

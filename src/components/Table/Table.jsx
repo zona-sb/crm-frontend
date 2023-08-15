@@ -15,7 +15,7 @@ const Table = (props) => {
     actions,
     bulkDelete,
     width = 1000,
-    height = 350,
+    height = 240,
   } = props;
   const bodyRef = useRef(null);
   const dispatch = useDispatch();

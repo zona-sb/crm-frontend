@@ -16,15 +16,14 @@ import hidePassword from '../../assets/icons/hidePassword.svg';
 
 const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
   try {
-    const responseRegistration = await axios.post(apiRoutes.signup(), user);
-    console.log(responseRegistration);
+    await axios.post(apiRoutes.signup(), user);
     const { email, password } = user;
     const responseLogin = await axios.post(apiRoutes.login(), {
       email,
       password,
     });
     auth.logIn(JSON.stringify(responseLogin.data));
-    navigate(routes.home());
+    navigate(routes.main());
   } catch (error) {
     const {
       request: { status, response },

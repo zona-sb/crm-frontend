@@ -1,15 +1,17 @@
 export const routes = {
+  main: () => '/',
   login: () => '/login',
   signup: () => '/signup',
-  priorities: () => '/priorities',
-  categories: () => '/categories',
-  statuses: () => '/statuses',
-  workers: () => '/workers',
-  clients: () => '/clients',
-  home: () => '/',
+  clients: () => 'clients',
+  workers: () => 'workers',
+  categories: () => 'categories',
+  statuses: () => 'statuses',
+  priorities: () => 'priorities',
+  tasks: () => 'tasks',
 };
 
 const domain = 'https://zona-crm-dev.onrender.com';
+
 export const apiRoutes = {
   login: () => `${domain}/api/login`,
   signup: () => `${domain}/api/registration`,

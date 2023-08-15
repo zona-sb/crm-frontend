@@ -123,12 +123,7 @@ const Table = (props) => {
               <div className='head-item'>Действие</div>
             </div>
             <div className={scrollbarHeadingStyle('filtering')}>
-              <div className='filter-item checkbox-item invisible'>
-                <Form.Check
-                  className='custom__table-checkbox'
-                  type='checkbox'
-                />
-              </div>
+              <div className='filter-item checkbox-item' />
               {categories.map((cat) => (
                 <div
                   key={`filter-${cat.key}`}

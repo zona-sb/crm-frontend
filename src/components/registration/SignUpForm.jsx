@@ -141,7 +141,7 @@ const SignUpForm = () => {
           {t('forms.phone')}
         </Form.Label>
         {(formik.errors.phone && formik.touched.phone) ||
-          messageError === 'phoneExist' ? (
+        messageError === 'phoneExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {messageError === 'phoneExist'
               ? t(`error.${messageError}`)
@@ -171,7 +171,7 @@ const SignUpForm = () => {
           {t('forms.email')}
         </Form.Label>
         {(formik.errors.email && formik.touched.email) ||
-          messageError === 'emailExist' ? (
+        messageError === 'emailExist' ? (
           <Form.Control.Feedback className='invalid-tooltip' tooltip>
             {messageError === 'emailExist'
               ? t(`error.${messageError}`)

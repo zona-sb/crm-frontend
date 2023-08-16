@@ -19,7 +19,7 @@ const generateOnSubmit = (setStatusError, navigate, auth) => async (user) => {
     const { data } = await axios.post(apiRoutes.login(), user);
     auth.logIn(JSON.stringify(data));
     setStatusError(false);
-    navigate(routes.home());
+    navigate(routes.main());
   } catch (error) {
     setStatusError(true);
   }

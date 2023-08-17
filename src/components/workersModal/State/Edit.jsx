@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,10 @@ import { ButtonCustom } from '../../shared';
 import { updateWorker } from '../../../store/Workers/workersSaga';
 import getSchema from '../../../utils/validation';
 import { workersSelector } from '../../../store/Workers/workersSlice';
+import initPhoneMask from '../../../utils/phoneMask';
 
 const Edit = ({ onHide, id, data, status, isLoading }) => {
+  const [phone, setPhone] = useState('');
   const currentWorker = useSelector((state) =>
     workersSelector.selectById(state, id)
   );
@@ -29,6 +31,14 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
       dispatch(updateWorker(updateData));
     },
   });
+
+  const handleChangePhone = () => {
+    formik.values.phone = `+${phone.unmaskedValue}`;
+  };
+
+  useEffect(() => {
+    setPhone(initPhoneMask());
+  }, []);
 
   return (
     <>
@@ -61,8 +71,9 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
               type='text'
               id='phone'
               isInvalid={formik.errors.phone && formik.touched.phone}
-              onChange={formik.handleChange('phone')}
-              value={formik.values.phone}
+              onChange={handleChangePhone}
+              onPaste={handleChangePhone}
+              onInput={handleChangePhone}
               onBlur={formik.handleBlur('phone')}
               className='worker__input'
             />

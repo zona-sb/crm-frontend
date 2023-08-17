@@ -1,35 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
 import cn from 'classnames';
-import { setCurrentType } from '../../store/Modal/ModalSlice';
-import { ButtonCustom } from '../shared';
+import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
+import { ButtonCustom, ModalCustom } from '../shared';
 import './Table.css';
+import ModalBulkDelete from './ModalBulkDelete/ModalBulkDelete';
 
 const Table = (props) => {
-  const { data, categories, actions, width = 1000, height = 350 } = props;
+  const {
+    data,
+    categories,
+    actions,
+    bulkDelete,
+    width = 1000,
+    height = 240,
+  } = props;
   const bodyRef = useRef(null);
   const dispatch = useDispatch();
+  const [isModalShow, setIsModalShow] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
-  const [checkedRow, setCheckedRow] = useState([]);
+  const [checkedRows, setCheckedRows] = useState([]);
   const [isShowScrollbar, setIsShowScrollbar] = useState(false);
+  const { status, isLoading } = useSelector((state) => state.modal);
+
+  const handleBulkDelete = () => {
+    dispatch(setCurrentType({ type: 'bulkDelete' }));
+    setIsModalShow((prev) => !prev);
+  };
 
   const handleCheckbox = (e) => {
     const { id, checked } = e.target;
-    setCheckedRow([...checkedRow, Number(id)]);
+    setCheckedRows([...checkedRows, Number(id)]);
     if (!checked) {
-      setCheckedRow(checkedRow.filter((item) => item !== Number(id)));
+      setCheckedRows(checkedRows.filter((item) => item !== Number(id)));
     }
   };
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
-    setCheckedRow(data.map((li) => li.id));
+    setCheckedRows(data.map((li) => li.id));
     if (isCheckAll) {
-      setCheckedRow([]);
+      setCheckedRows([]);
     }
   };
+
+  useEffect(() => {
+    const ids = data.map(({ id }) => id);
+    setCheckedRows(checkedRows.filter((row) => ids.includes(row)));
+  }, [data]);
 
   const scrollbarRowStyle = cn('main-body', {
     'custom__table-scrollbar-show': isShowScrollbar,
@@ -47,17 +67,31 @@ const Table = (props) => {
   const renderRowsCounter = () => (
     <div className='d-flex align-items-center mb-2'>
       <div className='custom__table-select-rows me-3'>
-        Выбрано: {checkedRow.length} из {props.data.length}
+        Выбрано: {checkedRows.length} из {props.data.length}
       </div>
       <div>
         <ButtonCustom
           className='custom__table-delete-button'
+          onClick={handleBulkDelete}
           color='reject'
-          disabled={checkedRow.length === 0}
+          disabled={checkedRows.length === 0}
         >
           Удалить выбранные
         </ButtonCustom>
       </div>
+      <ModalCustom
+        show={isModalShow}
+        onHide={() => setIsModalShow((prev) => !prev)}
+      >
+        {isModalShow && (
+          <ModalBulkDelete
+            bulkDelete={() => bulkDelete(checkedRows)}
+            isLoading={isLoading}
+            status={status}
+            onHide={() => setIsModalShow((prev) => !prev)}
+          />
+        )}
+      </ModalCustom>
     </div>
   );
 
@@ -89,12 +123,7 @@ const Table = (props) => {
               <div className='head-item'>Действие</div>
             </div>
             <div className={scrollbarHeadingStyle('filtering')}>
-              <div className='filter-item checkbox-item invisible'>
-                <Form.Check
-                  className='custom__table-checkbox'
-                  type='checkbox'
-                />
-              </div>
+              <div className='filter-item checkbox-item' />
               {categories.map((cat) => (
                 <div
                   key={`filter-${cat.key}`}
@@ -120,7 +149,7 @@ const Table = (props) => {
                     type='checkbox'
                     id={value.id}
                     onChange={handleCheckbox}
-                    checked={checkedRow.includes(value.id)}
+                    checked={checkedRows.includes(value.id)}
                   />
                 </div>
                 <div className='custom__table-row'>
@@ -159,6 +188,7 @@ const Table = (props) => {
                     <BsPencilFill
                       className='custom__table-actions-button'
                       onClick={() => {
+                        dispatch(openModal());
                         dispatch(
                           setCurrentType({ type: actions.edit, id: value.id })
                         );
@@ -169,6 +199,7 @@ const Table = (props) => {
                     <BsTrashFill
                       className='custom__table-actions-button'
                       onClick={() => {
+                        dispatch(openModal());
                         dispatch(
                           setCurrentType({ type: actions.delete, id: value.id })
                         );

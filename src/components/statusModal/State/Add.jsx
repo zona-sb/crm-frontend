@@ -7,7 +7,6 @@ import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { addStatus } from '../../../store/Statuses/statusesSaga';
 import { categoriesSelector } from '../../../store/Categories/categoriesSlice';
-import arrowDropdown from '../../../assets/icons/arrowDropdown.svg';
 
 const Add = ({ onHide, data, status, isLoading }) => {
   const categories = useSelector(categoriesSelector.selectAll);
@@ -61,7 +60,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
               id='categoryId'
               onChange={formik.handleChange('categoryId')}
               value={formik.values.categoryId}
-              className='status__input'
+              className='status__input status__input-select'
             >
               {categories.map((category) => (
                 <option value={category.id} key={category.id}>
@@ -69,14 +68,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
                 </option>
               ))}
             </Form.Control>
-            <img
-              className='status__arrow'
-              src={arrowDropdown}
-              alt='Выпадающий список'
-            />
           </Form.Group>
 
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('statusesModal.buttonCreate')}
             </ButtonCustom>
@@ -89,7 +83,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('statusesModal.successCreateText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('statusesModal.buttonClose')}
             </ButtonCustom>
@@ -99,7 +93,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('statusesModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('statusesModal.buttonClose')}
             </ButtonCustom>

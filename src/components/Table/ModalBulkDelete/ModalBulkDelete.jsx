@@ -1,47 +1,41 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
-import { deletePriority } from '../../../store/Priorities/prioritiesSaga';
 
-const Delete = ({ onHide, id, status, isLoading }) => {
+const ModalBulkDelete = ({ onHide, bulkDelete, status, isLoading }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const handleDelete = () => {
-    dispatch(deletePriority(id));
-  };
   return (
     <>
-      <p className='priority__title'>{t('prioritiesModal.deleteTitle')}</p>
+      <p className='priority__title'>{t('modalBulkDelete.deleteTitle')}</p>
       {status === 'idle' && (
         <>
-          <p>{t('prioritiesModal.deleteText')}</p>
+          <p>{t('modalBulkDelete.deleteText')}</p>
           <div className='custom__modals-two-buttons'>
-            <ButtonCustom onClick={handleDelete} disabled={isLoading}>
-              {t('prioritiesModal.buttonDelete')}
+            <ButtonCustom onClick={bulkDelete} disabled={isLoading}>
+              {t('modalBulkDelete.buttonDelete')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>
-              {t('prioritiesModal.buttonCancel')}
+              {t('modalBulkDelete.buttonCancel')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'success' && (
         <>
-          <p>{t('prioritiesModal.successDeleteText')}</p>
+          <p>{t('modalBulkDelete.successDeleteText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('prioritiesModal.buttonClose')}
+              {t('modalBulkDelete.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>{t('prioritiesModal.failedText')}</p>
+          <p>{t('modalBulkDelete.failedText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('prioritiesModal.buttonClose')}
+              {t('modalBulkDelete.buttonClose')}
             </ButtonCustom>
           </div>
         </>
@@ -50,4 +44,4 @@ const Delete = ({ onHide, id, status, isLoading }) => {
   );
 };
 
-export default Delete;
+export default ModalBulkDelete;

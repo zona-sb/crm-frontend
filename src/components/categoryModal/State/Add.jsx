@@ -23,10 +23,10 @@ const Add = ({ onHide, data, status, isLoading }) => {
     },
   });
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <p className='caregory__title'>{t('categoriesModal.addTitle')}</p>
+    <>
+      <p className='category__title'>{t('categoriesModal.addTitle')}</p>
       {status === 'idle' && (
-        <>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='categoryTitle' className='caregory__lables'>
               {t('categoriesModal.inputTitle')}
@@ -46,7 +46,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
               {formik.errors.categoryTitle}
             </Form.Control.Feedback>
           </Form.Group>
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('categoriesModal.buttonCreate')}
             </ButtonCustom>
@@ -54,12 +54,12 @@ const Add = ({ onHide, data, status, isLoading }) => {
               {t('categoriesModal.buttonCancel')}
             </ButtonCustom>
           </div>
-        </>
+        </Form>
       )}
       {status === 'success' && (
         <>
           <p>{t('categoriesModal.successCreateText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('categoriesModal.buttonClose')}
             </ButtonCustom>
@@ -69,14 +69,14 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('categoriesModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('categoriesModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
-    </Form>
+    </>
   );
 };
 

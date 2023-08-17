@@ -1,0 +1,46 @@
+.tasks_link_list {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.tasks_link {
+  color: #000;
+  text-decoration: none;
+  font-size: 23px;
+}
+
+.tasks_link-active {
+  position: relative;
+  color: #000;
+  text-decoration: none;
+  font-size: 23px;
+}
+
+.tasks_link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  animation: underlineAnimation 0.3s forwards;
+}
+
+@media all and (max-width: 770px) {
+  .tasks_link,
+  .tasks_link-active {
+    font-size: 18px;
+  }
+}
+
+@keyframes underlineAnimation {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}

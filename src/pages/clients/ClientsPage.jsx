@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { clientsSelector } from '../../store/Clients/clientsSlice';
-import { setCurrentType } from '../../store/Modal/ModalSlice';
+import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import ClientModal from '../../components/clientModal/ClientModal';
 import Table from '../../components/Table/Table';
 import './ClientsPage.css';
+import { getClients } from '../../store/Clients/clientsSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -59,6 +60,10 @@ const ClientsPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getClients());
+  }, [dispatch]);
+
   const data = [
     {
       key: 'person.name',
@@ -102,10 +107,13 @@ const ClientsPage = () => {
           actions={actions}
           width={1200}
         />
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center mt-4'>
           <button
-            className='pt-4 custom__priority-button'
-            onClick={() => dispatch(setCurrentType({ type: 'add' }))}
+            className='custom__add-table-button'
+            onClick={() => {
+              dispatch(openModal());
+              dispatch(setCurrentType({ type: 'add' }));
+            }}
           >
             {t('clientsModal.addClient')}
           </button>

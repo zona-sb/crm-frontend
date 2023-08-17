@@ -20,17 +20,19 @@ const modalSlice = createSlice({
     },
     setCurrentType: (state, { payload }) => {
       state.data = payload;
-      state.isModalShow = true;
       state.isLoading = false;
       state.status = 'idle';
     },
-    close: (state) => {
+    openModal: (state) => {
+      state.isModalShow = true;
+    },
+    closeModal: (state) => {
       state.isModalShow = false;
     },
   },
 });
 
-export const { setCurrentType, setStatus, setLoading, close } =
+export const { setCurrentType, setStatus, setLoading, openModal, closeModal } =
   modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -11,3 +11,20 @@
   height: 50px;
   border-radius: 10px;
 }
+
+.priority__custom_inputs {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.priority__custom_inputs > div {
+  flex: 1;
+}
+
+@media all and (max-width: 500px) {
+  .priority__custom_inputs {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import WorkerModal from '../../components/workersModal/WorkersModal';
 import { workersSelector } from '../../store/Workers/workersSlice';
-import { setCurrentType } from '../../store/Modal/ModalSlice';
+import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import './WorkersPage.css';
 import Table from '../../components/Table/Table';
+import { getWorkers } from '../../store/Workers/workersSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -39,6 +40,10 @@ const WorkersPage = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    dispatch(getWorkers());
+  }, [dispatch]);
+
   const data = [
     {
       key: 'person.name',
@@ -67,10 +72,13 @@ const WorkersPage = () => {
       <WorkerModal />
       <div className='d-flex flex-column'>
         <Table categories={data} data={workers} actions={actions} />
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center mt-4'>
           <button
-            className='pt-4 custom__worker-button'
-            onClick={() => dispatch(setCurrentType({ type: 'add' }))}
+            className='custom__add-table-button'
+            onClick={() => {
+              dispatch(openModal());
+              dispatch(setCurrentType({ type: 'add' }));
+            }}
           >
             {t('workersModal.addWorker')}
           </button>

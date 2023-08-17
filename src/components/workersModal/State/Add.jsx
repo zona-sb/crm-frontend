@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { addWorker } from '../../../store/Workers/workersSaga';
+import initPhoneMask from '../../../utils/phoneMask';
 
 const Add = ({ onHide, data, status, isLoading }) => {
+  const [phone, setPhone] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -24,11 +26,20 @@ const Add = ({ onHide, data, status, isLoading }) => {
       dispatch(addWorker(userData));
     },
   });
+
+  const handleChangePhone = () => {
+    formik.values.phone = `+${phone.unmaskedValue}`;
+  };
+
+  useEffect(() => {
+    setPhone(initPhoneMask());
+  }, []);
+
   return (
-    <Form onSubmit={formik.handleSubmit}>
+    <>
       <p className='worker__title'>{t('workersModal.addTitle')}</p>
       {status === 'idle' && (
-        <>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>
             <Form.Label htmlFor='name' className='worker__lables'>
               {t('workersModal.inputName')}
@@ -55,8 +66,9 @@ const Add = ({ onHide, data, status, isLoading }) => {
               type='text'
               id='phone'
               isInvalid={formik.errors.phone && formik.touched.phone}
-              onChange={formik.handleChange('phone')}
-              value={formik.values.phone}
+              onChange={handleChangePhone}
+              onPaste={handleChangePhone}
+              onInput={handleChangePhone}
               onBlur={formik.handleBlur('phone')}
               className='worker__input'
             />
@@ -82,7 +94,7 @@ const Add = ({ onHide, data, status, isLoading }) => {
               {formik.errors.email}
             </Form.Control.Feedback>
           </Form.Group>
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('workersModal.buttonCreate')}
             </ButtonCustom>
@@ -90,12 +102,12 @@ const Add = ({ onHide, data, status, isLoading }) => {
               {t('workersModal.buttonCancel')}
             </ButtonCustom>
           </div>
-        </>
+        </Form>
       )}
       {status === 'success' && (
         <>
           <p>{t('workersModal.successCreateText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('workersModal.buttonClose')}
             </ButtonCustom>
@@ -105,14 +117,14 @@ const Add = ({ onHide, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('workersModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('workersModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
-    </Form>
+    </>
   );
 };
 

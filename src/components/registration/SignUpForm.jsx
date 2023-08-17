@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-conditional-statements */
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
@@ -13,18 +13,18 @@ import google from '../../assets/icons/google.svg';
 import yandex from '../../assets/icons/yandex.svg';
 import showPassword from '../../assets/icons/showPassword.svg';
 import hidePassword from '../../assets/icons/hidePassword.svg';
+import initPhoneMask from '../../utils/phoneMask.js';
 
 const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
   try {
-    const responseRegistration = await axios.post(apiRoutes.signup(), user);
-    console.log(responseRegistration);
+    await axios.post(apiRoutes.signup(), user);
     const { email, password } = user;
     const responseLogin = await axios.post(apiRoutes.login(), {
       email,
       password,
     });
     auth.logIn(JSON.stringify(responseLogin.data));
-    navigate(routes.home());
+    navigate(routes.main());
   } catch (error) {
     const {
       request: { status, response },
@@ -45,6 +45,7 @@ const generateOnSubmit = (setMessageError, navigate, auth) => async (user) => {
 
 const SignUpForm = () => {
   const [messageError, setMessageError] = useState('');
+  const [phone, setPhone] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -78,6 +79,13 @@ const SignUpForm = () => {
   const handleToggleConfirmPassword = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
+
+  const handleChangePhone = () => {
+    formik.values.phone = `+${phone.unmaskedValue}`;
+  };
+  useEffect(() => {
+    setPhone(initPhoneMask());
+  }, []);
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -113,6 +121,7 @@ const SignUpForm = () => {
           className='custom__signup-input'
           style={{ backgroundImage: 'none' }}
           ref={inputPhone}
+          type='text'
           name='phone'
           autoComplete='phone'
           placeholder={t('forms.phone')}
@@ -122,8 +131,9 @@ const SignUpForm = () => {
             (formik.errors.phone && formik.touched.phone) ||
             messageError === 'phoneExist'
           }
-          onChange={formik.handleChange('phone')}
-          value={formik.values.phone}
+          onChange={handleChangePhone}
+          onPaste={handleChangePhone}
+          onInput={handleChangePhone}
           onBlur={formik.handleBlur('phone')}
         />
         <Form.Label className='form-label' htmlFor='phone'>

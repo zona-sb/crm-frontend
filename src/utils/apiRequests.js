@@ -13,6 +13,8 @@ const apiRequests = {
   get: (path) => axios.get(path, getHeader()),
   put: (path, payload) => axios.put(path, payload, getHeader()),
   delete: (path) => axios.delete(path, getHeader()),
+  deleteBulk: (path, payload) =>
+    axios.delete(path, { data: payload, ...getHeader() }),
 };
 
 export default apiRequests;

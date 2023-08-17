@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,10 @@ import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { updateClient } from '../../../store/Clients/clientsSaga';
 import { clientsSelector } from '../../../store/Clients/clientsSlice';
+import initPhoneMask from '../../../utils/phoneMask';
 
 const Add = ({ onHide, id, data, status, isLoading }) => {
+  const [phone, setPhone] = useState('');
   const currentClient = useSelector((state) =>
     clientsSelector.selectById(state, id)
   );
@@ -32,6 +34,15 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
       dispatch(updateClient(updateData));
     },
   });
+
+  const handleChangePhone = () => {
+    formik.values.phone = `+${phone.unmaskedValue}`;
+  };
+
+  useEffect(() => {
+    setPhone(initPhoneMask());
+  }, []);
+
   return (
     <>
       <p className='client__title'>{t('clientsModal.editTitle')}</p>
@@ -81,8 +92,9 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
               type='text'
               id='phone'
               isInvalid={formik.errors.phone && formik.touched.phone}
-              onChange={formik.handleChange('phone')}
-              value={formik.values.phone}
+              onChange={handleChangePhone}
+              onPaste={handleChangePhone}
+              onInput={handleChangePhone}
               onBlur={formik.handleBlur('phone')}
               className='client__input'
             />
@@ -127,7 +139,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <div className='d-flex justify-content-between'>
+          <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
               {t('clientsModal.buttonSave')}
             </ButtonCustom>
@@ -140,7 +152,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
       {status === 'success' && (
         <>
           <p>{t('clientsModal.successEditText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>
@@ -150,7 +162,7 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
       {status === 'failed' && (
         <>
           <p>{t('clientsModal.failedText')}</p>
-          <div className='d-flex justify-content-center'>
+          <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
               {t('clientsModal.buttonClose')}
             </ButtonCustom>

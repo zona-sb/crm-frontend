@@ -13,24 +13,20 @@ import {
 } from './Priorities/prioritiesSaga';
 import {
   ADD_CATEGORY,
-  DELETE_BULK_CATEGORIES,
   DELETE_CATEGORY,
   GET_CATEGORIES,
   UPDATE_CATEGORY,
   addCategorySaga,
-  deleteBulkCategoriesSaga,
   deleteCategorySaga,
   getCategoriesSaga,
   updateCategorySaga,
 } from './Categories/categoriesSaga';
 import {
   ADD_STATUS,
-  DELETE_BULK_STATUSES,
   DELETE_STATUS,
   GET_STATUSES,
   UPDATE_STATUS,
   addStatusSaga,
-  deleteBulkStatusesSaga,
   deleteStatusSaga,
   getStatusesSaga,
   updateStatusSaga,
@@ -67,14 +63,12 @@ export function* categoriesSaga() {
   yield takeEvery(GET_CATEGORIES, getCategoriesSaga);
   yield takeEvery(UPDATE_CATEGORY, updateCategorySaga);
   yield takeEvery(DELETE_CATEGORY, deleteCategorySaga);
-  yield takeEvery(DELETE_BULK_CATEGORIES, deleteBulkCategoriesSaga);
 }
 export function* statusesSaga() {
   yield takeEvery(ADD_STATUS, addStatusSaga);
   yield takeEvery(GET_STATUSES, getStatusesSaga);
   yield takeEvery(UPDATE_STATUS, updateStatusSaga);
   yield takeEvery(DELETE_STATUS, deleteStatusSaga);
-  yield takeEvery(DELETE_BULK_STATUSES, deleteBulkStatusesSaga);
 }
 export function* workersSaga() {
   yield takeEvery(ADD_WORKER, addWorkerSaga);

@@ -6,8 +6,7 @@ import { clientsSelector } from '../../store/Clients/clientsSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import ClientModal from '../../components/clientModal/ClientModal';
 import Table from '../../components/Table/Table';
-import './ClientsPage.css';
-import { getClients } from '../../store/Clients/clientsSaga';
+import { deleteClient, getClients } from '../../store/Clients/clientsSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -97,6 +96,10 @@ const ClientsPage = () => {
     edit: 'edit',
   };
 
+  const handlerDelete = (deleteData) => {
+    dispatch(deleteClient(deleteData));
+  };
+
   return (
     <>
       <ClientModal />
@@ -106,6 +109,7 @@ const ClientsPage = () => {
           data={clients}
           actions={actions}
           width={1200}
+          bulkDelete={handlerDelete}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

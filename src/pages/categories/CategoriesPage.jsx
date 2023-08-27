@@ -6,9 +6,8 @@ import Table from '../../components/Table/Table';
 import CategoryModal from '../../components/categoryModal/CategoryModal';
 import { categoriesSelector } from '../../store/Categories/categoriesSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
-import './CategoriesPage.css';
 import {
-  deleteBulkCategories,
+  deleteCategory,
   getCategories,
 } from '../../store/Categories/categoriesSaga';
 
@@ -43,8 +42,8 @@ const CategoriesPage = () => {
     edit: 'edit',
   };
 
-  const handlerBulkDelete = (ids) => {
-    dispatch(deleteBulkCategories(ids));
+  const handlerDelete = (deleteData) => {
+    dispatch(deleteCategory(deleteData));
   };
 
   return (
@@ -55,7 +54,7 @@ const CategoriesPage = () => {
           categories={data}
           data={categories}
           actions={actions}
-          bulkDelete={handlerBulkDelete}
+          bulkDelete={handlerDelete}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

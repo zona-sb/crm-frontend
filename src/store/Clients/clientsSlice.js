@@ -11,7 +11,10 @@ const clientsSlice = createSlice({
     getAllClients: clientsAdapter.addMany,
     addNewClient: clientsAdapter.addOne,
     updateCurrentClient: clientsAdapter.updateOne,
-    removeCurrentClient: clientsAdapter.removeOne,
+    removeClient: clientsAdapter.removeMany,
+    removeAllClients: (state) => {
+      clientsAdapter.setAll(state, []);
+    },
   },
 });
 
@@ -22,8 +25,9 @@ export const clientsSelector = clientsAdapter.getSelectors(
 export const {
   addNewClient,
   updateCurrentClient,
-  removeCurrentClient,
+  removeClient,
   getAllClients,
+  removeAllClients,
 } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

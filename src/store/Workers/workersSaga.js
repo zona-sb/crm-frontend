@@ -4,7 +4,8 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewWorker,
   getAllWorkers,
-  removeCurrentWorker,
+  removeAllWorkers,
+  removeWorker,
   updateCurrentWorker,
 } from './workersSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -12,7 +13,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getWorkersSaga() {
   try {
-    const payload = yield apiRequests.get(apiRoutes.getWorkers());
+    const payload = yield apiRequests.get(apiRoutes.workers());
     yield put(getAllWorkers(payload.data));
   } catch (e) {
     console.log(e.message);
@@ -22,10 +23,7 @@ export function* getWorkersSaga() {
 export function* addWorkerSaga(action) {
   yield put(setLoading(true));
   try {
-    const payload = yield apiRequests.post(
-      apiRoutes.addWorker(),
-      action.payload
-    );
+    const payload = yield apiRequests.post(apiRoutes.workers(), action.payload);
     yield put(setStatus('success'));
     yield put(addNewWorker(payload.data));
   } catch (_) {
@@ -52,11 +50,15 @@ export function* updateWorkerSaga(action) {
 
 export function* deleteWorkerSaga(action) {
   yield put(setLoading(true));
-  const id = action.payload;
   try {
-    yield apiRequests.delete(apiRoutes.modifyWorker(id));
+    yield apiRequests.delete(apiRoutes.workers(), action.payload);
     yield put(setStatus('success'));
-    yield put(removeCurrentWorker(id));
+    if (action.payload.deleteAll) {
+      yield put(removeAllWorkers());
+    } else {
+      const { ids } = action.payload;
+      yield put(removeWorker(ids));
+    }
   } catch (_) {
     yield put(setStatus('failed'));
   }

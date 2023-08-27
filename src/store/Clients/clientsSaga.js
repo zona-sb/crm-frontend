@@ -4,7 +4,8 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewClient,
   getAllClients,
-  removeCurrentClient,
+  removeAllClients,
+  removeClient,
   updateCurrentClient,
 } from './clientsSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -12,7 +13,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getClientsSaga() {
   try {
-    const payload = yield apiRequests.get(apiRoutes.getClients());
+    const payload = yield apiRequests.get(apiRoutes.clients());
     yield put(getAllClients(payload.data));
   } catch (_) {
     yield put(setStatus('failed'));
@@ -22,10 +23,7 @@ export function* getClientsSaga() {
 export function* addClientSaga(action) {
   yield put(setLoading(true));
   try {
-    const payload = yield apiRequests.post(
-      apiRoutes.addClient(),
-      action.payload
-    );
+    const payload = yield apiRequests.post(apiRoutes.clients(), action.payload);
     yield put(setStatus('success'));
     yield put(addNewClient(payload.data));
   } catch (_) {
@@ -52,11 +50,15 @@ export function* updateClientSaga(action) {
 
 export function* deleteClientSaga(action) {
   yield put(setLoading(true));
-  const id = action.payload;
   try {
-    yield apiRequests.delete(apiRoutes.modifyClient(id));
+    yield apiRequests.delete(apiRoutes.clients(), action.payload);
     yield put(setStatus('success'));
-    yield put(removeCurrentClient(id));
+    if (action.payload.deleteAll) {
+      yield put(removeAllClients());
+    } else {
+      const { ids } = action.payload;
+      yield put(removeClient(ids));
+    }
   } catch (_) {
     yield put(setStatus('failed'));
   }

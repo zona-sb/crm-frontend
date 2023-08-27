@@ -11,8 +11,10 @@ const categoriesSlice = createSlice({
     getAllCategories: categoriesAdapter.addMany,
     addNewCategory: categoriesAdapter.addOne,
     updateCurrentCategory: categoriesAdapter.updateOne,
-    removeCurrentCategory: categoriesAdapter.removeOne,
-    removeBulkCategories: categoriesAdapter.removeMany,
+    removeCategory: categoriesAdapter.removeMany,
+    removeAllCategories: (state) => {
+      categoriesAdapter.setAll(state, []);
+    },
   },
 });
 
@@ -23,9 +25,10 @@ export const categoriesSelector = categoriesAdapter.getSelectors(
 export const {
   addNewCategory,
   updateCurrentCategory,
-  removeCurrentCategory,
+  removeCategory,
   getAllCategories,
   removeBulkCategories,
+  removeAllCategories,
 } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

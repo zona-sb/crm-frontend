@@ -5,7 +5,6 @@ import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
-import './PrioritiesPage.css';
 import Table from '../../components/Table/Table';
 import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
 import {

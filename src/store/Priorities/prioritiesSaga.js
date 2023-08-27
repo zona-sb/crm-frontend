@@ -13,7 +13,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getPrioritiesSaga() {
   try {
-    const payload = yield apiRequests.get(apiRoutes.getPriorities());
+    const payload = yield apiRequests.get(apiRoutes.priorities());
     yield put(getAllPriorities(payload.data));
   } catch (e) {
     console.log(e.message);
@@ -24,7 +24,7 @@ export function* addPrioritySaga(action) {
   yield put(setLoading(true));
   try {
     const payload = yield apiRequests.post(
-      apiRoutes.addPriority(),
+      apiRoutes.priorities(),
       action.payload
     );
     yield put(setStatus('success'));
@@ -53,8 +53,9 @@ export function* updatePrioritySaga(action) {
 
 export function* deletePrioritySaga(action) {
   yield put(setLoading(true));
+  console.log(action.payload);
   try {
-    yield apiRequests.delete(apiRoutes.deletePriorities(), action.payload);
+    yield apiRequests.delete(apiRoutes.priorities(), action.payload);
     yield put(setStatus('success'));
     if (action.payload.deleteAll) {
       yield put(removeAllPriorities());

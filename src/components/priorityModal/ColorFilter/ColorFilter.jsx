@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './ColorFilter.css';
-import cn from 'classnames';
 
 const ColorFilter = (props) => {
   const data = props.data.map(({ color }) => color);
   const [activePriority, setActivePriority] = useState('');
 
   useEffect(() => {
-    if (data.length === 0) {
+    if (!data.find((c) => c === activePriority)) {
       setActivePriority('');
     }
   }, [data]);

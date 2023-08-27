@@ -8,7 +8,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(deleteCategory(id));
+    dispatch(deleteCategory({ ids: [id] }));
   };
   return (
     <div>

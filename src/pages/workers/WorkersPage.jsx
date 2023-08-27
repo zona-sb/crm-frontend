@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 import WorkerModal from '../../components/workersModal/WorkersModal';
 import { workersSelector } from '../../store/Workers/workersSlice';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
-import './WorkersPage.css';
 import Table from '../../components/Table/Table';
-import { getWorkers } from '../../store/Workers/workersSaga';
+import { deleteWorker, getWorkers } from '../../store/Workers/workersSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -67,11 +66,20 @@ const WorkersPage = () => {
     edit: 'edit',
   };
 
+  const handlerDelete = (deleteData) => {
+    dispatch(deleteWorker(deleteData));
+  };
+
   return (
     <>
       <WorkerModal />
       <div className='d-flex flex-column'>
-        <Table categories={data} data={workers} actions={actions} />
+        <Table
+          categories={data}
+          data={workers}
+          actions={actions}
+          bulkDelete={handlerDelete}
+        />
         <div className='d-flex justify-content-center mt-4'>
           <button
             className='custom__add-table-button'

@@ -70,7 +70,7 @@ const PrioritiesPage = () => {
     edit: 'edit',
   };
 
-  const handlerBulkDelete = (deleteData) => {
+  const handlerDelete = (deleteData) => {
     dispatch(deletePriority(deleteData));
   };
 
@@ -82,7 +82,7 @@ const PrioritiesPage = () => {
           categories={data}
           data={priorities}
           actions={actions}
-          bulkDelete={handlerBulkDelete}
+          bulkDelete={handlerDelete}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

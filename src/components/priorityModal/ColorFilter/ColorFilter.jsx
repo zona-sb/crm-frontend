@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ColorFilter.css';
+import cn from 'classnames';
 
 const ColorFilter = (props) => {
   const data = props.data.map(({ color }) => color);
-  const [activePriority, setActivePriority] = useState(null);
+  const [activePriority, setActivePriority] = useState('');
+
+  useEffect(() => {
+    if (data.length === 0) {
+      setActivePriority('');
+    }
+  }, [data]);
 
   return (
     <div className='dropdown'>
@@ -39,6 +46,18 @@ const ColorFilter = (props) => {
             />
           </li>
         ))}
+        {data.length > 0 && (
+          <li>
+            <button
+              type='button'
+              aria-label='color'
+              onClick={() => setActivePriority('')}
+              className='btn custom-dropdown-reset-button'
+            >
+              Сброс
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

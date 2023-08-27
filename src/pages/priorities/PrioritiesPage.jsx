@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
@@ -12,21 +12,25 @@ import {
   getPriorities,
 } from '../../store/Priorities/prioritiesSaga';
 
-const FilterInputName = () => (
+const FilterInputName = ({ titleValue, handlerTitleValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
     placeholder='Введите наименование'
+    value={titleValue}
+    onChange={(e) => handlerTitleValue(e.target.value, 'title')}
   />
 );
 
-const FilterInputWeight = () => (
+const FilterInputWeight = ({ weightValue, handlerWeightValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
     placeholder='Введите номер'
+    value={weightValue}
+    onChange={(e) => handlerWeightValue(e.target.value, 'weight')}
   />
 );
 
@@ -34,27 +38,55 @@ const PrioritiesPage = () => {
   const priorities = useSelector(prioritiesSelector.selectAll);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [filterValue, setFilterValue] = useState({
+    title: '',
+    weight: '',
+    color: '',
+  });
 
   useEffect(() => {
     dispatch(getPriorities());
   }, [dispatch]);
 
+  const filtering = (value, key) => {
+    console.log(value, key);
+    const newFilterValue = { ...filterValue, [key]: value };
+    setFilterValue(newFilterValue);
+    console.log(newFilterValue);
+  };
+
   const data = [
     {
       key: 'title',
       name: 'Наименование',
-      filter: <FilterInputName />,
+      filter: (
+        <FilterInputName
+          titleValue={filterValue.title}
+          handlerTitleValue={filtering}
+        />
+      ),
     },
     {
       key: 'weight',
       name: 'Номер приоритета',
-      filter: <FilterInputWeight />,
+      filter: (
+        <FilterInputWeight
+          weightValue={filterValue.weight}
+          handlerWeightValue={filtering}
+        />
+      ),
     },
     {
       key: 'color',
       name: 'Цвет',
       customStyle: { flex: 0, minWidth: '70px' },
-      filter: <ColorFilter data={priorities} />,
+      filter: (
+        <ColorFilter
+          data={priorities}
+          activePriority={filterValue.color}
+          handlerColorValue={filtering}
+        />
+      ),
       customTag: 'div',
       customCell: (color) => ({
         width: '20px',

@@ -76,7 +76,7 @@ const Table = (props) => {
 
   const renderRowsCounter = () => (
     <div className='d-flex align-items-center mb-2 mx-2 custom__table-select'>
-      <div className='custom__table-select-rows me-3'>
+      <div className='custom__table-select-rows'>
         Выбрано: {checkedRows.length} из {props.data.length}
       </div>
       <div>

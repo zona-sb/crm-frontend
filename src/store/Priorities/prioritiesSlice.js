@@ -11,8 +11,10 @@ const prioritiesSlice = createSlice({
     getAllPriorities: prioritiesAdapter.addMany,
     addNewPriority: prioritiesAdapter.addOne,
     updateCurrentPriority: prioritiesAdapter.updateOne,
-    removeCurrentPriority: prioritiesAdapter.removeOne,
-    removeBulkPriorities: prioritiesAdapter.removeMany,
+    removePriority: prioritiesAdapter.removeMany,
+    removeAllPriorities: (state) => {
+      prioritiesAdapter.setAll(state, []);
+    },
   },
 });
 
@@ -23,9 +25,9 @@ export const prioritiesSelector = prioritiesAdapter.getSelectors(
 export const {
   addNewPriority,
   updateCurrentPriority,
-  removeCurrentPriority,
+  removePriority,
   getAllPriorities,
-  removeBulkPriorities,
+  removeAllPriorities,
 } = prioritiesSlice.actions;
 
 export default prioritiesSlice.reducer;

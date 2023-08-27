@@ -4,8 +4,8 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewPriority,
   getAllPriorities,
-  removeBulkPriorities,
-  removeCurrentPriority,
+  removeAllPriorities,
+  removePriority,
   updateCurrentPriority,
 } from './prioritiesSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -53,23 +53,15 @@ export function* updatePrioritySaga(action) {
 
 export function* deletePrioritySaga(action) {
   yield put(setLoading(true));
-  const id = action.payload;
   try {
-    yield apiRequests.delete(apiRoutes.modifyPriority(id));
+    yield apiRequests.delete(apiRoutes.deletePriorities(), action.payload);
     yield put(setStatus('success'));
-    yield put(removeCurrentPriority(id));
-  } catch (_) {
-    yield put(setStatus('failed'));
-  }
-}
-
-export function* deleteBulkPrioritiesSaga(action) {
-  yield put(setLoading(true));
-  const ids = action.payload;
-  try {
-    yield apiRequests.deleteBulk(apiRoutes.deleteBulkPriorities(), ids);
-    yield put(setStatus('success'));
-    yield put(removeBulkPriorities(ids));
+    if (action.payload.deleteAll) {
+      yield put(removeAllPriorities());
+    } else {
+      const { ids } = action.payload;
+      yield put(removePriority(ids));
+    }
   } catch (_) {
     yield put(setStatus('failed'));
   }
@@ -83,5 +75,3 @@ export const UPDATE_PRIORITY = 'updatePriority';
 export const updatePriority = createAction(UPDATE_PRIORITY);
 export const DELETE_PRIORITY = 'deletePriority';
 export const deletePriority = createAction(DELETE_PRIORITY);
-export const DELETE_BULK_PRIORITIES = 'deleteBulkPriorities';
-export const deleteBulkPriorities = createAction(DELETE_BULK_PRIORITIES);

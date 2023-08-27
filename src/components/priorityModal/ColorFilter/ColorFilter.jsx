@@ -17,7 +17,7 @@ const ColorFilter = (props) => {
           style={{
             width: '15px',
             height: '15px',
-            backgroundColor: activePriority ?? data[0],
+            backgroundColor: activePriority,
           }}
         />
       </button>

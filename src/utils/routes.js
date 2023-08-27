@@ -30,7 +30,7 @@ export const apiRoutes = {
   getStatuses: () => `${domain}/api/statuses`,
   getWorkers: () => `${domain}/api/workers`,
   getClients: () => `${domain}/api/clients`,
-  deleteBulkPriorities: () => `${domain}/api/priorities/bulk`,
-  deleteBulkCategories: () => `${domain}/api/categories/bulk`,
-  deleteBulkStatuses: () => `${domain}/api/statuses/bulk`,
+  deletePriorities: () => `${domain}/api/priorities`,
+  deleteCategories: () => `${domain}/api/categories`,
+  deleteStatuses: () => `${domain}/api/statuses`,
 };

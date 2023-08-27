@@ -157,17 +157,34 @@
   background-color: #0d6efd;
 }
 
+.custom__table-select {
+  gap: 5px;
+}
+
+.custom__table-select div:last-child {
+  margin-left: auto;
+}
+
 .custom__table-select-rows {
   font-size: 16px;
   font-weight: 700;
-  padding-left: 10px;
 }
+
 .custom__table-delete-button {
   padding: 10px 20px;
   border: 0;
   font-weight: 400;
   font-size: 16px;
 }
+
+.custom__table-part-delete-button:disabled,
+.custom__table-part-delete-button[disabled],
+.custom__table-part-delete-button:disabled:hover,
+.custom__table-part-delete-button[disabled]:hover {
+  background-color: rgba(126, 126, 126, 0.3);
+  box-shadow: none;
+}
+
 @media all and (min-width: 500px) {
   .mobile__table-row-info-each {
     display: none;

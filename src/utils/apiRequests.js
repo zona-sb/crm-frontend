@@ -12,8 +12,7 @@ const apiRequests = {
   post: (path, payload) => axios.post(path, payload, getHeader()),
   get: (path) => axios.get(path, getHeader()),
   put: (path, payload) => axios.put(path, payload, getHeader()),
-  delete: (path) => axios.delete(path, getHeader()),
-  deleteBulk: (path, payload) =>
+  delete: (path, payload) =>
     axios.delete(path, { data: payload, ...getHeader() }),
 };
 

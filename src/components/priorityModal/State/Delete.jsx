@@ -8,7 +8,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(deletePriority(id));
+    dispatch(deletePriority({ ids: [id] }));
   };
   return (
     <>

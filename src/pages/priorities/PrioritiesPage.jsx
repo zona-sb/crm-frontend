@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import PriorityModal from '../../components/priorityModal/PriorityModal';
 import { prioritiesSelector } from '../../store/Priorities/prioritiesSlice';
@@ -8,7 +9,7 @@ import './PrioritiesPage.css';
 import Table from '../../components/Table/Table';
 import ColorFilter from '../../components/priorityModal/ColorFilter/ColorFilter';
 import {
-  deleteBulkPriorities,
+  deletePriority,
   getPriorities,
 } from '../../store/Priorities/prioritiesSaga';
 
@@ -33,6 +34,7 @@ const FilterInputWeight = () => (
 const PrioritiesPage = () => {
   const priorities = useSelector(prioritiesSelector.selectAll);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getPriorities());
@@ -68,8 +70,8 @@ const PrioritiesPage = () => {
     edit: 'edit',
   };
 
-  const handlerBulkDelete = (ids) => {
-    dispatch(deleteBulkPriorities(ids));
+  const handlerBulkDelete = (deleteData) => {
+    dispatch(deletePriority(deleteData));
   };
 
   return (
@@ -90,7 +92,7 @@ const PrioritiesPage = () => {
               dispatch(setCurrentType({ type: 'add' }));
             }}
           >
-            + Добавить приоритет
+            {t('prioritiesModal.buttonAdd')}
           </button>
         </div>
       </div>

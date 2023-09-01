@@ -11,7 +11,10 @@ const workersSlice = createSlice({
     getAllWorkers: workersAdapter.addMany,
     addNewWorker: workersAdapter.addOne,
     updateCurrentWorker: workersAdapter.updateOne,
-    removeCurrentWorker: workersAdapter.removeOne,
+    removeWorker: workersAdapter.removeMany,
+    removeAllWorkers: (state) => {
+      workersAdapter.setAll(state, []);
+    },
   },
 });
 
@@ -22,8 +25,9 @@ export const workersSelector = workersAdapter.getSelectors(
 export const {
   addNewWorker,
   updateCurrentWorker,
-  removeCurrentWorker,
+  removeWorker,
   getAllWorkers,
+  removeAllWorkers,
 } = workersSlice.actions;
 
 export default workersSlice.reducer;

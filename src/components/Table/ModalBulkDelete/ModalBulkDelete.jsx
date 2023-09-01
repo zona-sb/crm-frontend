@@ -2,16 +2,34 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
 
-const ModalBulkDelete = ({ onHide, bulkDelete, status, isLoading }) => {
+const ModalBulkDelete = ({
+  onHide,
+  partDelete,
+  allDelete,
+  flag,
+  status,
+  isLoading,
+}) => {
   const { t } = useTranslation();
   return (
     <>
-      <p className='priority__title'>{t('modalBulkDelete.deleteTitle')}</p>
+      <p className='priority__title'>
+        {flag
+          ? t('modalBulkDelete.deleteAllTitle')
+          : t('modalBulkDelete.deleteTitle')}
+      </p>
       {status === 'idle' && (
         <>
-          <p>{t('modalBulkDelete.deleteText')}</p>
+          <p>
+            {flag
+              ? t('modalBulkDelete.deleteAllText')
+              : t('modalBulkDelete.deleteText')}
+          </p>
           <div className='custom__modals-two-buttons'>
-            <ButtonCustom onClick={bulkDelete} disabled={isLoading}>
+            <ButtonCustom
+              onClick={flag ? allDelete : partDelete}
+              disabled={isLoading}
+            >
               {t('modalBulkDelete.buttonDelete')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>

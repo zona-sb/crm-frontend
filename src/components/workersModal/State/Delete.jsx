@@ -8,7 +8,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(deleteWorker(id));
+    dispatch(deleteWorker({ ids: [id] }));
   };
   return (
     <div>

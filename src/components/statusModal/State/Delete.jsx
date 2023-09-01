@@ -9,7 +9,7 @@ const Delete = ({ onHide, id, status, isLoading }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteStatus(id));
+    dispatch(deleteStatus({ ids: [id] }));
   };
   return (
     <>

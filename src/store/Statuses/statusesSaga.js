@@ -5,15 +5,15 @@ import {
   getAllStatuses,
   addNewStatus,
   updateCurrentStatus,
-  removeCurrentStatus,
-  removeBulkStatuses,
+  removeAllStatuses,
+  removeStatus,
 } from './statusesSlice';
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getStatusesSaga() {
   try {
-    const payload = yield apiRequests.get(apiRoutes.getStatuses());
+    const payload = yield apiRequests.get(apiRoutes.statuses());
     yield put(getAllStatuses(payload.data));
   } catch (_) {
     yield put(setStatus('failed'));
@@ -24,7 +24,7 @@ export function* addStatusSaga(action) {
   yield put(setLoading(true));
   try {
     const payload = yield apiRequests.post(
-      apiRoutes.addStatus(),
+      apiRoutes.statuses(),
       action.payload
     );
     yield put(setStatus('success'));
@@ -53,23 +53,15 @@ export function* updateStatusSaga(action) {
 
 export function* deleteStatusSaga(action) {
   yield put(setLoading(true));
-  const id = action.payload;
   try {
-    yield apiRequests.delete(apiRoutes.modifyStatus(id));
+    yield apiRequests.delete(apiRoutes.statuses(), action.payload);
     yield put(setStatus('success'));
-    yield put(removeCurrentStatus(id));
-  } catch (_) {
-    yield put(setStatus('failed'));
-  }
-}
-
-export function* deleteBulkStatusesSaga(action) {
-  yield put(setLoading(true));
-  const ids = action.payload;
-  try {
-    yield apiRequests.deleteBulk(apiRoutes.deleteBulkStatuses(), ids);
-    yield put(setStatus('success'));
-    yield put(removeBulkStatuses(ids));
+    if (action.payload.deleteAll) {
+      yield put(removeAllStatuses());
+    } else {
+      const { ids } = action.payload;
+      yield put(removeStatus(ids));
+    }
   } catch (_) {
     yield put(setStatus('failed'));
   }
@@ -83,5 +75,3 @@ export const UPDATE_STATUS = 'updateStatus';
 export const updateStatus = createAction(UPDATE_STATUS);
 export const DELETE_STATUS = 'deleteStatus';
 export const deleteStatus = createAction(DELETE_STATUS);
-export const DELETE_BULK_STATUSES = 'deleteBulkStatuses';
-export const deleteBulkStatuses = createAction(DELETE_BULK_STATUSES);

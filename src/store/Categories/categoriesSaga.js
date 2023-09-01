@@ -4,8 +4,8 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewCategory,
   getAllCategories,
-  removeBulkCategories,
-  removeCurrentCategory,
+  removeAllCategories,
+  removeCategory,
   updateCurrentCategory,
 } from './categoriesSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -13,7 +13,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getCategoriesSaga() {
   try {
-    const payload = yield apiRequests.get(apiRoutes.getCategories());
+    const payload = yield apiRequests.get(apiRoutes.categories());
     yield put(getAllCategories(payload.data));
   } catch (e) {
     console.log(e.message);
@@ -24,7 +24,7 @@ export function* addCategorySaga(action) {
   yield put(setLoading(true));
   try {
     const payload = yield apiRequests.post(
-      apiRoutes.addCategory(),
+      apiRoutes.categories(),
       action.payload
     );
     yield put(setStatus('success'));
@@ -53,23 +53,15 @@ export function* updateCategorySaga(action) {
 
 export function* deleteCategorySaga(action) {
   yield put(setLoading(true));
-  const id = action.payload;
   try {
-    yield apiRequests.delete(apiRoutes.modifyCategory(id));
+    yield apiRequests.delete(apiRoutes.categories(), action.payload);
     yield put(setStatus('success'));
-    yield put(removeCurrentCategory(id));
-  } catch (_) {
-    yield put(setStatus('failed'));
-  }
-}
-
-export function* deleteBulkCategoriesSaga(action) {
-  yield put(setLoading(true));
-  const ids = action.payload;
-  try {
-    yield apiRequests.deleteBulk(apiRoutes.deleteBulkCategories(), ids);
-    yield put(setStatus('success'));
-    yield put(removeBulkCategories(ids));
+    if (action.payload.deleteAll) {
+      yield put(removeAllCategories());
+    } else {
+      const { ids } = action.payload;
+      yield put(removeCategory(ids));
+    }
   } catch (_) {
     yield put(setStatus('failed'));
   }
@@ -83,5 +75,3 @@ export const UPDATE_CATEGORY = 'updateCategory';
 export const updateCategory = createAction(UPDATE_CATEGORY);
 export const DELETE_CATEGORY = 'deleteCategory';
 export const deleteCategory = createAction(DELETE_CATEGORY);
-export const DELETE_BULK_CATEGORIES = 'deleteBulkCategories';
-export const deleteBulkCategories = createAction(DELETE_BULK_CATEGORIES);

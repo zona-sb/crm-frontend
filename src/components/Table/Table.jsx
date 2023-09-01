@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import { BsPencilFill, BsTrashFill } from 'react-icons/bs';
 import cn from 'classnames';
@@ -19,14 +20,23 @@ const Table = (props) => {
   } = props;
   const bodyRef = useRef(null);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [isModalShow, setIsModalShow] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [checkedRows, setCheckedRows] = useState([]);
   const [isShowScrollbar, setIsShowScrollbar] = useState(false);
-  const { status, isLoading } = useSelector((state) => state.modal);
+  const {
+    data: { flag },
+    status,
+    isLoading,
+  } = useSelector((state) => state.modal);
 
-  const handleBulkDelete = () => {
-    dispatch(setCurrentType({ type: 'bulkDelete' }));
+  const handleBulkDelete = (mark) => {
+    if (mark === 'deleteAll') {
+      dispatch(setCurrentType({ type: 'bulkDelete', flag: mark }));
+    } else {
+      dispatch(setCurrentType({ type: 'bulkDelete' }));
+    }
     setIsModalShow((prev) => !prev);
   };
 
@@ -48,6 +58,7 @@ const Table = (props) => {
 
   useEffect(() => {
     const ids = data.map(({ id }) => id);
+    if (ids.length === 0) setIsCheckAll(false);
     setCheckedRows(checkedRows.filter((row) => ids.includes(row)));
   }, [data]);
 
@@ -65,18 +76,27 @@ const Table = (props) => {
   }, [data, height]);
 
   const renderRowsCounter = () => (
-    <div className='d-flex align-items-center mb-2'>
-      <div className='custom__table-select-rows me-3'>
+    <div className='d-flex align-items-center mb-2 mx-2 custom__table-select'>
+      <div className='custom__table-select-rows'>
         Выбрано: {checkedRows.length} из {props.data.length}
       </div>
       <div>
         <ButtonCustom
-          className='custom__table-delete-button'
+          className='custom__table-delete-button custom__table-part-delete-button'
           onClick={handleBulkDelete}
           color='reject'
           disabled={checkedRows.length === 0}
         >
-          Удалить выбранные
+          {t('table.buttonDelete')}
+        </ButtonCustom>
+      </div>
+      <div>
+        <ButtonCustom
+          className='custom__table-delete-button'
+          onClick={() => handleBulkDelete('deleteAll')}
+          color='reject'
+        >
+          {t('table.buttonAllDelete')}
         </ButtonCustom>
       </div>
       <ModalCustom
@@ -85,7 +105,9 @@ const Table = (props) => {
       >
         {isModalShow && (
           <ModalBulkDelete
-            bulkDelete={() => bulkDelete(checkedRows)}
+            flag={flag}
+            partDelete={() => bulkDelete({ ids: checkedRows })}
+            allDelete={() => bulkDelete({ deleteAll: true })}
             isLoading={isLoading}
             status={status}
             onHide={() => setIsModalShow((prev) => !prev)}

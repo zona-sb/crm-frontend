@@ -11,8 +11,10 @@ const statusesSlice = createSlice({
     getAllStatuses: statusesAdapter.addMany,
     addNewStatus: statusesAdapter.addOne,
     updateCurrentStatus: statusesAdapter.updateOne,
-    removeCurrentStatus: statusesAdapter.removeOne,
-    removeBulkStatuses: statusesAdapter.removeMany,
+    removeStatus: statusesAdapter.removeMany,
+    removeAllStatuses: (state) => {
+      statusesAdapter.setAll(state, []);
+    },
   },
 });
 
@@ -24,8 +26,8 @@ export const {
   getAllStatuses,
   addNewStatus,
   updateCurrentStatus,
-  removeCurrentStatus,
-  removeBulkStatuses,
+  removeStatus,
+  removeAllStatuses,
 } = statusesSlice.actions;
 
 export default statusesSlice.reducer;

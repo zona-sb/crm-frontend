@@ -7,11 +7,7 @@ import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import { getCategories } from '../../store/Categories/categoriesSaga';
 import StatusModal from '../../components/statusModal/StatusModal';
 import Table from '../../components/Table/Table';
-import './StatusesPage.css';
-import {
-  deleteBulkStatuses,
-  getStatuses,
-} from '../../store/Statuses/statusesSaga';
+import { deleteStatus, getStatuses } from '../../store/Statuses/statusesSaga';
 
 const FilterInputName = () => (
   <Form.Control
@@ -62,8 +58,8 @@ const StatusesPage = () => {
     edit: 'edit',
   };
 
-  const handlerBulkDelete = (ids) => {
-    dispatch(deleteBulkStatuses(ids));
+  const handlerDelete = (deleteData) => {
+    dispatch(deleteStatus(deleteData));
   };
 
   return (
@@ -74,7 +70,7 @@ const StatusesPage = () => {
           categories={data}
           data={statuses}
           actions={actions}
-          bulkDelete={handlerBulkDelete}
+          bulkDelete={handlerDelete}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

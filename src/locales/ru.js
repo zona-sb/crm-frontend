@@ -37,10 +37,17 @@ export default {
       emailCorrect: 'Пожалуйста, введите корректный email адрес',
       passwordsMustMatch: 'Пароли должны совпадать',
     },
+    table: {
+      buttonDelete: 'Удалить выбранное',
+      buttonAllDelete: 'Удалить все записи',
+    },
     modalBulkDelete: {
-      deleteTitle: 'Удаление выбранных элементов',
-      deleteText: 'Вы действительно хотите удалить выбранные элементы?',
-      successDeleteText: 'Элементы были удалены!',
+      deleteAllTitle: 'Удаление всех записей',
+      deleteTitle: 'Удаление выбранных записей',
+      deleteAllText:
+        'Данное действие удалит все записи из базы данных. Вы действительно хотите удалить все записи?',
+      deleteText: 'Вы действительно хотите удалить выбранные записи?',
+      successDeleteText: 'Записи были удалены!',
       failedText: 'Произошла ошибка!',
       buttonCancel: 'Отмена',
       buttonDelete: 'Удалить',
@@ -58,6 +65,7 @@ export default {
       successDeleteText: 'Приоритет удален!',
       successEditText: 'Изменения сохранены!',
       failedText: 'Произошла ошибка!',
+      buttonAdd: '+ Добавить приоритет',
       buttonCreate: 'Создать',
       buttonSave: 'Сохранить',
       buttonCancel: 'Отмена',

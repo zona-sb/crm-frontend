@@ -30,3 +30,12 @@
   padding: 0;
   border-radius: 0;
 }
+
+.custom-dropdown-reset-button,
+.custom-dropdown-reset-button:hover {
+  padding: 5px 0 0 0;
+  border-top: 1px solid black;
+  border-radius: 0;
+  margin-top: 5px;
+  font-size: 12px;
+}

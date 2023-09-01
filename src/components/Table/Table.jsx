@@ -59,8 +59,7 @@ const Table = (props) => {
   useEffect(() => {
     const ids = data.map(({ id }) => id);
     if (ids.length === 0) setIsCheckAll(false);
-    const currentRows = checkedRows.filter((row) => ids.includes(row));
-    setCheckedRows(currentRows);
+    setCheckedRows(checkedRows.filter((row) => ids.includes(row)));
   }, [data]);
 
   const scrollbarRowStyle = cn('main-body', {

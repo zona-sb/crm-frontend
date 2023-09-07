@@ -45,14 +45,14 @@ const PrioritiesPage = () => {
   });
 
   useEffect(() => {
-    dispatch(getPriorities());
-  }, [dispatch]);
+    dispatch(getPriorities(filterValue));
+  }, [dispatch, filterValue]);
 
   const filtering = (value, key) => {
-    console.log(value, key);
-    const newFilterValue = { ...filterValue, [key]: value };
-    setFilterValue(newFilterValue);
-    console.log(newFilterValue);
+    // if (value.trim().length === 0) {
+    //   value = null;
+    // }
+    setFilterValue({ ...filterValue, [key]: value });
   };
 
   const data = [

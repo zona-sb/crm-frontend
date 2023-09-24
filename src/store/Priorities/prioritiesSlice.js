@@ -8,7 +8,10 @@ const prioritiesSlice = createSlice({
   name: 'priorities',
   initialState,
   reducers: {
-    getAllPriorities: prioritiesAdapter.addMany,
+    getAllPriorities: (state, action) => {
+      prioritiesAdapter.setAll(state, action.payload);
+    },
+    loadMorePriorities: prioritiesAdapter.addMany,
     addNewPriority: prioritiesAdapter.addOne,
     updateCurrentPriority: prioritiesAdapter.updateOne,
     removePriority: prioritiesAdapter.removeMany,

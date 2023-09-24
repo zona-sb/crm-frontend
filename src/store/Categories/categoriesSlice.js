@@ -8,7 +8,10 @@ const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    getAllCategories: categoriesAdapter.addMany,
+    getAllCategories: (state, action) => {
+      categoriesAdapter.setAll(state, action.payload);
+    },
+    loadMoreCategories: categoriesAdapter.addMany,
     addNewCategory: categoriesAdapter.addOne,
     updateCurrentCategory: categoriesAdapter.updateOne,
     removeCategory: categoriesAdapter.removeMany,

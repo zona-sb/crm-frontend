@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,22 +8,31 @@ import { getCategories } from '../../store/Categories/categoriesSaga';
 import StatusModal from '../../components/statusModal/StatusModal';
 import Table from '../../components/Table/Table';
 import { deleteStatus, getStatuses } from '../../store/Statuses/statusesSaga';
+import filtering from '../../utils/filtering';
 
-const FilterInputName = () => (
+const FilterInputName = ({ titleValue, handlerTitleValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
+    value={titleValue ?? ''}
+    onChange={(e) =>
+      handlerTitleValue({ value: e.target.value, key: 'statusTitle' })
+    }
     placeholder='Введите наименование'
   />
 );
 
-const FilterInputCategory = () => (
+const FilterInputCategory = ({ categoryTitle, handlerCategoryTitleValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
     placeholder='Введите наименование категории'
+    value={categoryTitle ?? ''}
+    onChange={(e) =>
+      handlerCategoryTitleValue({ value: e.target.value, key: 'categoryTitle' })
+    }
   />
 );
 
@@ -33,8 +42,16 @@ const StatusesPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  const [filterValue, setFilterValue] = useState({
+    statusTitle: null,
+    categoryTitle: null,
+  });
+
   useEffect(() => {
-    dispatch(getStatuses());
+    dispatch(getStatuses(filterValue));
+  }, [dispatch, filterValue]);
+
+  useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
@@ -43,13 +60,27 @@ const StatusesPage = () => {
       key: 'statusTitle',
       name: 'Наименование',
       customStyle: { minWidth: '200px' },
-      filter: <FilterInputName />,
+      filter: (
+        <FilterInputName
+          titleValue={filterValue.statusTitle}
+          handlerTitleValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
+        />
+      ),
     },
     {
       key: 'category.categoryTitle',
       name: 'Категория',
       customStyle: { minWidth: '280px' },
-      filter: <FilterInputCategory />,
+      filter: (
+        <FilterInputCategory
+          categoryTitle={filterValue.categoryTitle}
+          handlerCategoryTitleValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
+        />
+      ),
     },
   ];
 

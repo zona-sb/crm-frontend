@@ -12,13 +12,13 @@ import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getPrioritiesSaga(action) {
-  console.log(action);
   try {
     const payload = yield apiRequests.get(
       apiRoutes.priorities(),
       action.payload
     );
     yield put(getAllPriorities(payload.data));
+    // yield put(getAllPriorities(payload.data));
   } catch (e) {
     console.log(e);
     console.log(e.message);

@@ -8,7 +8,10 @@ const statusesSlice = createSlice({
   name: 'statuses',
   initialState,
   reducers: {
-    getAllStatuses: statusesAdapter.addMany,
+    getAllStatuses: (state, action) => {
+      statusesAdapter.setAll(state, action.payload);
+    },
+    loadMoreStatuses: statusesAdapter.addMany,
     addNewStatus: statusesAdapter.addOne,
     updateCurrentStatus: statusesAdapter.updateOne,
     removeStatus: statusesAdapter.removeMany,

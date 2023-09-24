@@ -27,7 +27,7 @@ const ColorFilter = (props) => {
               type='button'
               aria-label='color'
               onClick={() => {
-                props.handlerColorValue(color, 'color');
+                props.handlerColorValue({ value: color, key: 'color' });
               }}
               className='btn custom-dropdown-button'
               style={{

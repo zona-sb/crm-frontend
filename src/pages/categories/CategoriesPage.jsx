@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -10,13 +10,18 @@ import {
   deleteCategory,
   getCategories,
 } from '../../store/Categories/categoriesSaga';
+import filtering from '../../utils/filtering';
 
-const FilterInputName = () => (
+const FilterInputName = ({ titleValue, handlerTitleValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
     placeholder='Введите наименование'
+    value={titleValue ?? ''}
+    onChange={(e) =>
+      handlerTitleValue({ value: e.target.value, key: 'categoryTitle' })
+    }
   />
 );
 
@@ -24,16 +29,26 @@ const CategoriesPage = () => {
   const categories = useSelector(categoriesSelector.selectAll);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [filterValue, setFilterValue] = useState({
+    categoryTitle: null,
+  });
 
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+    dispatch(getCategories(filterValue));
+  }, [dispatch, filterValue]);
 
   const data = [
     {
       key: 'categoryTitle',
       name: t('categoriesModal.inputTitle'),
-      filter: <FilterInputName />,
+      filter: (
+        <FilterInputName
+          titleValue={filterValue.categoryTitle}
+          handlerTitleValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
+        />
+      ),
     },
   ];
 

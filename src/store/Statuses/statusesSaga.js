@@ -11,10 +11,10 @@ import {
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
-export function* getStatusesSaga() {
+export function* getStatusesSaga(action) {
   try {
-    const payload = yield apiRequests.get(apiRoutes.statuses());
-    yield put(getAllStatuses(payload.data.content));
+    const payload = yield apiRequests.get(apiRoutes.statuses(), action.payload);
+    yield put(getAllStatuses(payload.data));
   } catch (_) {
     yield put(setStatus('failed'));
   }

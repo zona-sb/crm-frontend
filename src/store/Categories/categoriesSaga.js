@@ -11,10 +11,14 @@ import {
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
-export function* getCategoriesSaga() {
+export function* getCategoriesSaga(action) {
   try {
-    const payload = yield apiRequests.get(apiRoutes.categories());
-    yield put(getAllCategories(payload.data.content));
+    const payload = yield apiRequests.get(
+      apiRoutes.categories(),
+      action.payload
+    );
+    console.log(payload);
+    yield put(getAllCategories(payload.data));
   } catch (e) {
     console.log(e.message);
   }

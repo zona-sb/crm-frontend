@@ -43,7 +43,7 @@ const ColorFilter = (props) => {
           <button
             type='button'
             aria-label='color'
-            onClick={() => props.handlerColorValue('', 'color')}
+            onClick={() => props.handlerColorValue({ value: '', key: 'color' })}
             className='btn custom-dropdown-reset-button'
           >
             Сброс

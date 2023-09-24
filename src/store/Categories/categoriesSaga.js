@@ -17,7 +17,6 @@ export function* getCategoriesSaga(action) {
       apiRoutes.categories(),
       action.payload
     );
-    console.log(payload);
     yield put(getAllCategories(payload.data));
   } catch (e) {
     console.log(e.message);

@@ -14,7 +14,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 export function* getStatusesSaga() {
   try {
     const payload = yield apiRequests.get(apiRoutes.statuses());
-    yield put(getAllStatuses(payload.data));
+    yield put(getAllStatuses(payload.data.content));
   } catch (_) {
     yield put(setStatus('failed'));
   }

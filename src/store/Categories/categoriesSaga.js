@@ -14,7 +14,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 export function* getCategoriesSaga() {
   try {
     const payload = yield apiRequests.get(apiRoutes.categories());
-    yield put(getAllCategories(payload.data));
+    yield put(getAllCategories(payload.data.content));
   } catch (e) {
     console.log(e.message);
   }

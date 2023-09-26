@@ -38,7 +38,7 @@ const Navigation = () => {
               <NavLink
                 className={activeLink === 'orders' ? 'link-active' : 'link'}
                 onClick={() => handleLinkClick('orders')}
-                to='#'
+                to={routes.orders()}
               >
                 {t('navigation.orders')}
               </NavLink>

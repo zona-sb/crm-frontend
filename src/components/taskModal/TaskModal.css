@@ -1,0 +1,26 @@
+.task__title {
+  font-size: var(--h4FontSize);
+  font-weight: var(--boldFontWeight);
+}
+
+.task__labels {
+  font-size: 14px;
+}
+
+.task__input {
+  height: 50px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.task__check {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.task__input-select {
+  --bs-form-select-bg-img: url('../../assets/icons/arrowDropdown.svg');
+  background-image: var(--bs-form-select-bg-img);
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+}

@@ -3,6 +3,7 @@ import 'yup-phone-lite';
 
 const getSchema = (name, t, exception) => {
   const regexpNum = '^\\+7\\d{10}$';
+  const regexpDate = '^\\d{4}(-)\\d{2}(-)\\d{2}$';
   const regexpName = '^[а-яёА-ЯЁ\\w-]+(?:[\\s.-][а-яёА-ЯЁ\\w-]+)*$';
   const regexpEmail =
     '^(\\w+|[а-яёА-ЯЁ]+)(@)(\\w+|[а-яёА-ЯЁ]+){2,10}[.](\\w+|[а-яёА-ЯЁ]+){2,10}$';
@@ -136,6 +137,20 @@ const getSchema = (name, t, exception) => {
           email: Yup.string()
             .matches(regexpEmail, t('forms.emailCorrect'))
             .required(t('forms.onblur')),
+          comment: Yup.string(),
+        });
+    case 'modifyTask':
+      return () =>
+        Yup.object().shape({
+          address: Yup.string()
+            .min(3, t('forms.minSize'))
+            .max(100, t('forms.minSize'))
+            .required(t('forms.onblur')),
+          date: Yup.string()
+            .min(3, t('forms.minSize'))
+            .max(10, t('forms.minSize'))
+            .required(t('forms.onblur'))
+            .matches(regexpDate, t('tasksModal.date')),
           comment: Yup.string(),
         });
     default:

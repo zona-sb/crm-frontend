@@ -13,6 +13,7 @@ import WorkersPage from './pages/workers/WorkersPage.jsx';
 import ClientsPage from './pages/clients/ClientsPage.jsx';
 import Navigation from './components/navigation/Navigation.jsx';
 import TasksPage from './pages/tasks/TasksPage.jsx';
+import OrdersPage from './pages/orders/OrdersPage';
 import './App.css';
 
 const Protection = ({ children }) => {
@@ -35,6 +36,7 @@ const App = () => (
       }
     >
       <Route index element={<HomePage />} />
+      <Route path={routes.orders()} element={<OrdersPage />} />
       <Route path={routes.clients()} element={<ClientsPage />} />
       <Route path={routes.workers()} element={<WorkersPage />} />
       <Route path={routes.tasks()} element={<TasksPage />}>

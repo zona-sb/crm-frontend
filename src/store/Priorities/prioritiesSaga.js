@@ -14,7 +14,7 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 export function* getPrioritiesSaga() {
   try {
     const payload = yield apiRequests.get(apiRoutes.priorities());
-    yield put(getAllPriorities(payload.data));
+    yield put(getAllPriorities(payload.data.content));
   } catch (e) {
     console.log(e.message);
   }

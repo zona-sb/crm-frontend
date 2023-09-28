@@ -71,7 +71,7 @@ const Edit = ({ onHide, id, data, status, isLoading }) => {
               {categories.map((category) => {
                 if (currentStatus.category.id === category.id) {
                   return (
-                    <option value={category.id} key={category.id} selected>
+                    <option value={category.id} key={category.id}>
                       {category.categoryTitle}
                     </option>
                   );

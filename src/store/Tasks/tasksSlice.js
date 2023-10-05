@@ -10,18 +10,12 @@ const taskssSlice = createSlice({
   reducers: {
     getAllTasks: tasksAdapter.addMany,
     addNewTask: tasksAdapter.addOne,
+    updateCurrentTask: tasksAdapter.updateOne,
     setCorrectStatus: (state, { payload }) => {
       // eslint-disable-next-line no-param-reassign
       state.setCorrectStatus = payload;
     },
-    // getCorrectStatus: (state, { payload }) => {
-    //  return state.setCorrectStatus = payload;
-    // },
-    // updateCurrentCategory: categoriesAdapter.updateOne,
-    // removeCategory: categoriesAdapter.removeMany,
-    // removeAllCategories: (state) => {
-    //   categoriesAdapter.setAll(state, []);
-    // },
+    removeTask: tasksAdapter.removeMany,
   },
 });
 
@@ -31,11 +25,9 @@ export const {
   addNewTask,
   setCorrectStatus,
   getAllTasks,
-  // updateCurrentCategory,
-  // removeCategory,
+  updateCurrentTask,
+  removeTask,
   getAllCategories,
-  // removeBulkCategories,
-  // removeAllCategories,
 } = taskssSlice.actions;
 
 export default taskssSlice.reducer;

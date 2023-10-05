@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,13 +11,12 @@ import { getClients } from '../../../store/Clients/clientsSaga';
 import { prioritiesSelector } from '../../../store/Priorities/prioritiesSlice';
 import { getPriorities } from '../../../store/Priorities/prioritiesSaga';
 
-const Add = ({ onHide, data, status, isLoading, categoryId }) => {
+const Add = ({ onHide, status, isLoading, categoryId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const clients = useSelector(clientsSelector.selectAll);
   const priorities = useSelector(prioritiesSelector.selectAll);
   const statusId = useSelector((state) => state.tasks.setCorrectStatus);
-  // console.log(priorities);
 
   useEffect(() => {
     dispatch(getClients());
@@ -25,7 +24,7 @@ const Add = ({ onHide, data, status, isLoading, categoryId }) => {
   }, [dispatch]);
 
   const formik = useFormik({
-    validationSchema: getSchema('modifyTask', t, data)(),
+    validationSchema: getSchema('modifyTask', t)(),
     initialValues: {
       address: '',
       date: '',
@@ -40,18 +39,13 @@ const Add = ({ onHide, data, status, isLoading, categoryId }) => {
     initialErrors: {},
     initialTouched: {},
     onSubmit: (taskData) => {
-      console.log(taskData);
       dispatch(addTask(taskData));
     },
   });
-  // useEffect(
-  //   () => console.log(formik.values.clientId),
-  //   [formik.values.clientId]
-  // );
   useEffect(() => {
     formik.values.clientId = clients[0] ? clients[0].id : '';
     formik.values.priorityId = priorities[0] ? priorities[0].id : '';
-  });
+  }, [clients, priorities]);
   return (
     <>
       <p className='task__title'>{t('tasksModal.addTitle')}</p>
@@ -66,7 +60,7 @@ const Add = ({ onHide, data, status, isLoading, categoryId }) => {
               id='address'
               isInvalid={formik.errors.address && formik.touched.address}
               onChange={formik.handleChange('address')}
-              value={formik.values.name}
+              value={formik.values.address}
               onBlur={formik.handleBlur('address')}
               className='task__input'
             />

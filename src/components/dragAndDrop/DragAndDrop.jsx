@@ -1,68 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import './DragAndDrop.css';
 import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
-import TaskItem from '../tasks/taskItem';
+import TaskItem from '../tasks/TaskItem';
 import { setCorrectStatus } from '../../store/Tasks/tasksSlice';
+import { updateTask } from '../../store/Tasks/tasksSaga';
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset}`,
-  }));
+// const reorder = (list, startIndex, endIndex) => {если нужно будет перемещение в колонке
+//   const result = Array.from(list);
+//   const [removed] = result.splice(startIndex, 1);
+//   result.splice(endIndex, 0, removed);
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+//   return result;
+// };
 
-  return result;
-};
-
-/**
- * Moves an item from one list to another list.
- */
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
-
   destClone.splice(droppableDestination.index, 0, removed);
-
   const result = {};
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
-
   return result;
 };
-const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
   ...draggableStyle,
 });
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : '#FFF',
+  background: isDraggingOver ? 'lightblue' : '',
   overflow: 'auto',
-  maxHeight: '90vh',
+  maxHeight: '70vh',
+  paddingRight: '8px',
+  paddingLeft: '8px',
+  marginRight: '9px',
 });
+const Row = ({ item, index }) => (
+  <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+          }}
+        >
+          <TaskItem item={item} snapshot={snapshot} />
+        </div>
+      </div>
+    )}
+  </Draggable>
+);
 
 const DragAndDrop = (props) => {
-  const { category, tasks } = props;
+  const { statuses: statuses1, tasks } = props;
+  const [state, setState] = useState([]);
+  const [statuses, setStatuses] = useState([]);
   const correctTaskStatuses = {};
+  const dispatch = useDispatch();
+  const arrayStatuses = statuses1.map(({ id, statusTitle }) => {
+    correctTaskStatuses[id] = [];
+    return { id, statusTitle };
+  });
   tasks.forEach((task) => {
     const currentTasks = correctTaskStatuses[task.status.id];
     correctTaskStatuses[task.status.id] = currentTasks
@@ -70,17 +77,11 @@ const DragAndDrop = (props) => {
       : [task];
   });
   const arrayTasks = Object.values(correctTaskStatuses);
-  const arrayStatuses = Object.keys(correctTaskStatuses);
-
-  // const [state, setState] = useState([getItems(10), getItems(5, 10)]);
-  const [state, setState] = useState([]);
-  const [statuses, setStatuses] = useState([]);
 
   useEffect(() => {
-    // console.log(tasks);
     setState(arrayTasks);
     setStatuses(arrayStatuses);
-  }, [tasks]);
+  }, [tasks, statuses1]);
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -91,16 +92,27 @@ const DragAndDrop = (props) => {
     const sInd = +source.droppableId;
     const dInd = +destination.droppableId;
 
-    // if (sInd === dInd) {
+    // if (sInd === dInd) { если нужно будет перемещение в колонке
     //   const items = reorder(state[sInd], source.index, destination.index);
     //   const newState = [...state];
     //   newState[sInd] = items;
     //   setState(newState);
     // } else {
     if (sInd !== dInd) {
-      console.log(state[sInd]);
-      console.log(statuses[sInd]);
-      console.log(statuses[dInd]);
+      const reorderTask = state[sInd][source.index];
+      const taskData = {
+        id: reorderTask.id,
+        address: reorderTask.address,
+        date: reorderTask.date,
+        operationNumber: reorderTask.operationNumber ?? '',
+        comment: reorderTask.comment,
+        completed: reorderTask.completed,
+        categoryId: reorderTask.category.id,
+        priorityId: reorderTask.priority.id,
+        clientId: reorderTask.client.id,
+        statusId: +statuses[dInd].id,
+      };
+      dispatch(updateTask(taskData));
       const r = move(state[sInd], state[dInd], source, destination);
       const newState = [...state];
       newState[sInd] = r[sInd];
@@ -114,9 +126,9 @@ const DragAndDrop = (props) => {
       <div className='boxDnD'>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
-            <div key={ind}>
+            <div key={statuses[ind].id}>
               <div className='droppable'>
-                <div className='titleColumn'>{statuses[ind]}</div>
+                <div className='titleColumn'>{`${statuses[ind].statusTitle} (${el.length})`}</div>
                 <Droppable droppableId={`${ind}`}>
                   {(provided, snapshot) => (
                     <div
@@ -125,45 +137,13 @@ const DragAndDrop = (props) => {
                       {...provided.droppableProps}
                     >
                       {el.map((item, index) => (
-                        <Draggable
-                          key={item.id}
-                          draggableId={`${item.id}`}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                              )}
-                            >
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  justifyContent: 'space-around',
-                                }}
-                              >
-                                {item.content}
-                                <button
-                                  type='button'
-                                  onClick={() => {
-                                    const newState = [...state];
-                                    newState[ind].splice(index, 1);
-                                    setState(
-                                      newState.filter((group) => group.length)
-                                    );
-                                  }}
-                                >
-                                  delete
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </Draggable>
+                        <Row key={item.id} item={item} index={index} />
                       ))}
+                      <div
+                        style={{
+                          minHeight: '5px',
+                        }}
+                      />
                       {provided.placeholder}
                     </div>
                   )}
@@ -171,11 +151,11 @@ const DragAndDrop = (props) => {
                 <div className='d-flex'>
                   <button
                     className='custom__add-dnd-button'
-                  // onClick={() => {
-                  //   dispatch(openModal());
-                  //   dispatch(setCurrentType({ type: 'add' }));
-                  //   dispatch(setCorrectStatus(id));
-                  // }}
+                    onClick={() => {
+                      dispatch(openModal());
+                      dispatch(setCurrentType({ type: 'add' }));
+                      dispatch(setCorrectStatus(statuses[ind].id));
+                    }}
                   >
                     + Добавить задачу
                   </button>

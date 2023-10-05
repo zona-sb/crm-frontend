@@ -4,7 +4,12 @@ import apiRequests from '../../utils/apiRequests';
 import { getAllCategories } from '../Categories/categoriesSlice';
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
-import { addNewTask, getAllTasks } from './tasksSlice';
+import {
+  addNewTask,
+  getAllTasks,
+  removeTask,
+  updateCurrentTask,
+} from './tasksSlice';
 
 import { getAllStatuses } from '../Statuses/statusesSlice';
 
@@ -27,7 +32,6 @@ export function* getStatusesSaga() {
 }
 export function* getTasksSaga(action) {
   const { id } = action.payload;
-  console.log(id);
   try {
     const payload = yield apiRequests.get(apiRoutes.tasksAll(id));
     yield put(getAllTasks(payload.data));
@@ -46,38 +50,31 @@ export function* addTaskSaga(action) {
   }
 }
 
-// export function* updateCategorySaga(action) {
-//   yield put(setLoading(true));
-//   const { id } = action.payload;
-//   try {
-//     const payload = yield apiRequests.put(
-//       apiRoutes.modifyCategory(id),
-//       action.payload
-//     );
-//     yield put(setStatus('success'));
-//     yield put(
-//       updateCurrentCategory({ id: payload.data.id, changes: payload.data })
-//     );
-//   } catch (_) {
-//     yield put(setStatus('failed'));
-//   }
-// }
+export function* updateTaskSaga(action) {
+  yield put(setLoading(true));
+  const { id, ...otherData } = action.payload;
+  try {
+    const payload = yield apiRequests.put(apiRoutes.modifyTask(id), otherData);
+    yield put(setStatus('success'));
+    yield put(
+      updateCurrentTask({ id: payload.data.id, changes: payload.data })
+    );
+  } catch (_) {
+    yield put(setStatus('failed'));
+  }
+}
 
-// export function* deleteCategorySaga(action) {
-//   yield put(setLoading(true));
-//   try {
-//     yield apiRequests.delete(apiRoutes.categories(), action.payload);
-//     yield put(setStatus('success'));
-//     if (action.payload.deleteAll) {
-//       yield put(removeAllCategories());
-//     } else {
-//       const { ids } = action.payload;
-//       yield put(removeCategory(ids));
-//     }
-//   } catch (_) {
-//     yield put(setStatus('failed'));
-//   }
-// }
+export function* deleteTaskSaga(action) {
+  yield put(setLoading(true));
+  try {
+    yield apiRequests.delete(apiRoutes.tasks(), action.payload);
+    yield put(setStatus('success'));
+    const { ids } = action.payload;
+    yield put(removeTask(ids));
+  } catch (_) {
+    yield put(setStatus('failed'));
+  }
+}
 
 export const GET_TASKS = 'getTasks';
 export const getTasks = createAction(GET_TASKS);
@@ -87,7 +84,7 @@ export const GET_CATEGORIES = 'getCategories';
 export const getCategories = createAction(GET_CATEGORIES);
 export const GET_STATUSES = 'getStatuses';
 export const getStatuses = createAction(GET_STATUSES);
-// export const UPDATE_CATEGORY = 'updateCategory';
-// export const updateCategory = createAction(UPDATE_CATEGORY);
-// export const DELETE_CATEGORY = 'deleteCategory';
-// export const deleteCategory = createAction(DELETE_CATEGORY);
+export const UPDATE_TASK = 'updateTask';
+export const updateTask = createAction(UPDATE_TASK);
+export const DELETE_TASK = 'deleteTask';
+export const deleteTask = createAction(DELETE_TASK);

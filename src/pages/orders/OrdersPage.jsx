@@ -15,13 +15,8 @@ const OrdersPage = () => {
   const statuses = useSelector(statusesSelector.selectAll);
   const tasks = useSelector(tasksSelector.selectAll);
   const correctTasks = tasks.filter((task) => task.category.id === idCategory);
-  // console.log(correctTasks);
-  // console.log(tasks);
 
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   correctTasks = tasks.filter((task) => task.category.id === idCategory);
-  // }, [idCategory]);
 
   useEffect(() => {
     if (idCategory !== null) {
@@ -45,8 +40,6 @@ const OrdersPage = () => {
     }
   }, [categories]);
 
-  // console.log(statuses);
-  // console.log(correctStatuses);
   return (
     <>
       <TaskModal category={idCategory} />
@@ -60,14 +53,9 @@ const OrdersPage = () => {
           {categoryTitle}
         </button>
       ))}
-      <DragAndDrop
-        category={idCategory}
-        statuses={correctStatuses}
-        tasks={correctTasks}
-      />
+      <DragAndDrop statuses={correctStatuses} tasks={correctTasks} />
     </>
   );
-  // return <DragAndDrop />;
 };
 
 export default OrdersPage;

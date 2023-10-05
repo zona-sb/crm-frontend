@@ -2,47 +2,47 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
-import { deleteClient } from '../../../store/Clients/clientsSaga';
+import { deleteTask } from '../../../store/Tasks/tasksSaga';
 
 const Delete = ({ onHide, id, status, isLoading }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteClient({ ids: [id] }));
+    dispatch(deleteTask({ ids: [id] }));
   };
   return (
     <>
-      <p className='client__title'>{t('clientsModal.deleteTitle')}</p>
+      <p className='client__title'>{t('tasksModal.deleteTitle')}</p>
       {status === 'idle' && (
         <>
-          <p>{t('clientsModal.deleteText')}</p>
+          <p>{t('tasksModal.deleteText')}</p>
           <div className='custom__modals-two-buttons'>
             <ButtonCustom onClick={handleDelete} disabled={isLoading}>
-              {t('clientsModal.buttonDelete')}
+              {t('tasksModal.buttonDelete')}
             </ButtonCustom>
             <ButtonCustom color='reject' onClick={onHide}>
-              {t('clientsModal.buttonCancel')}
+              {t('tasksModal.buttonCancel')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'success' && (
         <>
-          <p>{t('clientsModal.successDeleteText')}</p>
+          <p>{t('tasksModal.successDeleteText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('clientsModal.buttonClose')}
+              {t('tasksModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>{t('clientsModal.failedText')}</p>
+          <p>{t('tasksModal.failedText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('clientsModal.buttonClose')}
+              {t('tasksModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>

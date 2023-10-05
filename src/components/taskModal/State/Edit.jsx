@@ -1,129 +1,168 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
-import { updateClient } from '../../../store/Clients/clientsSaga';
+import { getClients } from '../../../store/Clients/clientsSaga';
 import { clientsSelector } from '../../../store/Clients/clientsSlice';
-import initPhoneMask from '../../../utils/phoneMask';
+import { prioritiesSelector } from '../../../store/Priorities/prioritiesSlice';
+import { getPriorities } from '../../../store/Priorities/prioritiesSaga';
+import { tasksSelector } from '../../../store/Tasks/tasksSlice';
+import { updateTask } from '../../../store/Tasks/tasksSaga';
+import { openModal, setCurrentType } from '../../../store/Modal/ModalSlice';
 
-const Add = ({ onHide, id, data, status, isLoading }) => {
-  const [phone, setPhone] = useState('');
-  const currentClient = useSelector((state) =>
-    clientsSelector.selectById(state, id)
+const Edit = ({ onHide, id, status, isLoading }) => {
+  const currentTask = useSelector((state) =>
+    tasksSelector.selectById(state, id)
   );
-
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const clients = useSelector(clientsSelector.selectAll);
+  const priorities = useSelector(prioritiesSelector.selectAll);
+
+  useEffect(() => {
+    dispatch(getClients());
+    dispatch(getPriorities());
+  }, [dispatch]);
 
   const formik = useFormik({
-    validationSchema: getSchema('modifyClient', t, data)(),
+    validationSchema: getSchema('modifyTask', t)(),
     initialValues: {
-      name: currentClient.person.name,
-      company: currentClient.company,
-      phone: currentClient.person.phone,
-      email: currentClient.person.email,
-      comment: currentClient.comment,
+      address: currentTask.address,
+      date: currentTask.date,
+      operationNumber: currentTask.operationNumber ?? '',
+      comment: currentTask.comment ?? '',
+      completed: currentTask.completed,
+      statusId: currentTask.status.id,
+      categoryId: currentTask.category.id,
+      priorityId: currentTask.priority.id,
+      clientId: currentTask.client.id,
     },
     initialErrors: {},
     initialTouched: {},
-    onSubmit: (userData) => {
-      const updateData = { ...userData, id: currentClient.id };
-      dispatch(updateClient(updateData));
+    onSubmit: (taskData) => {
+      const updateData = { ...taskData, id: currentTask.id };
+      dispatch(updateTask(updateData));
     },
   });
 
-  const handleChangePhone = () => {
-    formik.values.phone = `+${phone.unmaskedValue}`;
-  };
-
-  useEffect(() => {
-    setPhone(initPhoneMask());
-  }, []);
-
   return (
     <>
-      <p className='client__title'>{t('clientsModal.editTitle')}</p>
+      <p className='task__title'>
+        {t('tasksModal.editTitle')}
+        {status === 'idle' && (
+          <ButtonCustom
+            color='reject'
+            style={{
+              width: '30%',
+            }}
+            onClick={onHide}
+          >
+            {t('tasksModal.buttonCancel')}
+          </ButtonCustom>
+        )}
+      </p>
       {status === 'idle' && (
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className='mb-2'>
-            <Form.Label htmlFor='name' className='client__labels'>
-              {t('clientsModal.inputName')}
+            <Form.Label htmlFor='address' className='task__labels'>
+              {t('tasksModal.inputAddress')}
             </Form.Label>
             <Form.Control
               type='text'
-              id='name'
-              isInvalid={formik.errors.name && formik.touched.name}
-              onChange={formik.handleChange('name')}
-              value={formik.values.name}
-              onBlur={formik.handleBlur('name')}
-              className='client__input'
+              id='address'
+              isInvalid={formik.errors.address && formik.touched.address}
+              onChange={formik.handleChange('address')}
+              value={formik.values.address}
+              onBlur={formik.handleBlur('address')}
+              className='task__input'
             />
             <Form.Control.Feedback type='invalid'>
-              {formik.errors.name}
+              {formik.errors.address}
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className='mb-2'>
-            <Form.Label htmlFor='company' className='client__labels'>
-              {t('clientsModal.inputCompany')}
+            <Form.Label htmlFor='date' className='task__labels'>
+              {t('tasksModal.inputDate')}
             </Form.Label>
             <Form.Control
-              type='text'
-              id='company'
-              isInvalid={formik.errors.company && formik.touched.company}
-              onChange={formik.handleChange('company')}
-              value={formik.values.company}
-              onBlur={formik.handleBlur('company')}
-              className='client__input'
+              type='date'
+              id='date'
+              isInvalid={formik.errors.date && formik.touched.date}
+              onChange={formik.handleChange('date')}
+              value={formik.values.date}
+              onBlur={formik.handleBlur('date')}
+              className='task__input'
             />
             <Form.Control.Feedback type='invalid'>
-              {formik.errors.company}
+              {formik.errors.date}
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className='mb-2'>
-            <Form.Label htmlFor='phone' className='client__labels'>
-              {t('clientsModal.inputPhone')}
+            <Form.Label htmlFor='clientId' className='task__labels'>
+              {t('tasksModal.clientId')}
             </Form.Label>
             <Form.Control
-              type='text'
-              id='phone'
-              isInvalid={formik.errors.phone && formik.touched.phone}
-              onChange={handleChangePhone}
-              onPaste={handleChangePhone}
-              onInput={handleChangePhone}
-              onBlur={formik.handleBlur('phone')}
-              className='client__input'
+              as='select'
+              id='clientId'
+              onChange={formik.handleChange('clientId')}
+              value={formik.values.clientId}
+              className='task__input task__input-select'
+            >
+              {clients.map((client) => (
+                <option value={client.id} key={client.id}>
+                  {client.person.name}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className='mb-2'>
+            <Form.Label htmlFor='priorityId' className='task__labels'>
+              {t('tasksModal.clientId')}
+            </Form.Label>
+            <Form.Control
+              as='select'
+              id='priorityId'
+              onChange={formik.handleChange('priorityId')}
+              value={formik.values.priorityId}
+              className='task__input task__input-select'
+            >
+              {priorities.map((priority) => (
+                <option value={priority.id} key={priority.id}>
+                  {priority.title}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className='mb-2'>
+            <Form.Label htmlFor='operationNumber' className='task__labels'>
+              {t('tasksModal.inputOperationNumber')}
+            </Form.Label>
+            <Form.Control
+              type='number'
+              id='operationNumber'
+              isInvalid={
+                formik.errors.operationNumber && formik.touched.operationNumber
+              }
+              onChange={formik.handleChange('operationNumber')}
+              value={formik.values.operationNumber}
+              onBlur={formik.handleBlur('operationNumber')}
+              className='task__input'
             />
             <Form.Control.Feedback type='invalid'>
-              {formik.errors.phone}
+              {formik.errors.operationNumber}
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className='mb-2'>
-            <Form.Label htmlFor='email' className='client__labels'>
-              {t('clientsModal.inputEmail')}
-            </Form.Label>
-            <Form.Control
-              type='text'
-              id='email'
-              isInvalid={formik.errors.email && formik.touched.email}
-              onChange={formik.handleChange('email')}
-              value={formik.values.email}
-              onBlur={formik.handleBlur('email')}
-              className='client__input'
-            />
-            <Form.Control.Feedback type='invalid'>
-              {formik.errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className='mb-2'>
-            <Form.Label htmlFor='comment' className='client__labels'>
-              {t('clientsModal.inputComment')}
+            <Form.Label htmlFor='comment' className='task__labels'>
+              {t('tasksModal.inputComment')}
             </Form.Label>
             <Form.Control
               as='textarea'
@@ -132,39 +171,66 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
               onChange={formik.handleChange('comment')}
               value={formik.values.comment}
               onBlur={formik.handleBlur('comment')}
-              className='client__input'
+              className='task__input'
             />
             <Form.Control.Feedback type='invalid'>
               {formik.errors.comment}
             </Form.Control.Feedback>
           </Form.Group>
 
+          <Form.Group className='mb-2'>
+            <Form.Label htmlFor='completed' className='task__labels'>
+              {t('tasksModal.inputCompleted')}
+            </Form.Label>
+            <Form.Check
+              type='checkbox'
+              id='completed'
+              onChange={formik.handleChange('completed')}
+              value={formik.values.completed}
+              onBlur={formik.handleBlur('completed')}
+              className='task__check'
+            />
+            {formik.values.completed && (
+              <div type='invalid'>{t('tasksModal.completed')}</div>
+            )}
+          </Form.Group>
           <div className='custom__modals-two-buttons'>
             <ButtonCustom type='submit' disabled={isLoading}>
-              {t('clientsModal.buttonSave')}
+              {t('tasksModal.buttonSave')}
             </ButtonCustom>
-            <ButtonCustom color='reject' onClick={onHide}>
-              {t('clientsModal.buttonCancel')}
+            <ButtonCustom
+              color=''
+              style={{
+                backgroundColor: '#8B0000',
+              }}
+              onClick={() => {
+                dispatch(openModal());
+                dispatch(
+                  setCurrentType({ type: 'delete', id: currentTask.id })
+                );
+              }}
+            >
+              {t('tasksModal.buttonDelete')}
             </ButtonCustom>
           </div>
         </Form>
       )}
       {status === 'success' && (
         <>
-          <p>{t('clientsModal.successEditText')}</p>
+          <p>{t('tasksModal.successEditText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('clientsModal.buttonClose')}
+              {t('tasksModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
       )}
       {status === 'failed' && (
         <>
-          <p>{t('clientsModal.failedText')}</p>
+          <p>{t('tasksModal.failedText')}</p>
           <div className='custom__modals-button'>
             <ButtonCustom onClick={onHide}>
-              {t('clientsModal.buttonClose')}
+              {t('tasksModal.buttonClose')}
             </ButtonCustom>
           </div>
         </>
@@ -173,4 +239,4 @@ const Add = ({ onHide, id, data, status, isLoading }) => {
   );
 };
 
-export default Add;
+export default Edit;

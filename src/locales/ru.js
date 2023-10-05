@@ -151,6 +151,8 @@ export default {
     },
     tasksModal: {
       addTitle: 'Создание задачи',
+      editTitle: 'Изменение задачи',
+      deleteTitle: 'Удаление задачи',
       inputAddress: 'Адрес',
       inputDate: 'Дата взаимодействия',
       clientId: 'Клиент',
@@ -170,6 +172,14 @@ export default {
       date: 'Неверный формат даты',
       completed: 'Задача выполнена и будет перенесена в архив!',
       operationNumber: 'Должно содержать 20 цифр',
+    },
+    tasksItem: {
+      address: 'Адрес:',
+      date: 'Дата взаимодействия:',
+      client: 'Клиент:',
+      comment: 'Комментарий:',
+      phone: 'Телефон:',
+      buttonNotification: 'Отправить уведомление',
     },
     error: {
       emailExist: 'Пользователь с таким email уже существует',

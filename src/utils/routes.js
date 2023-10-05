@@ -28,4 +28,5 @@ export const apiRoutes = {
   modifyStatus: (id) => `${domain}/api/statuses/${id}`,
   modifyWorker: (id) => `${domain}/api/workers/${id}`,
   modifyClient: (id) => `${domain}/api/clients/${id}`,
+  modifyTask: (id) => `${domain}/api/tasks/${id}`,
 };

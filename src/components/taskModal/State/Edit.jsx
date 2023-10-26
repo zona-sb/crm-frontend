@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { BsXCircle } from 'react-icons/bs';
 import { ButtonCustom } from '../../shared';
 import getSchema from '../../../utils/validation';
 import { getClients } from '../../../store/Clients/clientsSaga';
@@ -53,15 +54,10 @@ const Edit = ({ onHide, id, status, isLoading }) => {
       <p className='task__title'>
         {t('tasksModal.editTitle')}
         {status === 'idle' && (
-          <ButtonCustom
-            color='reject'
-            style={{
-              width: '30%',
-            }}
+          <BsXCircle
+            className='custom__button-reject button_closed'
             onClick={onHide}
-          >
-            {t('tasksModal.buttonCancel')}
-          </ButtonCustom>
+          />
         )}
       </p>
       {status === 'idle' && (
@@ -199,10 +195,7 @@ const Edit = ({ onHide, id, status, isLoading }) => {
               {t('tasksModal.buttonSave')}
             </ButtonCustom>
             <ButtonCustom
-              color=''
-              style={{
-                backgroundColor: '#8B0000',
-              }}
+              color='reject'
               onClick={() => {
                 dispatch(openModal());
                 dispatch(

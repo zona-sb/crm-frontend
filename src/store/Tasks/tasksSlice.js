@@ -8,7 +8,7 @@ const taskssSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    getAllTasks: tasksAdapter.addMany,
+    getAllTasks: tasksAdapter.setAll,
     addNewTask: tasksAdapter.addOne,
     updateCurrentTask: tasksAdapter.updateOne,
     setCorrectStatus: (state, { payload }) => {

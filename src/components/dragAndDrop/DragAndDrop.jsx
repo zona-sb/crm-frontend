@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './DragAndDrop.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import TaskItem from '../tasks/TaskItem';
 import { setCorrectStatus } from '../../store/Tasks/tasksSlice';
 import { updateTask } from '../../store/Tasks/tasksSaga';
+import { statusesSelector } from '../../store/Statuses/statusesSlice';
 
 // const reorder = (list, startIndex, endIndex) => {если нужно будет перемещение в колонке
 //   const result = Array.from(list);
@@ -61,31 +62,40 @@ const Row = ({ item, index }) => (
 );
 
 const DragAndDrop = (props) => {
-  const { statuses: statuses1, tasks } = props;
+  const { idCategory, tasks, setIsLoading } = props;
   const [state, setState] = useState([]);
   const [statuses, setStatuses] = useState([]);
+  const status = useSelector(statusesSelector.selectAll);
   const correctTaskStatuses = {};
   const dispatch = useDispatch();
-  const arrayStatuses = statuses1.map(({ id, statusTitle }) => {
-    correctTaskStatuses[id] = [];
-    return { id, statusTitle };
-  });
-  tasks.forEach((task) => {
-    const currentTasks = correctTaskStatuses[task.status.id];
-    correctTaskStatuses[task.status.id] = currentTasks
-      ? [...currentTasks, task]
-      : [task];
-  });
-  const arrayTasks = Object.values(correctTaskStatuses);
 
   useEffect(() => {
-    setState(arrayTasks);
+    const statuses1 = status
+      .filter((item) => item.category.id === idCategory)
+      .sort(({ id: id1 }, { id: id2 }) => id1 - id2);
+    const arrayStatuses = statuses1.map(({ id, statusTitle }) => {
+      correctTaskStatuses[id] = [];
+      return { id, statusTitle };
+    });
     setStatuses(arrayStatuses);
-  }, [tasks, statuses1]);
+    tasks.forEach((task) => {
+      const currentTasks = correctTaskStatuses[task.status.id];
+      correctTaskStatuses[task.status.id] = currentTasks
+        ? [...currentTasks, task]
+        : [task];
+    });
+    const arrayTasks = Object.values(correctTaskStatuses);
+    arrayTasks.forEach((arr) => {
+      arr.sort(
+        ({ priority: { weight: w1 } }, { priority: { weight: w2 } }) => w1 - w2
+      );
+    });
+    setState(arrayTasks);
+    setIsLoading(false);
+  }, [tasks]);
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
-    // dropped outside the list
     if (!destination) {
       return;
     }

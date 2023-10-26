@@ -11,23 +11,12 @@ import {
   updateCurrentTask,
 } from './tasksSlice';
 
-import { getAllStatuses } from '../Statuses/statusesSlice';
-
 export function* getCategoriesSaga() {
   try {
     const payload = yield apiRequests.get(apiRoutes.categories());
     yield put(getAllCategories(payload.data));
   } catch (e) {
     console.log(e.message);
-  }
-}
-
-export function* getStatusesSaga() {
-  try {
-    const payload = yield apiRequests.get(apiRoutes.statuses());
-    yield put(getAllStatuses(payload.data));
-  } catch (_) {
-    yield put(setStatus('failed'));
   }
 }
 export function* getTasksSaga(action) {
@@ -82,8 +71,6 @@ export const ADD_TASK = 'addTask';
 export const addTask = createAction(ADD_TASK);
 export const GET_CATEGORIES = 'getCategories';
 export const getCategories = createAction(GET_CATEGORIES);
-export const GET_STATUSES = 'getStatuses';
-export const getStatuses = createAction(GET_STATUSES);
 export const UPDATE_TASK = 'updateTask';
 export const updateTask = createAction(UPDATE_TASK);
 export const DELETE_TASK = 'deleteTask';

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DragAndDrop from '../../components/dragAndDrop/DragAndDrop';
-import { getCategories, getTasks } from '../../store/Tasks/tasksSaga';
+import { getTasks } from '../../store/Tasks/tasksSaga';
 import { categoriesSelector } from '../../store/Categories/categoriesSlice';
 import './OrdersPage.css';
 import { getStatuses } from '../../store/Statuses/statusesSaga';
-import { statusesSelector } from '../../store/Statuses/statusesSlice';
 import TaskModal from '../../components/taskModal/TaskModal';
 import { tasksSelector } from '../../store/Tasks/tasksSlice';
+import { getCategories } from '../../store/Categories/categoriesSaga';
 
 const OrdersPage = () => {
   const [idCategory, setIdCategory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const categories = useSelector(categoriesSelector.selectAll);
-  const statuses = useSelector(statusesSelector.selectAll);
   const tasks = useSelector(tasksSelector.selectAll);
-  const correctTasks = tasks.filter((task) => task.category.id === idCategory);
 
   const dispatch = useDispatch();
 
@@ -22,20 +21,17 @@ const OrdersPage = () => {
     if (idCategory !== null) {
       const objCategoryId = { id: idCategory };
       dispatch(getTasks(objCategoryId));
+      setIsLoading(true);
     }
   }, [idCategory]);
 
-  const correctStatuses = statuses
-    .filter((item) => item.category.id === idCategory)
-    .sort(({ id: id1 }, { id: id2 }) => id1 - id2);
-
   useEffect(() => {
-    dispatch(getCategories());
     dispatch(getStatuses());
-  }, [dispatch]);
-
+    dispatch(getCategories());
+  }, []);
   useEffect(() => {
     if (categories.length > 0) {
+      dispatch(getTasks({ id: categories[0].id }));
       setIdCategory(categories[0].id);
     }
   }, [categories]);
@@ -45,7 +41,10 @@ const OrdersPage = () => {
       <TaskModal category={idCategory} />
       {categories.map(({ id, categoryTitle }) => (
         <button
-          className={`navOrders ${idCategory === id ? 'activeCategory' : ''}`}
+          disabled={isLoading}
+          className={`navOrders ${isLoading ? 'notActive' : ''} ${
+            idCategory === id ? 'activeCategory' : ''
+          }`}
           href='#'
           key={id}
           onClick={() => setIdCategory(id)}
@@ -53,7 +52,15 @@ const OrdersPage = () => {
           {categoryTitle}
         </button>
       ))}
-      <DragAndDrop statuses={correctStatuses} tasks={correctTasks} />
+      {tasks.length > 0 &&
+        tasks[0].category.id === idCategory &&
+        idCategory && (
+          <DragAndDrop
+            idCategory={idCategory}
+            tasks={tasks}
+            setIsLoading={setIsLoading}
+          />
+        )}
     </>
   );
 };

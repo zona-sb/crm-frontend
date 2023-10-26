@@ -12,3 +12,7 @@ button.navOrders{
 button.navOrders.activeCategory{
     text-decoration-line: underline;  
 }
+
+button.notActive{
+  color:slategrey;
+}

@@ -96,7 +96,6 @@ export function* tasksSaga() {
   yield takeEvery(ADD_TASK, addTaskSaga);
   yield takeEvery(GET_TASKS, getTasksSaga);
   yield takeEvery(GET_CATEGORIES, getCategoriesSaga);
-  yield takeEvery(GET_STATUSES, getStatusesSaga);
   yield takeEvery(UPDATE_TASK, updateTaskSaga);
   yield takeEvery(DELETE_TASK, deleteTaskSaga);
 }

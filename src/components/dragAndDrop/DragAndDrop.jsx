@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './DragAndDrop.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { openModal, setCurrentType } from '../../store/Modal/ModalSlice';
 import TaskItem from '../tasks/TaskItem';
 import { setCorrectStatus } from '../../store/Tasks/tasksSlice';
 import { updateTask } from '../../store/Tasks/tasksSaga';
-import { statusesSelector } from '../../store/Statuses/statusesSlice';
 
 // const reorder = (list, startIndex, endIndex) => {если нужно будет перемещение в колонке
 //   const result = Array.from(list);
@@ -62,10 +61,9 @@ const Row = ({ item, index }) => (
 );
 
 const DragAndDrop = (props) => {
-  const { idCategory, tasks, setIsLoading } = props;
+  const { idCategory, tasks, status, setIsLoading, isLoading } = props;
   const [state, setState] = useState([]);
   const [statuses, setStatuses] = useState([]);
-  const status = useSelector(statusesSelector.selectAll);
   const correctTaskStatuses = {};
   const dispatch = useDispatch();
 
@@ -132,50 +130,52 @@ const DragAndDrop = (props) => {
   };
 
   return (
-    <div>
-      <div className='boxDnD'>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {state.map((el, ind) => (
-            <div key={statuses[ind].id}>
-              <div className='droppable'>
-                <div className='titleColumn'>{`${statuses[ind].statusTitle} (${el.length})`}</div>
-                <Droppable droppableId={`${ind}`}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      style={getListStyle(snapshot.isDraggingOver)}
-                      {...provided.droppableProps}
-                    >
-                      {el.map((item, index) => (
-                        <Row key={item.id} item={item} index={index} />
-                      ))}
+    !isLoading && (
+      <div>
+        <div className='boxDnD'>
+          <DragDropContext onDragEnd={onDragEnd}>
+            {state.map((el, ind) => (
+              <div key={statuses[ind].id}>
+                <div className='droppable'>
+                  <div className='titleColumn'>{`${statuses[ind].statusTitle} (${el.length})`}</div>
+                  <Droppable droppableId={`${ind}`}>
+                    {(provided, snapshot) => (
                       <div
-                        style={{
-                          minHeight: '5px',
-                        }}
-                      />
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-                <div className='d-flex'>
-                  <button
-                    className='custom__add-dnd-button'
-                    onClick={() => {
-                      dispatch(openModal());
-                      dispatch(setCurrentType({ type: 'add' }));
-                      dispatch(setCorrectStatus(statuses[ind].id));
-                    }}
-                  >
-                    + Добавить задачу
-                  </button>
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                        {...provided.droppableProps}
+                      >
+                        {el.map((item, index) => (
+                          <Row key={item.id} item={item} index={index} />
+                        ))}
+                        <div
+                          style={{
+                            minHeight: '5px',
+                          }}
+                        />
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                  <div className='d-flex'>
+                    <button
+                      className='custom__add-dnd-button'
+                      onClick={() => {
+                        dispatch(openModal());
+                        dispatch(setCurrentType({ type: 'add' }));
+                        dispatch(setCorrectStatus(statuses[ind].id));
+                      }}
+                    >
+                      + Добавить задачу
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </DragDropContext>
+            ))}
+          </DragDropContext>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 export default DragAndDrop;

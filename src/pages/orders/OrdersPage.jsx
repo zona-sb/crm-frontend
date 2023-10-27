@@ -47,10 +47,10 @@ const OrdersPage = () => {
       <TaskModal category={idCategory} />
       {categories.map(({ id, categoryTitle }) => (
         <button
-          disabled={idCategory === id ? false : isLoading}
-          className={`navOrders ${
-            isLoading && idCategory !== id ? 'notActive' : ''
-          } ${idCategory === id ? 'activeCategory' : ''}`}
+          disabled={isLoading}
+          className={`navOrders ${isLoading ? 'notActive' : ''} ${
+            idCategory === id ? 'activeCategory' : ''
+          }`}
           href='#'
           key={id}
           onClick={() => {

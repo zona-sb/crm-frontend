@@ -22,12 +22,9 @@ const OrdersPage = () => {
   useEffect(() => {
     if (idCategory !== null) {
       const objCategoryId = { id: idCategory };
-      const f = async () => {
-        await dispatch(getTasks(objCategoryId));
-        dispatch(getStatuses());
-        setIsLoading(true);
-      };
-      f();
+      dispatch(getTasks(objCategoryId));
+      dispatch(getStatuses());
+      setIsLoading(true);
     }
   }, [idCategory]);
 
@@ -47,7 +44,7 @@ const OrdersPage = () => {
       <TaskModal category={idCategory} />
       {categories.map(({ id, categoryTitle }) => (
         <button
-          disabled={isLoading}
+          disabled={!!(isLoading || id === idCategory)}
           className={`navOrders ${isLoading ? 'notActive' : ''} ${
             idCategory === id ? 'activeCategory' : ''
           }`}

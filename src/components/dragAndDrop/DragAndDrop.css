@@ -1,7 +1,6 @@
 .boxDnD {
   display: flex;
-  /* justify-content: space-around;
-  flex-wrap: wrap;  */
+  overflow: auto;
 }
 .droppable {
   display: flex;

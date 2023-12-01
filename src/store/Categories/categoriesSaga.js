@@ -4,8 +4,12 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewCategory,
   getAllCategories,
+  loadMoreCategories,
   removeAllCategories,
   removeCategory,
+  setCurrentPage,
+  setIsLoading,
+  setTotalPages,
   updateCurrentCategory,
 } from './categoriesSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -13,13 +17,22 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getCategoriesSaga(action) {
   try {
+    setIsLoading(true);
     const payload = yield apiRequests.get(
       apiRoutes.categories(),
       action.payload
     );
-    yield put(getAllCategories(payload.data));
+    yield put(setCurrentPage(payload.data.number));
+    if (action.payload.page > 1) {
+      yield put(loadMoreCategories(payload.data.content));
+    } else {
+      yield put(setTotalPages(payload.data.totalPages));
+      yield put(getAllCategories(payload.data.content));
+    }
   } catch (e) {
     console.log(e.message);
+  } finally {
+    setIsLoading(false);
   }
 }
 

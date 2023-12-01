@@ -4,8 +4,12 @@ import apiRequests from '../../utils/apiRequests';
 import {
   addNewPriority,
   getAllPriorities,
+  loadMorePriorities,
   removeAllPriorities,
   removePriority,
+  setCurrentPage,
+  setIsLoading,
+  setTotalPages,
   updateCurrentPriority,
 } from './prioritiesSlice';
 import { apiRoutes } from '../../utils/routes';
@@ -13,15 +17,22 @@ import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getPrioritiesSaga(action) {
   try {
+    setIsLoading(true);
     const payload = yield apiRequests.get(
       apiRoutes.priorities(),
       action.payload
     );
-    yield put(getAllPriorities(payload.data));
-    // yield put(getAllPriorities(payload.data));
+    yield put(setCurrentPage(payload.data.number));
+    if (action.payload.page > 1) {
+      yield put(loadMorePriorities(payload.data.content));
+    } else {
+      yield put(setTotalPages(payload.data.totalPages));
+      yield put(getAllPriorities(payload.data.content));
+    }
   } catch (e) {
-    console.log(e);
     console.log(e.message);
+  } finally {
+    setIsLoading(false);
   }
 }
 

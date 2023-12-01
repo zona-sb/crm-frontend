@@ -38,6 +38,9 @@ const FilterInputCategory = ({ categoryTitle, handlerCategoryTitleValue }) => (
 
 const StatusesPage = () => {
   const statuses = useSelector(statusesSelector.selectAll);
+  const isLoading = useSelector((state) => state.statuses.isLoading);
+  const currentPage = useSelector((state) => state.statuses.currentPage);
+  const totalPages = useSelector((state) => state.statuses.totalPages);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -45,10 +48,15 @@ const StatusesPage = () => {
   const [filterValue, setFilterValue] = useState({
     statusTitle: null,
     categoryTitle: null,
+    size: 5,
   });
 
   useEffect(() => {
-    dispatch(getStatuses(filterValue));
+    const firstPage = {
+      ...filterValue,
+      page: 1,
+    };
+    dispatch(getStatuses(firstPage));
   }, [dispatch, filterValue]);
 
   useEffect(() => {
@@ -93,6 +101,14 @@ const StatusesPage = () => {
     dispatch(deleteStatus(deleteData));
   };
 
+  const getNextPage = () => {
+    const notFirstPage = {
+      ...filterValue,
+      page: currentPage + 1,
+    };
+    dispatch(getStatuses(notFirstPage));
+  };
+
   return (
     <>
       <StatusModal />
@@ -102,6 +118,10 @@ const StatusesPage = () => {
           data={statuses}
           actions={actions}
           bulkDelete={handlerDelete}
+          page={currentPage}
+          totalPages={totalPages}
+          isLoadingData={isLoading}
+          getNextPage={getNextPage}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

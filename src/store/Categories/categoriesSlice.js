@@ -2,7 +2,11 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 const categoriesAdapter = createEntityAdapter();
 
-const initialState = categoriesAdapter.getInitialState();
+const initialState = categoriesAdapter.getInitialState({
+  isLoading: false,
+  currentPage: null,
+  totalPages: null,
+});
 
 const categoriesSlice = createSlice({
   name: 'categories',
@@ -18,6 +22,15 @@ const categoriesSlice = createSlice({
     removeAllCategories: (state) => {
       categoriesAdapter.setAll(state, []);
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setTotalPages: (state, action) => {
+      state.totalPages = action.payload;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
   },
 });
 
@@ -32,6 +45,10 @@ export const {
   getAllCategories,
   removeBulkCategories,
   removeAllCategories,
+  loadMoreCategories,
+  setCurrentPage,
+  setIsLoading,
+  setTotalPages,
 } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

@@ -39,6 +39,10 @@ const FilterInputWeight = ({ weightValue, handlerWeightValue }) => (
 
 const PrioritiesPage = () => {
   const priorities = useSelector(prioritiesSelector.selectAll);
+  const isLoading = useSelector((state) => state.priorities.isLoading);
+  const currentPage = useSelector((state) => state.priorities.currentPage);
+  const totalPages = useSelector((state) => state.priorities.totalPages);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [filterValue, setFilterValue] = useState({
@@ -48,7 +52,11 @@ const PrioritiesPage = () => {
   });
 
   useEffect(() => {
-    dispatch(getPriorities(filterValue));
+    const firstPage = {
+      ...filterValue,
+      page: 1,
+    };
+    dispatch(getPriorities(firstPage));
   }, [dispatch, filterValue]);
 
   const data = [
@@ -107,6 +115,14 @@ const PrioritiesPage = () => {
     dispatch(deletePriority(deleteData));
   };
 
+  const getNextPage = () => {
+    const notFirstPage = {
+      ...filterValue,
+      page: currentPage + 1,
+    };
+    dispatch(getPriorities(notFirstPage));
+  };
+
   return (
     <>
       <PriorityModal />
@@ -116,6 +132,10 @@ const PrioritiesPage = () => {
           data={priorities}
           actions={actions}
           bulkDelete={handlerDelete}
+          page={currentPage}
+          totalPages={totalPages}
+          isLoadingData={isLoading}
+          getNextPage={getNextPage}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

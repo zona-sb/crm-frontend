@@ -2,7 +2,11 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 const statusesAdapter = createEntityAdapter();
 
-const initialState = statusesAdapter.getInitialState();
+const initialState = statusesAdapter.getInitialState({
+  isLoading: false,
+  currentPage: null,
+  totalPages: null,
+});
 
 const statusesSlice = createSlice({
   name: 'statuses',
@@ -18,6 +22,15 @@ const statusesSlice = createSlice({
     removeAllStatuses: (state) => {
       statusesAdapter.setAll(state, []);
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setTotalPages: (state, action) => {
+      state.totalPages = action.payload;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
   },
 });
 
@@ -31,6 +44,10 @@ export const {
   updateCurrentStatus,
   removeStatus,
   removeAllStatuses,
+  setIsLoading,
+  setTotalPages,
+  loadMoreStatuses,
+  setCurrentPage,
 } = statusesSlice.actions;
 
 export default statusesSlice.reducer;

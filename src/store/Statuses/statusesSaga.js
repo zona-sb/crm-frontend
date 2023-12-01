@@ -7,16 +7,29 @@ import {
   updateCurrentStatus,
   removeAllStatuses,
   removeStatus,
+  setIsLoading,
+  setTotalPages,
+  loadMoreStatuses,
+  setCurrentPage,
 } from './statusesSlice';
 import { apiRoutes } from '../../utils/routes';
 import { setLoading, setStatus } from '../Modal/ModalSlice';
 
 export function* getStatusesSaga(action) {
   try {
+    setIsLoading(true);
     const payload = yield apiRequests.get(apiRoutes.statuses(), action.payload);
-    yield put(getAllStatuses(payload.data));
-  } catch (_) {
-    yield put(setStatus('failed'));
+    yield put(setCurrentPage(payload.data.number));
+    if (action.payload.page > 1) {
+      yield put(loadMoreStatuses(payload.data.content));
+    } else {
+      yield put(setTotalPages(payload.data.totalPages));
+      yield put(getAllStatuses(payload.data.content));
+    }
+  } catch (e) {
+    console.log(e.message);
+  } finally {
+    setIsLoading(false);
   }
 }
 

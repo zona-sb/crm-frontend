@@ -1,0 +1,59 @@
+.boxDnD {
+  display: flex;
+  overflow: auto;
+}
+.droppable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 20px 0px 0px 20px;
+  margin: 20px;
+  border-radius: 20px;
+  width: 350px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 20px;
+  border: 1px solid var(--table-border);
+  margin-right: 5px;
+}
+.custom__add-dnd-button {
+  color: #000;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: 0;
+  border-radius: 10px;
+  background-color: transparent;
+  padding: 15px 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom__add-dnd-button:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.titleColumn {
+  /* margin-bottom: 20px; */
+  color: #000;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  word-break: break-all;
+}

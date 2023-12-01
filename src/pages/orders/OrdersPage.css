@@ -1,0 +1,18 @@
+button.navOrders{
+    border: none; 
+    outline: none; 
+    background: none;  
+    color: #000;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+button.navOrders.activeCategory{
+    text-decoration-line: underline;  
+}
+
+button.notActive{
+  color:slategrey;
+}

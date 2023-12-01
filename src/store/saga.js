@@ -51,6 +51,16 @@ import {
   getClientsSaga,
   updateClientSaga,
 } from './Clients/clientsSaga';
+import {
+  ADD_TASK,
+  DELETE_TASK,
+  GET_TASKS,
+  UPDATE_TASK,
+  addTaskSaga,
+  deleteTaskSaga,
+  getTasksSaga,
+  updateTaskSaga,
+} from './Tasks/tasksSaga';
 
 export function* prioritiesSaga() {
   yield takeEvery(ADD_PRIORITY, addPrioritySaga);
@@ -81,4 +91,11 @@ export function* clientsSaga() {
   yield takeEvery(GET_CLIENTS, getClientsSaga);
   yield takeEvery(UPDATE_CLIENT, updateClientSaga);
   yield takeEvery(DELETE_CLIENT, deleteClientSaga);
+}
+export function* tasksSaga() {
+  yield takeEvery(ADD_TASK, addTaskSaga);
+  yield takeEvery(GET_TASKS, getTasksSaga);
+  yield takeEvery(GET_CATEGORIES, getCategoriesSaga);
+  yield takeEvery(UPDATE_TASK, updateTaskSaga);
+  yield takeEvery(DELETE_TASK, deleteTaskSaga);
 }

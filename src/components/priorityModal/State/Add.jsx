@@ -21,7 +21,6 @@ const Add = ({ onHide, data, status, isLoading }) => {
     initialErrors: {},
     initialTouched: {},
     onSubmit: (userData) => {
-      console.log(userData);
       dispatch(addPriority(userData));
     },
   });

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 const prioritiesAdapter = createEntityAdapter();

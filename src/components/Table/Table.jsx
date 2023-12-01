@@ -15,10 +15,15 @@ const Table = (props) => {
     categories,
     actions,
     bulkDelete,
+    isLoadingData,
+    page,
+    totalPages,
+    getNextPage,
     width = 1000,
     height = 240,
   } = props;
   const bodyRef = useRef(null);
+  const targetRef = useRef(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [isModalShow, setIsModalShow] = useState(false);
@@ -74,6 +79,26 @@ const Table = (props) => {
   useEffect(() => {
     setIsShowScrollbar(bodyRef.current.offsetHeight >= height);
   }, [data, height]);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        if (!isLoadingData) getNextPage();
+      }
+    }, options);
+    if (targetRef.current) observer.observe(targetRef.current);
+    return () => {
+      if (targetRef.current) observer.unobserve(targetRef.current);
+    };
+  }, [data]);
+
+  const NotLastPage = page < totalPages;
 
   const renderRowsCounter = () => (
     <div className='d-flex align-items-center mb-2 mx-2 custom__table-select'>
@@ -163,74 +188,91 @@ const Table = (props) => {
             className={scrollbarRowStyle}
             ref={bodyRef}
           >
-            {data.map((value) => (
-              <div className='table-row' key={value.id}>
-                <div className='row-item checkbox-item'>
-                  <Form.Check
-                    className='custom__table-checkbox'
-                    type='checkbox'
-                    id={value.id}
-                    onChange={handleCheckbox}
-                    checked={checkedRows.includes(value.id)}
-                  />
-                </div>
-                <div className='custom__table-row'>
-                  {categories.map((cat) => {
-                    const accessKey = cat.key
-                      .split('.')
-                      .reduce((acc, key) => acc[key], value);
-                    return (
-                      <React.Fragment key={cat.key}>
-                        <div className='mobile__table-row-info-each'>
-                          <div className='d-flex align-item-center'>
-                            <span className='fw-bold pe-2'>{cat.name}:</span>
-                            {cat.customTag ? (
-                              <cat.customTag
-                                style={cat.customCell(accessKey)}
-                              />
-                            ) : (
-                              <span>{accessKey}</span>
-                            )}
-                          </div>
-                        </div>
-                        <div className='row-item' style={cat.customStyle}>
-                          {cat.customTag ? (
-                            <cat.customTag style={cat.customCell(accessKey)} />
-                          ) : (
-                            accessKey
-                          )}
-                        </div>
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
+            {data.length ? (
+              <>
+                {data.map((value) => (
+                  <div className='table-row' key={value.id}>
+                    <div className='row-item checkbox-item'>
+                      <Form.Check
+                        className='custom__table-checkbox'
+                        type='checkbox'
+                        id={value.id}
+                        onChange={handleCheckbox}
+                        checked={checkedRows.includes(value.id)}
+                      />
+                    </div>
+                    <div className='custom__table-row'>
+                      {categories.map((cat) => {
+                        const accessKey = cat.key
+                          .split('.')
+                          .reduce((acc, key) => acc[key], value);
+                        return (
+                          <React.Fragment key={cat.key}>
+                            <div className='mobile__table-row-info-each'>
+                              <div className='d-flex align-item-center'>
+                                <span className='fw-bold pe-2'>
+                                  {cat.name}:
+                                </span>
+                                {cat.customTag ? (
+                                  <cat.customTag
+                                    style={cat.customCell(accessKey)}
+                                  />
+                                ) : (
+                                  <span>{accessKey}</span>
+                                )}
+                              </div>
+                            </div>
+                            <div className='row-item' style={cat.customStyle}>
+                              {cat.customTag ? (
+                                <cat.customTag
+                                  style={cat.customCell(accessKey)}
+                                />
+                              ) : (
+                                accessKey
+                              )}
+                            </div>
+                          </React.Fragment>
+                        );
+                      })}
+                    </div>
 
-                <div className='row-item justify-content-around rows-buttons'>
-                  <div className='custom__table-wrapper-actions-button'>
-                    <BsPencilFill
-                      className='custom__table-actions-button'
-                      onClick={() => {
-                        dispatch(openModal());
-                        dispatch(
-                          setCurrentType({ type: actions.edit, id: value.id })
-                        );
-                      }}
-                    />
+                    <div className='row-item justify-content-around rows-buttons'>
+                      <div className='custom__table-wrapper-actions-button'>
+                        <BsPencilFill
+                          className='custom__table-actions-button'
+                          onClick={() => {
+                            dispatch(openModal());
+                            dispatch(
+                              setCurrentType({
+                                type: actions.edit,
+                                id: value.id,
+                              })
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className='custom__table-wrapper-actions-button'>
+                        <BsTrashFill
+                          className='custom__table-actions-button'
+                          onClick={() => {
+                            dispatch(openModal());
+                            dispatch(
+                              setCurrentType({
+                                type: actions.delete,
+                                id: value.id,
+                              })
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='custom__table-wrapper-actions-button'>
-                    <BsTrashFill
-                      className='custom__table-actions-button'
-                      onClick={() => {
-                        dispatch(openModal());
-                        dispatch(
-                          setCurrentType({ type: actions.delete, id: value.id })
-                        );
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+                ))}
+                {NotLastPage && <div ref={targetRef} />}
+              </>
+            ) : (
+              <div>Отсутствуют данные для отображения</div>
+            )}
           </div>
         </div>
       </div>

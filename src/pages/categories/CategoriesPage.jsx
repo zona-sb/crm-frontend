@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -10,30 +10,53 @@ import {
   deleteCategory,
   getCategories,
 } from '../../store/Categories/categoriesSaga';
+import filtering from '../../utils/filtering';
 
-const FilterInputName = () => (
+const FilterInputName = ({ titleValue, handlerTitleValue }) => (
   <Form.Control
     className='custom__table-input'
     type='text'
     size='sm'
     placeholder='Введите наименование'
+    value={titleValue ?? ''}
+    onChange={(e) =>
+      handlerTitleValue({ value: e.target.value, key: 'categoryTitle' })
+    }
   />
 );
 
 const CategoriesPage = () => {
   const categories = useSelector(categoriesSelector.selectAll);
+  const isLoading = useSelector((state) => state.categories.isLoading);
+  const currentPage = useSelector((state) => state.categories.currentPage);
+  const totalPages = useSelector((state) => state.categories.totalPages);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [filterValue, setFilterValue] = useState({
+    categoryTitle: null,
+  });
 
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+    const firstPage = {
+      ...filterValue,
+      page: 1,
+    };
+    dispatch(getCategories(firstPage));
+  }, [dispatch, filterValue]);
 
   const data = [
     {
       key: 'categoryTitle',
       name: t('categoriesModal.inputTitle'),
-      filter: <FilterInputName />,
+      filter: (
+        <FilterInputName
+          titleValue={filterValue.categoryTitle}
+          handlerTitleValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
+        />
+      ),
     },
   ];
 
@@ -46,6 +69,14 @@ const CategoriesPage = () => {
     dispatch(deleteCategory(deleteData));
   };
 
+  const getNextPage = () => {
+    const notFirstPage = {
+      ...filterValue,
+      page: currentPage + 1,
+    };
+    dispatch(getCategories(notFirstPage));
+  };
+
   return (
     <>
       <CategoryModal />
@@ -55,6 +86,10 @@ const CategoriesPage = () => {
           data={categories}
           actions={actions}
           bulkDelete={handlerDelete}
+          page={currentPage}
+          totalPages={totalPages}
+          isLoadingData={isLoading}
+          getNextPage={getNextPage}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button

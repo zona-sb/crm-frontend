@@ -11,6 +11,7 @@ import {
   deletePriority,
   getPriorities,
 } from '../../store/Priorities/prioritiesSaga';
+import filtering from '../../utils/filtering';
 
 const FilterInputName = ({ titleValue, handlerTitleValue }) => (
   <Form.Control
@@ -18,8 +19,8 @@ const FilterInputName = ({ titleValue, handlerTitleValue }) => (
     type='text'
     size='sm'
     placeholder='Введите наименование'
-    value={titleValue}
-    onChange={(e) => handlerTitleValue(e.target.value, 'title')}
+    value={titleValue ?? ''}
+    onChange={(e) => handlerTitleValue({ value: e.target.value, key: 'title' })}
   />
 );
 
@@ -29,31 +30,34 @@ const FilterInputWeight = ({ weightValue, handlerWeightValue }) => (
     type='text'
     size='sm'
     placeholder='Введите номер'
-    value={weightValue}
-    onChange={(e) => handlerWeightValue(e.target.value, 'weight')}
+    value={weightValue ?? ''}
+    onChange={(e) =>
+      handlerWeightValue({ value: e.target.value, key: 'weight' })
+    }
   />
 );
 
 const PrioritiesPage = () => {
   const priorities = useSelector(prioritiesSelector.selectAll);
+  const isLoading = useSelector((state) => state.priorities.isLoading);
+  const currentPage = useSelector((state) => state.priorities.currentPage);
+  const totalPages = useSelector((state) => state.priorities.totalPages);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [filterValue, setFilterValue] = useState({
-    title: '',
-    weight: '',
-    color: '',
+    title: null,
+    weight: null,
+    color: null,
   });
 
   useEffect(() => {
-    dispatch(getPriorities());
-  }, [dispatch]);
-
-  const filtering = (value, key) => {
-    console.log(value, key);
-    const newFilterValue = { ...filterValue, [key]: value };
-    setFilterValue(newFilterValue);
-    console.log(newFilterValue);
-  };
+    const firstPage = {
+      ...filterValue,
+      page: 1,
+    };
+    dispatch(getPriorities(firstPage));
+  }, [dispatch, filterValue]);
 
   const data = [
     {
@@ -62,7 +66,9 @@ const PrioritiesPage = () => {
       filter: (
         <FilterInputName
           titleValue={filterValue.title}
-          handlerTitleValue={filtering}
+          handlerTitleValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
         />
       ),
     },
@@ -72,7 +78,9 @@ const PrioritiesPage = () => {
       filter: (
         <FilterInputWeight
           weightValue={filterValue.weight}
-          handlerWeightValue={filtering}
+          handlerWeightValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
         />
       ),
     },
@@ -84,7 +92,9 @@ const PrioritiesPage = () => {
         <ColorFilter
           data={priorities}
           activePriority={filterValue.color}
-          handlerColorValue={filtering}
+          handlerColorValue={(filteredData) =>
+            filtering(filteredData, filterValue, setFilterValue)
+          }
         />
       ),
       customTag: 'div',
@@ -105,6 +115,14 @@ const PrioritiesPage = () => {
     dispatch(deletePriority(deleteData));
   };
 
+  const getNextPage = () => {
+    const notFirstPage = {
+      ...filterValue,
+      page: currentPage + 1,
+    };
+    dispatch(getPriorities(notFirstPage));
+  };
+
   return (
     <>
       <PriorityModal />
@@ -114,6 +132,10 @@ const PrioritiesPage = () => {
           data={priorities}
           actions={actions}
           bulkDelete={handlerDelete}
+          page={currentPage}
+          totalPages={totalPages}
+          isLoadingData={isLoading}
+          getNextPage={getNextPage}
         />
         <div className='d-flex justify-content-center mt-4'>
           <button
